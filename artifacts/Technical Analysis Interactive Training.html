@@ -1,0 +1,2601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Master technical analysis with interactive lessons on chart patterns, indicators, and trading strategies. Mobile-optimized learning platform.">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Technical Analysis - Visual Learning Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #000000;
+            --dark: #0a0a0a;
+            --gray-dark: #1a1a1a;
+            --gray: #2a2a2a;
+            --gray-light: #3a3a3a;
+            --gray-lighter: #666666;
+            --gray-text: #999999;
+            --white: #ffffff;
+            --accent: #00ff88;
+            --danger: #ff3b3b;
+            --success: #00ff88;
+            --gold: #ffd700;
+            --blue: #00a6ff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            scroll-behavior: smooth;
+        }
+
+        @supports (-webkit-touch-callout: none) {
+            body {
+                min-height: -webkit-fill-available;
+            }
+        }
+
+        button, .nav-tab, .btn, .pattern-card {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: rgba(0, 255, 136, 0.1);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gray-light);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gray-lighter);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            padding: 80px 20px 60px;
+            text-align: center;
+            border-bottom: 1px solid var(--gray-dark);
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, transparent, var(--accent));
+        }
+
+        .header h1 {
+            font-size: 4rem;
+            font-weight: 200;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            background: linear-gradient(180deg, var(--white) 0%, var(--gray-text) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header .subtitle {
+            color: var(--gray-text);
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .nav-container {
+            margin: 60px 0;
+            border-bottom: 1px solid var(--gray-dark);
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .nav-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-tab {
+            flex: 1;
+            min-width: 140px;
+            padding: 20px 30px;
+            background: transparent;
+            border: none;
+            color: var(--gray-text);
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tab::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-tab:hover {
+            color: var(--white);
+        }
+
+        .nav-tab.active {
+            color: var(--white);
+        }
+
+        .nav-tab.active::after {
+            transform: scaleX(1);
+        }
+
+        .module {
+            display: none;
+            animation: fadeIn 0.6s ease;
+            min-height: 600px;
+            padding: 60px 0;
+        }
+
+        .module.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 200;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .section-subtitle {
+            color: var(--gray-text);
+            font-size: 1rem;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        .visual-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin: 60px 0;
+        }
+
+        .visual-card {
+            background: var(--dark);
+            border: 1px solid var(--gray-dark);
+            padding: 40px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .visual-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .visual-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .visual-card:hover {
+            border-color: var(--gray-light);
+            transform: translateY(-5px);
+        }
+
+        .card-number {
+            font-size: 3rem;
+            font-weight: 100;
+            color: var(--accent);
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+
+        .card-content {
+            color: var(--gray-text);
+            line-height: 1.8;
+        }
+
+        .visual-display {
+            background: var(--black);
+            border: 1px solid var(--gray-dark);
+            padding: 60px;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .visual-display::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 60px;
+            height: 60px;
+            border-top: 2px solid var(--accent);
+            border-left: 2px solid var(--accent);
+        }
+
+        .visual-display::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 60px;
+            height: 60px;
+            border-bottom: 2px solid var(--accent);
+            border-right: 2px solid var(--accent);
+        }
+
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .pattern-card {
+            background: var(--dark);
+            border: 1px solid var(--gray-dark);
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .pattern-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .pattern-visual {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            background: var(--black);
+            border: 1px solid var(--gray-dark);
+            position: relative;
+        }
+
+        .pattern-name {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--white);
+        }
+
+        .pattern-description {
+            color: var(--gray-text);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 5px 15px;
+            border: 1px solid var(--gray-dark);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray-text);
+            margin: 5px;
+        }
+
+        .tag.success {
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .tag.danger {
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        .interactive-chart {
+            background: var(--black);
+            border: 1px solid var(--gray-dark);
+            padding: 40px;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .chart-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: 1px solid var(--gray-light);
+            color: var(--gray-text);
+            cursor: pointer;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            color: var(--white);
+            border-color: var(--accent);
+        }
+
+        .btn.active {
+            background: var(--accent);
+            color: var(--black);
+            border-color: var(--accent);
+        }
+
+        .canvas-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: var(--black);
+            border: 1px solid var(--gray-dark);
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .pillar-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1px;
+            margin: 60px 0;
+            background: var(--gray-dark);
+            border: 1px solid var(--gray-dark);
+        }
+
+        .pillar {
+            background: var(--black);
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .pillar:hover {
+            background: var(--dark);
+        }
+
+        .pillar-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .pillar-name {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+
+        .pillar-description {
+            color: var(--gray-text);
+            font-size: 0.9rem;
+        }
+
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-text {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--gray-text);
+            animation: pulse 2s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .footer {
+            margin-top: 120px;
+            padding: 60px 20px;
+            border-top: 1px solid var(--gray-dark);
+            text-align: center;
+        }
+
+        .footer-text {
+            color: var(--gray-text);
+            margin-bottom: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .header .subtitle {
+                font-size: 0.9rem;
+            }
+
+            .nav-tab {
+                min-width: 120px;
+                padding: 15px 20px;
+                font-size: 0.85rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .visual-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pattern-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .visual-display {
+                padding: 30px 20px;
+            }
+
+            .visual-display::before,
+            .visual-display::after {
+                width: 40px;
+                height: 40px;
+            }
+
+            .pillar-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 60px 15px 40px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .header .subtitle {
+                font-size: 0.8rem;
+                letter-spacing: 1px;
+            }
+
+            .nav-tab {
+                min-width: 100px;
+                padding: 12px 15px;
+                font-size: 0.8rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .pattern-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .visual-card {
+                padding: 25px;
+            }
+
+            .card-number {
+                font-size: 2rem;
+            }
+
+            .card-title {
+                font-size: 1.2rem;
+            }
+
+            .pillar-container {
+                grid-template-columns: 1fr;
+            }
+
+            .canvas-container {
+                height: 300px;
+            }
+        }
+
+        @media (hover: none) and (pointer: coarse) {
+            .btn,
+            .nav-tab,
+            .pattern-card {
+                cursor: pointer;
+                -webkit-tap-highlight-color: rgba(0, 255, 136, 0.1);
+            }
+
+            .visual-card:hover,
+            .pattern-card:hover,
+            .btn:hover,
+            .nav-tab:hover {
+                transform: none;
+            }
+
+            .visual-card:active,
+            .pattern-card:active,
+            .btn:active {
+                transform: scale(0.98);
+                opacity: 0.9;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading" id="loading">
+        <div class="loading-text">Loading Analysis Platform</div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <h1>TECHNICAL ANALYSIS</h1>
+            <p class="subtitle">Visual Learning System</p>
+        </header>
+
+        <nav class="nav-container">
+            <div class="nav-tabs">
+                <button class="nav-tab active" onclick="showModule('anatomy')">Chart Anatomy</button>
+                <button class="nav-tab" onclick="showModule('continuation')">Continuation</button>
+                <button class="nav-tab" onclick="showModule('reversal')">Reversal</button>
+                <button class="nav-tab" onclick="showModule('gaps')">Gaps</button>
+                <button class="nav-tab" onclick="showModule('indicators')">Indicators</button>
+                <button class="nav-tab" onclick="showModule('pillars')">The Pillars</button>
+            </div>
+        </nav>
+
+        <main>
+            <!-- Chart Anatomy Module -->
+            <div class="module active" id="anatomy">
+                <div class="section-header">
+                    <h2 class="section-title">01 — Chart Anatomy</h2>
+                    <p class="section-subtitle">
+                        Understanding the fundamental components: bars, support, resistance, and trendlines
+                    </p>
+                </div>
+
+                <!-- Candlestick Anatomy Deep Dive -->
+                <div class="visual-display" style="margin-bottom: 60px;">
+                    <h3 style="font-size: 1.8rem; font-weight: 200; margin-bottom: 40px; text-align: center;">
+                        Candlestick Anatomy: The Language of Price
+                    </h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 50px; margin-bottom: 50px;">
+                        <!-- Bullish Candle -->
+                        <div style="text-align: center;">
+                            <h4 style="color: var(--success); margin-bottom: 30px; font-size: 1.2rem;">BULLISH CANDLE</h4>
+                            <div style="position: relative; height: 250px; margin: 0 auto; width: 120px;">
+                                <div style="position: absolute; bottom: 180px; height: 30px; left: 50%; transform: translateX(-50%); width: 2px; background: #00ff88;"></div>
+                                <div style="position: absolute; bottom: 100px; height: 80px; width: 100%; background: #00ff88; border: 2px solid #00ff88; box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);"></div>
+                                <div style="position: absolute; bottom: 30px; height: 70px; left: 50%; transform: translateX(-50%); width: 2px; background: #00ff88;"></div>
+                                
+                                <!-- Labels -->
+                                <div style="position: absolute; top: -10px; left: 130px; color: var(--gray-text); font-size: 0.85rem; white-space: nowrap;">HIGH</div>
+                                <div style="position: absolute; top: 50px; left: 130px; color: var(--gray-text); font-size: 0.85rem; white-space: nowrap;">CLOSE</div>
+                                <div style="position: absolute; top: 120px; left: 130px; color: var(--gray-text); font-size: 0.85rem; white-space: nowrap;">OPEN</div>
+                                <div style="position: absolute; bottom: -10px; left: 130px; color: var(--gray-text); font-size: 0.85rem; white-space: nowrap;">LOW</div>
+                            </div>
+                            <div style="margin-top: 30px; text-align: left; padding: 20px; background: var(--dark); border-left: 3px solid var(--success);">
+                                <p style="color: var(--gray-text); font-size: 0.9rem; line-height: 1.8;">
+                                    <strong style="color: var(--white);">Body:</strong> Open to Close (green/white)<br>
+                                    <strong style="color: var(--white);">Meaning:</strong> Close > Open = Buyers won<br>
+                                    <strong style="color: var(--white);">Upper Wick:</strong> Sellers tried, failed<br>
+                                    <strong style="color: var(--white);">Lower Wick:</strong> Support established
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Bearish Candle -->
+                        <div style="text-align: center;">
+                            <h4 style="color: var(--danger); margin-bottom: 30px; font-size: 1.2rem;">BEARISH CANDLE</h4>
+                            <div style="position: relative; height: 250px; margin: 0 auto; width: 120px;">
+                                <div style="position: absolute; bottom: 180px; height: 30px; left: 50%; transform: translateX(-50%); width: 2px; background: #ff3b3b;"></div>
+                                <div style="position: absolute; bottom: 100px; height: 80px; width: 100%; background: #ff3b3b; border: 2px solid #ff3b3b; box-shadow: 0 0 20px rgba(255, 59, 59, 0.4);"></div>
+                                <div style="position: absolute; bottom: 30px; height: 70px; left: 50%; transform: translateX(-50%); width: 2px; background: #ff3b3b;"></div>
+                                
+                                <!-- Labels -->
+                                <div style="position: absolute; top: -10px; left: 130px; color: var(--gray-text); font-size: 0.85rem; white-space: nowrap;">HIGH</div>
+                                <div style="position: absolute; top: 50px; left: 130px; color: var(--gray-text); font-size: 0.85rem; white-space: nowrap;">OPEN</div>
+                                <div style="position: absolute; top: 120px; left: 130px; color: var(--gray-text); font-size: 0.85rem; white-space: nowrap;">CLOSE</div>
+                                <div style="position: absolute; bottom: -10px; left: 130px; color: var(--gray-text); font-size: 0.85rem; white-space: nowrap;">LOW</div>
+                            </div>
+                            <div style="margin-top: 30px; text-align: left; padding: 20px; background: var(--dark); border-left: 3px solid var(--danger);">
+                                <p style="color: var(--gray-text); font-size: 0.9rem; line-height: 1.8;">
+                                    <strong style="color: var(--white);">Body:</strong> Open to Close (red/black)<br>
+                                    <strong style="color: var(--white);">Meaning:</strong> Close < Open = Sellers won<br>
+                                    <strong style="color: var(--white);">Upper Wick:</strong> Resistance confirmed<br>
+                                    <strong style="color: var(--white);">Lower Wick:</strong> Buyers tried, failed
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Body Size Analysis -->
+                    <div style="margin-top: 60px;">
+                        <h4 style="font-size: 1.3rem; font-weight: 200; margin-bottom: 30px; text-align: center; color: var(--accent);">
+                            Body Size Psychology
+                        </h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px;">
+                            <div style="text-align: center; padding: 25px; background: var(--dark); border: 1px solid var(--gray-dark);">
+                                <div style="height: 100px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">
+                                    <div style="width: 30px; height: 80px; background: #00ff88; box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);"></div>
+                                </div>
+                                <h5 style="margin-bottom: 10px;">Long Body</h5>
+                                <p style="color: var(--gray-text); font-size: 0.85rem;">Strong conviction<br>Dominant force<br>Clear direction</p>
+                            </div>
+                            <div style="text-align: center; padding: 25px; background: var(--dark); border: 1px solid var(--gray-dark);">
+                                <div style="height: 100px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">
+                                    <div style="width: 30px; height: 40px; background: #00ff88; box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);"></div>
+                                </div>
+                                <h5 style="margin-bottom: 10px;">Medium Body</h5>
+                                <p style="color: var(--gray-text); font-size: 0.85rem;">Normal activity<br>Modest control<br>Neutral pressure</p>
+                            </div>
+                            <div style="text-align: center; padding: 25px; background: var(--dark); border: 1px solid var(--gray-dark);">
+                                <div style="height: 100px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">
+                                    <div style="width: 30px; height: 15px; background: #666; box-shadow: 0 0 5px rgba(102, 102, 102, 0.3);"></div>
+                                </div>
+                                <h5 style="margin-bottom: 10px;">Small Body</h5>
+                                <p style="color: var(--gray-text); font-size: 0.85rem;">Indecision<br>Battle zone<br>Reversal warning</p>
+                            </div>
+                            <div style="text-align: center; padding: 25px; background: var(--dark); border: 1px solid var(--gray-dark);">
+                                <div style="height: 100px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">
+                                    <div style="width: 30px; height: 2px; background: #ffd700; box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);"></div>
+                                </div>
+                                <h5 style="margin-bottom: 10px; color: var(--gold);">Doji</h5>
+                                <p style="color: var(--gray-text); font-size: 0.85rem;">Perfect balance<br>Trend exhaustion<br>Major signal</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="visual-grid">
+                    <div class="visual-card">
+                        <div class="card-number">01</div>
+                        <h3 class="card-title">Candlestick Charts</h3>
+                        <div class="card-content">
+                            <p>Japanese candlesticks reveal four critical data points: open, high, low, close. The body shows open-close range. Wicks show intraday extremes. Color indicates who won the battle: bulls (green) or bears (red).</p>
+                            <div style="margin-top: 15px; padding: 15px; background: var(--black); border-left: 2px solid var(--accent);">
+                                <p style="font-size: 0.85rem; color: var(--gray-lighter);">First used by 18th century Japanese rice trader Munehisa Homma</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="visual-card">
+                        <div class="card-number">02</div>
+                        <h3 class="card-title">Support & Resistance</h3>
+                        <div class="card-content">
+                            <p>Price levels where buying and selling pressures balance. Support stops declines as buyers step in. Resistance stops advances as sellers emerge. Markets have memory—these levels matter for years.</p>
+                            <div style="margin-top: 15px; padding: 15px; background: var(--black); border-left: 2px solid var(--success);">
+                                <p style="font-size: 0.85rem; color: var(--gray-lighter);">Broken support becomes resistance. Broken resistance becomes support.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="visual-card">
+                        <div class="card-number">03</div>
+                        <h3 class="card-title">Trendlines</h3>
+                        <div class="card-content">
+                            <p>Connect swing lows in uptrends, swing highs in downtrends. Minimum 2 points to draw, 3 to confirm. Trendlines are dynamic support/resistance on an angle. Breaks signal potential reversals.</p>
+                            <div style="margin-top: 15px; padding: 15px; background: var(--black); border-left: 2px solid var(--gold);">
+                                <p style="font-size: 0.85rem; color: var(--gray-lighter);">Steeper trendlines break more easily. Look for 45° angles for sustainability.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-chart">
+                    <h3 style="font-size: 1.5rem; font-weight: 200; margin-bottom: 20px;">Interactive Candlestick Chart</h3>
+                    <div style="display: grid; grid-template-columns: 1fr auto; gap: 20px; margin-bottom: 30px; align-items: center;">
+                        <div class="chart-controls">
+                            <button class="btn active" id="btnDrawCandles" onclick="drawCandles()">Generate Candles</button>
+                            <button class="btn" id="btnSupport" onclick="drawSupport()">Add Support</button>
+                            <button class="btn" id="btnResistance" onclick="drawResistance()">Add Resistance</button>
+                            <button class="btn" id="btnTrendline" onclick="drawTrendline()">Add Trendline</button>
+                            <button class="btn" id="btnClear" onclick="clearChart()">Clear</button>
+                        </div>
+                        <div id="chartInfo" style="padding: 15px; background: var(--dark); border-left: 3px solid var(--accent); min-width: 200px;">
+                            <div style="font-size: 0.85rem; color: var(--gray-text);">Hover over candles for details</div>
+                        </div>
+                    </div>
+                    <div class="canvas-container">
+                        <canvas id="chartCanvas"></canvas>
+                    </div>
+                    <div style="margin-top: 20px; padding: 20px; background: var(--dark); border: 1px solid var(--gray-dark);">
+                        <h4 style="margin-bottom: 15px; color: var(--accent);">Chart Reading Tips:</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                            <p style="color: var(--gray-text); font-size: 0.9rem;">→ Long upper wicks = selling pressure</p>
+                            <p style="color: var(--gray-text); font-size: 0.9rem;">→ Long lower wicks = buying support</p>
+                            <p style="color: var(--gray-text); font-size: 0.9rem;">→ Small bodies = indecision</p>
+                            <p style="color: var(--gray-text); font-size: 0.9rem;">→ No wicks = strong conviction</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="visual-display">
+                    <h3 style="font-size: 1.8rem; font-weight: 200; margin-bottom: 30px; text-align: center;">
+                        Key Concepts
+                    </h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+                        <div style="padding: 30px; background: var(--dark); border-left: 3px solid var(--accent);">
+                            <h4 style="color: var(--accent); margin-bottom: 15px;">Consolidation</h4>
+                            <p style="color: var(--gray-text);">Sideways price movement after a trend. Market pauses to digest gains or losses before next directional move.</p>
+                        </div>
+                        <div style="padding: 30px; background: var(--dark); border-left: 3px solid var(--success);">
+                            <h4 style="color: var(--success); margin-bottom: 15px;">Breakout</h4>
+                            <p style="color: var(--gray-text);">Price moves decisively beyond support or resistance. Signals potential trend continuation or reversal.</p>
+                        </div>
+                        <div style="padding: 30px; background: var(--dark); border-left: 3px solid var(--gold);">
+                            <h4 style="color: var(--gold); margin-bottom: 15px;">Moving Average</h4>
+                            <p style="color: var(--gray-text);">Smooths price data to identify trend direction. Acts as dynamic support/resistance level.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Continuation Patterns Module -->
+            <div class="module" id="continuation">
+                <div class="section-header">
+                    <h2 class="section-title">02 — Continuation Patterns</h2>
+                    <p class="section-subtitle">
+                        When markets pause to consolidate before resuming their dominant trend
+                    </p>
+                </div>
+
+                <!-- Pattern Psychology -->
+                <div class="visual-display" style="margin-bottom: 60px;">
+                    <h3 style="font-size: 1.8rem; font-weight: 200; margin-bottom: 30px; text-align: center;">
+                        Understanding Continuation Psychology
+                    </h3>
+                    <p style="color: var(--gray-text); text-align: center; max-width: 800px; margin: 0 auto 40px;">
+                        Continuation patterns are NOT trend changes. They're rest periods where early buyers take profits 
+                        while new buyers accumulate positions. The dominant trend remains intact—just temporarily paused.
+                    </p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;">
+                        <div style="padding: 25px; background: var(--dark); border-left: 3px solid var(--accent);">
+                            <h4 style="color: var(--accent); margin-bottom: 15px;">Why They Form</h4>
+                            <p style="color: var(--gray-text); font-size: 0.9rem;">Profit-taking creates temporary supply. New buyers see value. Supply-demand rebalance before continuation.</p>
+                        </div>
+                        <div style="padding: 25px; background: var(--dark); border-left: 3px solid var(--success);">
+                            <h4 style="color: var(--success); margin-bottom: 15px;">How to Trade</h4>
+                            <p style="color: var(--gray-text); font-size: 0.9rem;">Wait for breakout in trend direction. Enter on close beyond pattern boundary. Target = pattern height projected.</p>
+                        </div>
+                        <div style="padding: 25px; background: var(--dark); border-left: 3px solid var(--gold);">
+                            <h4 style="color: var(--gold); margin-bottom: 15px;">Risk Management</h4>
+                            <p style="color: var(--gray-text); font-size: 0.9rem;">Stop loss beyond opposite side. If breakout fails, pattern is invalid. Never risk more than 2% of capital.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pattern-grid">
+                    <div class="pattern-card" onclick="showPatternDetail('rectangle')">
+                        <div class="pattern-visual">
+                            <svg width="100%" height="100%" viewBox="0 0 200 150">
+                                <rect x="20" y="40" width="160" height="70" fill="none" stroke="#00ff88" stroke-width="2"/>
+                                <path d="M 40 70 L 60 50 L 80 90 L 100 60 L 120 100 L 140 55 L 160 85" 
+                                      stroke="#fff" stroke-width="2" fill="none"/>
+                                <!-- Candles -->
+                                <rect x="40" y="65" width="10" height="15" fill="#00ff88" opacity="0.7"/>
+                                <rect x="80" y="85" width="10" height="15" fill="#ff3b3b" opacity="0.7"/>
+                                <rect x="120" y="95" width="10" height="15" fill="#ff3b3b" opacity="0.7"/>
+                                <rect x="160" y="80" width="10" height="15" fill="#00ff88" opacity="0.7"/>
+                            </svg>
+                        </div>
+                        <div class="pattern-name">Rectangle</div>
+                        <div class="pattern-description">Horizontal consolidation between parallel support and resistance. Price bounces between levels.</div>
+                        <div>
+                            <span class="tag">Continuation</span>
+                            <span class="tag success">70% Success</span>
+                        </div>
+                    </div>
+
+                    <div class="pattern-card" onclick="showPatternDetail('triangle')">
+                        <div class="pattern-visual">
+                            <svg width="100%" height="100%" viewBox="0 0 200 150">
+                                <path d="M 20 110 L 180 50" stroke="#00ff88" stroke-width="2" fill="none"/>
+                                <path d="M 20 40 L 180 50" stroke="#ff3b3b" stroke-width="2" fill="none"/>
+                                <path d="M 30 75 L 60 55 L 90 70 L 120 58 L 150 65" 
+                                      stroke="#fff" stroke-width="2" fill="none"/>
+                                <!-- Candles getting smaller -->
+                                <rect x="30" y="70" width="12" height="20" fill="#00ff88" opacity="0.7"/>
+                                <rect x="60" y="50" width="12" height="15" fill="#ff3b3b" opacity="0.7"/>
+                                <rect x="90" y="65" width="10" height="12" fill="#00ff88" opacity="0.7"/>
+                                <rect x="120" y="56" width="10" height="10" fill="#ff3b3b" opacity="0.7"/>
+                                <rect x="150" y="63" width="8" height="8" fill="#00ff88" opacity="0.7"/>
+                            </svg>
+                        </div>
+                        <div class="pattern-name">Triangle (Symmetrical)</div>
+                        <div class="pattern-description">Converging trendlines creating coiling action. Volatility contracts before explosive breakout.</div>
+                        <div>
+                            <span class="tag">Continuation</span>
+                            <span class="tag success">65% Success</span>
+                        </div>
+                    </div>
+
+                    <div class="pattern-card" onclick="showPatternDetail('ascending')">
+                        <div class="pattern-visual">
+                            <svg width="100%" height="100%" viewBox="0 0 200 150">
+                                <line x1="20" y1="40" x2="180" y2="40" stroke="#ff3b3b" stroke-width="2"/>
+                                <path d="M 20 110 L 180 45" stroke="#00ff88" stroke-width="2" fill="none"/>
+                                <path d="M 30 95 L 60 50 L 90 85 L 120 55 L 150 75" 
+                                      stroke="#fff" stroke-width="2" fill="none"/>
+                            </svg>
+                        </div>
+                        <div class="pattern-name">Ascending Triangle</div>
+                        <div class="pattern-description">Flat resistance, rising support. Buyers getting more aggressive. Strong bullish continuation.</div>
+                        <div>
+                            <span class="tag success">Bullish</span>
+                            <span class="tag success">75% Success</span>
+                        </div>
+                    </div>
+
+                    <div class="pattern-card" onclick="showPatternDetail('descending')">
+                        <div class="pattern-visual">
+                            <svg width="100%" height="100%" viewBox="0 0 200 150">
+                                <line x1="20" y1="110" x2="180" y2="110" stroke="#00ff88" stroke-width="2"/>
+                                <path d="M 20 40 L 180 105" stroke="#ff3b3b" stroke-width="2" fill="none"/>
+                                <path d="M 30 55 L 60 100 L 90 65 L 120 95 L 150 75" 
+                                      stroke="#fff" stroke-width="2" fill="none"/>
+                            </svg>
+                        </div>
+                        <div class="pattern-name">Descending Triangle</div>
+                        <div class="pattern-description">Flat support, falling resistance. Sellers getting more aggressive. Strong bearish continuation.</div>
+                        <div>
+                            <span class="tag danger">Bearish</span>
+                            <span class="tag success">75% Success</span>
+                        </div>
+                    </div>
+
+                    <div class="pattern-card" onclick="showPatternDetail('flag')">
+                        <div class="pattern-visual">
+                            <svg width="100%" height="100%" viewBox="0 0 200 150">
+                                <line x1="50" y1="130" x2="50" y2="30" stroke="#00ff88" stroke-width="4"/>
+                                <path d="M 50 30 L 150 40 L 150 70 L 50 60 Z" 
+                                      fill="none" stroke="#fff" stroke-width="2"/>
+                                <!-- Flag candles -->
+                                <rect x="70" y="42" width="8" height="10" fill="#ff3b3b" opacity="0.7"/>
+                                <rect x="90" y="45" width="8" height="8" fill="#ff3b3b" opacity="0.7"/>
+                                <rect x="110" y="50" width="8" height="8" fill="#00ff88" opacity="0.7"/>
+                                <rect x="130" y="54" width="8" height="6" fill="#ff3b3b" opacity="0.7"/>
+                            </svg>
+                        </div>
+                        <div class="pattern-name">Bull Flag</div>
+                        <div class="pattern-description">Sharp move (pole) followed by tight counter-trend drift. Brief pause before resumption.</div>
+                        <div>
+                            <span class="tag">Continuation</span>
+                            <span class="tag success">80% Success</span>
+                        </div>
+                    </div>
+
+                    <div class="pattern-card" onclick="showPatternDetail('pennant')">
+                        <div class="pattern-visual">
+                            <svg width="100%" height="100%" viewBox="0 0 200 150">
+                                <line x1="40" y1="130" x2="40" y2="40" stroke="#00ff88" stroke-width="4"/>
+                                <path d="M 40 40 L 140 50 L 40 60 Z" 
+                                      fill="none" stroke="#fff" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="pattern-name">Pennant</div>
+                        <div class="pattern-description">Similar to flag but symmetrical triangle shape. Very short-term consolidation before explosion.</div>
+                        <div>
+                            <span class="tag">Continuation</span>
+                            <span class="tag success">85% Success</span>
+                        </div>
+                    </div>
+
+                    <div class="pattern-card" onclick="showPatternDetail('cup')">
+                        <div class="pattern-visual">
+                            <svg width="100%" height="100%" viewBox="0 0 200 150">
+                                <path d="M 20 40 Q 100 110 180 40" 
+                                      stroke="#00ff88" stroke-width="2" fill="none"/>
+                                <path d="M 180 40 L 195 50 L 200 45" 
+                                      stroke="#00ff88" stroke-width="2" fill="none"/>
+                                <!-- Small handle -->
+                                <path d="M 180 40 L 185 48 L 195 42" 
+                                      stroke="#ff3b3b" stroke-width="2" fill="none"/>
+                            </svg>
+                        </div>
+                        <div class="pattern-name">Cup & Handle</div>
+                        <div class="pattern-description">U-shaped consolidation (cup) + small pullback (handle). Powerful institutional accumulation pattern.</div>
+                        <div>
+                            <span class="tag success">Bullish</span>
+                            <span class="tag success">78% Success</span>
+                        </div>
+                    </div>
+
+                    <div class="pattern-card" onclick="showPatternDetail('wedge')">
+                        <div class="pattern-visual">
+                            <svg width="100%" height="100%" viewBox="0 0 200 150">
+                                <path d="M 20 90 L 170 40" stroke="#00ff88" stroke-width="2" fill="none"/>
+                                <path d="M 20 70 L 170 35" stroke="#00ff88" stroke-width="2" fill="none"/>
+                                <path d="M 30 80 L 60 65 L 90 72 L 120 60 L 150 66" 
+                                      stroke="#fff" stroke-width="2" fill="none"/>
+                            </svg>
+                        </div>
+                        <div class="pattern-name">Rising Wedge</div>
+                        <div class="pattern-description">Both boundaries rising but converging. Often bearish despite upward slope. Momentum dying.</div>
+                        <div>
+                            <span class="tag danger">Bearish</span>
+                            <span class="tag">68% Success</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pattern Detail Modal Info -->
+                <div id="patternDetailBox" style="display: none; margin-top: 40px; padding: 40px; background: var(--dark); border: 2px solid var(--accent);">
+                    <h3 id="patternDetailTitle" style="font-size: 1.8rem; margin-bottom: 20px;"></h3>
+                    <div id="patternDetailContent"></div>
+                    <button class="btn" onclick="closePatternDetail()" style="margin-top: 20px;">Close</button>
+                </div>
+
+                <div class="visual-display">
+                    <h3 style="font-size: 1.8rem; font-weight: 200; margin-bottom: 30px;">
+                        Trading Continuation Patterns: Step-by-Step
+                    </h3>
+                    <div style="display: grid; gap: 25px;">
+                        <div style="display: grid; grid-template-columns: 60px 1fr; gap: 25px; padding: 25px; background: var(--dark); border-left: 3px solid var(--accent);">
+                            <div style="width: 60px; height: 60px; border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--accent);">1</div>
+                            <div>
+                                <h4 style="color: var(--accent); margin-bottom: 10px; font-size: 1.1rem;">Identify The Trend</h4>
+                                <p style="color: var(--gray-text);">Check higher timeframe. Is there a clear trend? Continuation patterns only work IN trends. No trend = no continuation to trade.</p>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 60px 1fr; gap: 25px; padding: 25px; background: var(--dark); border-left: 3px solid var(--success);">
+                            <div style="width: 60px; height: 60px; border: 2px solid var(--success); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--success);">2</div>
+                            <div>
+                                <h4 style="color: var(--success); margin-bottom: 10px; font-size: 1.1rem;">Wait For Pattern Completion</h4>
+                                <p style="color: var(--gray-text);">Pattern must FULLY form. Triangles need at least 4 touches (2 each side). Rectangles need multiple tests of boundaries. Patience is critical.</p>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 60px 1fr; gap: 25px; padding: 25px; background: var(--dark); border-left: 3px solid var(--gold);">
+                            <div style="width: 60px; height: 60px; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--gold);">3</div>
+                            <div>
+                                <h4 style="color: var(--gold); margin-bottom: 10px; font-size: 1.1rem;">Confirm With Volume</h4>
+                                <p style="color: var(--gray-text);">Volume should contract during pattern formation, then SURGE on breakout. Low volume breakouts fail 70% of the time. Volume is the fuel.</p>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 60px 1fr; gap: 25px; padding: 25px; background: var(--dark); border-left: 3px solid var(--blue);">
+                            <div style="width: 60px; height: 60px; border: 2px solid var(--blue); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--blue);">4</div>
+                            <div>
+                                <h4 style="color: var(--blue); margin-bottom: 10px; font-size: 1.1rem;">Enter & Set Stops</h4>
+                                <p style="color: var(--gray-text);">Enter on close beyond pattern boundary. Stop loss = opposite side of pattern + 1-2%. Target = pattern height projected from breakout. 1:2 minimum R:R.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 40px; padding: 30px; background: var(--black); border: 2px solid var(--danger);">
+                        <h4 style="color: var(--danger); margin-bottom: 20px; font-size: 1.2rem;">⚠️ Common Mistakes That Kill Accounts</h4>
+                        <div style="display: grid; gap: 15px;">
+                            <p style="color: var(--gray-text);">❌ <strong style="color: var(--white);">Trading in the middle of pattern</strong> — Wait for breakout, not "predictions"</p>
+                            <p style="color: var(--gray-text);">❌ <strong style="color: var(--white);">Counter-trend continuation patterns</strong> — These don't exist. Pattern must align with trend.</p>
+                            <p style="color: var(--gray-text);">❌ <strong style="color: var(--white);">No stop loss because "it's a good pattern"</strong> — 30% fail. Always use stops.</p>
+                            <p style="color: var(--gray-text);">❌ <strong style="color: var(--white);">Ignoring timeframe</strong> — 5-min triangle ≠ daily triangle. Match timeframe to your goals.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Pattern Builder -->
+                <div class="interactive-chart" style="margin-top: 60px;">
+                    <h3 style="font-size: 1.5rem; font-weight: 200; margin-bottom: 20px;">Interactive Pattern Builder</h3>
+                    <div class="chart-controls" style="margin-bottom: 30px;">
+                        <button class="btn" onclick="buildPattern('rectangle')">Build Rectangle</button>
+                        <button class="btn" onclick="buildPattern('triangle')">Build Triangle</button>
+                        <button class="btn" onclick="buildPattern('flag')">Build Flag</button>
+                        <button class="btn" onclick="buildPattern('cup')">Build Cup & Handle</button>
+                    </div>
+                    <div class="canvas-container">
+                        <canvas id="continuationCanvas"></canvas>
+                    </div>
+                    <div id="patternAnalysis" style="margin-top: 20px; padding: 25px; background: var(--dark); border-left: 3px solid var(--accent); display: none;">
+                        <h4 style="color: var(--accent); margin-bottom: 15px;">Pattern Analysis:</h4>
+                        <div id="analysisContent" style="color: var(--gray-text);"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reversal Patterns Module -->
+            <div class="module" id="reversal">
+                <div class="section-header">
+                    <h2 class="section-title">03 — Reversal Patterns</h2>
+                    <p class="section-subtitle">
+                        When markets change direction: identifying trend exhaustion
+                    </p>
+                </div>
+
+                <div class="pattern-grid">
+                    <div class="pattern-card" onclick="showPatternDetail('headshoulders')">
+                        <div class="pattern-visual">
+                            <svg width="100%" height="100%" viewBox="0 0 200 150">
+                                <path d="M 20 100 L 50 50 L 80 80 L 100 30 L 120 80 L 150 50 L 180 100" 
+                                      stroke="#ff3b3b" stroke-width="2" fill="none"/>
+                                <line x1="20" y1="80" x2="180" y2="80" 
+                                      stroke="#666" stroke-width="1" stroke-dasharray="5,5"/>
+                            </svg>
+                        </div>
+                        <div class="pattern-name">Head & Shoulders</div>
+                        <div class="pattern-description">Three peaks with middle highest. Classic top reversal pattern</div>
+                        <div><span class="tag danger">Reversal</span></div>
+                    </div>
+
+                    <div class="pattern-card" onclick="showPatternDetail('doubletop')">
+                        <div class="pattern-visual">
+                            <svg width="100%" height="100%" viewBox="0 0 200 150">
+                                <path d="M 20 100 L 60 40 L 100 90 L 140 40 L 180 100" 
+                                      stroke="#ff3b3b" stroke-width="2" fill="none"/>
+                                <line x1="20" y1="90" x2="180" y2="90" 
+                                      stroke="#666" stroke-width="1" stroke-dasharray="5,5"/>
+                            </svg>
+                        </div>
+                        <div class="pattern-name">Double Top</div>
+                        <div class="pattern-description">Two peaks at similar price level showing resistance</div>
+                        <div><span class="tag danger">Reversal</span></div>
+                    </div>
+
+                    <div class="pattern-card" onclick="showPatternDetail('doublebottom')">
+                        <div class="pattern-visual">
+                            <svg width="100%" height="100%" viewBox="0 0 200 150">
+                                <path d="M 20 50 L 60 110 L 100 60 L 140 110 L 180 50" 
+                                      stroke="#00ff88" stroke-width="2" fill="none"/>
+                                <line x1="20" y1="60" x2="180" y2="60" 
+                                      stroke="#666" stroke-width="1" stroke-dasharray="5,5"/>
+                            </svg>
+                        </div>
+                        <div class="pattern-name">Double Bottom</div>
+                        <div class="pattern-description">Two troughs at similar price level showing support</div>
+                        <div><span class="tag success">Reversal</span></div>
+                    </div>
+
+                    <div class="pattern-card" onclick="showPatternDetail('roundedtop')">
+                        <div class="pattern-visual">
+                            <svg width="100%" height="100%" viewBox="0 0 200 150">
+                                <path d="M 20 100 Q 100 20 180 100" 
+                                      stroke="#ff3b3b" stroke-width="2" fill="none"/>
+                            </svg>
+                        </div>
+                        <div class="pattern-name">Rounded Top</div>
+                        <div class="pattern-description">Gradual shift from buying to selling pressure</div>
+                        <div><span class="tag danger">Reversal</span></div>
+                    </div>
+
+                    <div class="pattern-card" onclick="showPatternDetail('spike')">
+                        <div class="pattern-visual">
+                            <svg width="100%" height="100%" viewBox="0 0 200 150">
+                                <path d="M 20 120 L 80 120 L 100 20 L 120 120 L 180 120" 
+                                      stroke="#fff" stroke-width="2" fill="none"/>
+                            </svg>
+                        </div>
+                        <div class="pattern-name">Spike</div>
+                        <div class="pattern-description">Sharp V-shaped reversal showing panic or climax</div>
+                        <div><span class="tag">Reversal</span></div>
+                    </div>
+
+                    <div class="pattern-card" onclick="showPatternDetail('oneday')">
+                        <div class="pattern-visual">
+                            <svg width="100%" height="100%" viewBox="0 0 200 150">
+                                <rect x="85" y="40" width="30" height="80" fill="#ff3b3b" stroke="#ff3b3b" stroke-width="2"/>
+                                <line x1="100" y1="20" x2="100" y2="40" stroke="#ff3b3b" stroke-width="2"/>
+                                <line x1="100" y1="120" x2="100" y2="130" stroke="#ff3b3b" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="pattern-name">One-Day Reversal</div>
+                        <div class="pattern-description">Single bar making new extreme then closing opposite</div>
+                        <div><span class="tag">Reversal</span></div>
+                    </div>
+                </div>
+
+                <div class="visual-display">
+                    <h3 style="font-size: 1.8rem; font-weight: 200; margin-bottom: 30px;">
+                        Reversal Pattern Confirmation
+                    </h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+                        <div style="padding: 30px; background: var(--dark); text-align: center;">
+                            <div style="font-size: 3rem; color: var(--accent); margin-bottom: 15px;">📊</div>
+                            <h4 style="margin-bottom: 10px;">Volume</h4>
+                            <p style="color: var(--gray-text); font-size: 0.9rem;">Higher volume on breakout validates pattern</p>
+                        </div>
+                        <div style="padding: 30px; background: var(--dark); text-align: center;">
+                            <div style="font-size: 3rem; color: var(--success); margin-bottom: 15px;">📈</div>
+                            <h4 style="margin-bottom: 10px;">Momentum</h4>
+                            <p style="color: var(--gray-text); font-size: 0.9rem;">Divergence signals weakening trend</p>
+                        </div>
+                        <div style="padding: 30px; background: var(--dark); text-align: center;">
+                            <div style="font-size: 3rem; color: var(--gold); margin-bottom: 15px;">⏱️</div>
+                            <h4 style="margin-bottom: 10px;">Time</h4>
+                            <p style="color: var(--gray-text); font-size: 0.9rem;">Longer patterns = stronger reversals</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gaps Module -->
+            <div class="module" id="gaps">
+                <div class="section-header">
+                    <h2 class="section-title">04 — Gap Patterns</h2>
+                    <p class="section-subtitle">
+                        Price discontinuities revealing market strength and positioning
+                    </p>
+                </div>
+
+                <div class="pattern-grid">
+                    <div class="pattern-card" onclick="showPatternDetail('breakaway')">
+                        <div class="pattern-visual">
+                            <svg width="100%" height="100%" viewBox="0 0 200 150">
+                                <path d="M 20 90 L 80 90" stroke="#666" stroke-width="2"/>
+                                <rect x="70" y="75" width="30" height="30" fill="#ffd700" opacity="0.3"/>
+                                <path d="M 120 60 L 180 30" stroke="#00ff88" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="pattern-name">Breakaway Gap</div>
+                        <div class="pattern-description">Signals start of new trend with strong momentum</div>
+                        <div><span class="tag success">Breakaway</span></div>
+                    </div>
+
+                    <div class="pattern-card" onclick="showPatternDetail('continuation')">
+                        <div class="pattern-visual">
+                            <svg width="100%" height="100%" viewBox="0 0 200 150">
+                                <path d="M 20 90 L 80 60" stroke="#00ff88" stroke-width="2"/>
+                                <rect x="70" y="45" width="30" height="30" fill="#ffd700" opacity="0.3"/>
+                                <path d="M 120 40 L 180 20" stroke="#00ff88" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="pattern-name">Continuation Gap</div>
+                        <div class="pattern-description">Midpoint of move indicating trend strength</div>
+                        <div><span class="tag">Continuation</span></div>
+                    </div>
+
+                    <div class="pattern-card" onclick="showPatternDetail('exhaustion')">
+                        <div class="pattern-visual">
+                            <svg width="100%" height="100%" viewBox="0 0 200 150">
+                                <path d="M 20 100 L 80 40" stroke="#00ff88" stroke-width="2"/>
+                                <rect x="70" y="25" width="30" height="30" fill="#ffd700" opacity="0.3"/>
+                                <path d="M 120 30 L 160 70" stroke="#ff3b3b" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="pattern-name">Exhaustion Gap</div>
+                        <div class="pattern-description">Final push before reversal, followed by gap fill</div>
+                        <div><span class="tag danger">Exhaustion</span></div>
+                    </div>
+
+                    <div class="pattern-card" onclick="showPatternDetail('island')">
+                        <div class="pattern-visual">
+                            <svg width="100%" height="100%" viewBox="0 0 200 150">
+                                <path d="M 20 90 L 60 50" stroke="#00ff88" stroke-width="2"/>
+                                <rect x="55" y="35" width="20" height="30" fill="#ffd700" opacity="0.3"/>
+                                <path d="M 90 60 L 110 60" stroke="#fff" stroke-width="2"/>
+                                <rect x="105" y="45" width="20" height="30" fill="#ffd700" opacity="0.3"/>
+                                <path d="M 140 70 L 180 100" stroke="#ff3b3b" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="pattern-name">Island Reversal</div>
+                        <div class="pattern-description">Isolated price action between two gaps</div>
+                        <div><span class="tag danger">Reversal</span></div>
+                    </div>
+                </div>
+
+                <div class="visual-display">
+                    <h3 style="font-size: 1.8rem; font-weight: 200; margin-bottom: 30px;">
+                        Gap Trading Rules
+                    </h3>
+                    <div style="display: grid; gap: 15px;">
+                        <div style="padding: 20px; background: var(--dark); border-left: 3px solid var(--accent);">
+                            → <strong>Breakaway gaps</strong> rarely fill immediately - mark new trend start
+                        </div>
+                        <div style="padding: 20px; background: var(--dark); border-left: 3px solid var(--success);">
+                            → <strong>Continuation gaps</strong> indicate halfway point of move
+                        </div>
+                        <div style="padding: 20px; background: var(--dark); border-left: 3px solid var(--danger);">
+                            → <strong>Exhaustion gaps</strong> fill quickly - signal reversal
+                        </div>
+                        <div style="padding: 20px; background: var(--dark); border-left: 3px solid var(--gold);">
+                            → <strong>Island reversals</strong> are powerful reversal signals
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Indicators Module -->
+            <div class="module" id="indicators">
+                <div class="section-header">
+                    <h2 class="section-title">05 — Key Indicators</h2>
+                    <p class="section-subtitle">
+                        Mathematical tools for momentum, trend strength, and divergence analysis
+                    </p>
+                </div>
+
+                <div class="visual-grid">
+                    <div class="visual-card">
+                        <div class="card-number">MA</div>
+                        <h3 class="card-title">Moving Average</h3>
+                        <div class="card-content">
+                            <p>Smooths price data to identify trend direction. Acts as dynamic support/resistance. Common periods: 20, 50, 200.</p>
+                        </div>
+                    </div>
+
+                    <div class="visual-card">
+                        <div class="card-number">RSI</div>
+                        <h3 class="card-title">Relative Strength Index</h3>
+                        <div class="card-content">
+                            <p>Momentum oscillator measuring speed and magnitude of price changes. Above 70 = overbought, below 30 = oversold.</p>
+                        </div>
+                    </div>
+
+                    <div class="visual-card">
+                        <div class="card-number">MACD</div>
+                        <h3 class="card-title">Moving Average Convergence Divergence</h3>
+                        <div class="card-content">
+                            <p>Trend-following momentum indicator showing relationship between two moving averages. Crossovers signal potential reversals.</p>
+                        </div>
+                    </div>
+
+                    <div class="visual-card">
+                        <div class="card-number">VOL</div>
+                        <h3 class="card-title">Volume</h3>
+                        <div class="card-content">
+                            <p>Measures trading activity. High volume confirms price moves. Low volume suggests weak conviction and potential reversal.</p>
+                        </div>
+                    </div>
+
+                    <div class="visual-card">
+                        <div class="card-number">BB</div>
+                        <h3 class="card-title">Bollinger Bands</h3>
+                        <div class="card-content">
+                            <p>Volatility indicator with upper and lower bands. Price touching bands indicates potential reversal or breakout.</p>
+                        </div>
+                    </div>
+
+                    <div class="visual-card">
+                        <div class="card-number">STOCH</div>
+                        <h3 class="card-title">Stochastic Oscillator</h3>
+                        <div class="card-content">
+                            <p>Momentum indicator comparing closing price to price range. Identifies overbought/oversold conditions and divergences.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="visual-display">
+                    <h3 style="font-size: 1.8rem; font-weight: 200; margin-bottom: 30px;">
+                        Divergence Analysis
+                    </h3>
+                    <p style="color: var(--gray-text); margin-bottom: 30px;">
+                        Divergence occurs when price and indicator move in opposite directions, signaling potential reversal.
+                    </p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                        <div style="padding: 30px; background: var(--dark); border: 2px solid var(--success);">
+                            <h4 style="color: var(--success); margin-bottom: 15px;">Bullish Divergence</h4>
+                            <p style="color: var(--gray-text);">Price makes lower lows while indicator makes higher lows. Signals weakening downtrend and potential reversal up.</p>
+                        </div>
+                        <div style="padding: 30px; background: var(--dark); border: 2px solid var(--danger);">
+                            <h4 style="color: var(--danger); margin-bottom: 15px;">Bearish Divergence</h4>
+                            <p style="color: var(--gray-text);">Price makes higher highs while indicator makes lower highs. Signals weakening uptrend and potential reversal down.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-chart">
+                    <h3 style="font-size: 1.5rem; font-weight: 200; margin-bottom: 30px;">Interactive Indicator Demo</h3>
+                    <div class="chart-controls">
+                        <button class="btn" onclick="drawIndicator('ma')">Moving Average</button>
+                        <button class="btn" onclick="drawIndicator('rsi')">RSI</button>
+                        <button class="btn" onclick="drawIndicator('macd')">MACD</button>
+                        <button class="btn" onclick="drawIndicator('volume')">Volume</button>
+                    </div>
+                    <div class="canvas-container">
+                        <canvas id="indicatorCanvas"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- The Pillars Module -->
+            <div class="module" id="pillars">
+                <div class="section-header">
+                    <h2 class="section-title">06 — The Four Pillars</h2>
+                    <p class="section-subtitle">
+                        The foundation of complete technical analysis
+                    </p>
+                </div>
+
+                <div class="pillar-container">
+                    <div class="pillar">
+                        <div class="pillar-icon">💰</div>
+                        <div class="pillar-name">PRICE</div>
+                        <div class="pillar-description">
+                            The most important factor. All profits and losses measured in price differentials between entry and exit.
+                        </div>
+                    </div>
+
+                    <div class="pillar">
+                        <div class="pillar-icon">📊</div>
+                        <div class="pillar-name">VOLUME</div>
+                        <div class="pillar-description">
+                            Confirms price movements. High volume validates significance. Includes breadth, accumulation/distribution.
+                        </div>
+                    </div>
+
+                    <div class="pillar">
+                        <div class="pillar-icon">⏰</div>
+                        <div class="pillar-name">TIME</div>
+                        <div class="pillar-description">
+                            Cycles, seasonality, and pattern duration. Relationship between patterns and trends from temporal perspective.
+                        </div>
+                    </div>
+
+                    <div class="pillar">
+                        <div class="pillar-icon">🎯</div>
+                        <div class="pillar-name">SENTIMENT</div>
+                        <div class="pillar-description">
+                            Measures market psychology. When consensus tips too far one direction, consider contrarian positioning.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="visual-display">
+                    <h3 style="font-size: 1.8rem; font-weight: 200; margin-bottom: 30px; text-align: center;">
+                        Integrating All Four Pillars
+                    </h3>
+                    <div style="max-width: 800px; margin: 0 auto;">
+                        <p style="color: var(--gray-text); text-align: center; margin-bottom: 40px;">
+                            Professional technical analysis requires examining all four areas together. 
+                            Price gives the signal, volume confirms it, time validates the context, 
+                            and sentiment reveals opportunity.
+                        </p>
+                        <div style="padding: 40px; background: var(--dark); border: 2px solid var(--accent); text-align: center;">
+                            <h4 style="color: var(--accent); font-size: 1.5rem; margin-bottom: 20px;">
+                                The Golden Rule
+                            </h4>
+                            <p style="color: var(--white); font-size: 1.1rem; line-height: 1.8;">
+                                "Market patterns repeat because human behavior repeats.<br>
+                                Technical analysis measures the footprints of this behavior<br>
+                                across price, volume, time, and sentiment."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 80px; padding: 60px; background: var(--dark); border: 1px solid var(--gray-dark);">
+                    <h3 style="font-size: 2rem; font-weight: 200; margin-bottom: 30px; text-align: center;">
+                        Master the System
+                    </h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+                        <div style="text-align: center; padding: 30px;">
+                            <div style="font-size: 3rem; color: var(--accent); margin-bottom: 15px;">01</div>
+                            <h4 style="margin-bottom: 10px;">Learn Patterns</h4>
+                            <p style="color: var(--gray-text); font-size: 0.9rem;">Master all continuation and reversal formations</p>
+                        </div>
+                        <div style="text-align: center; padding: 30px;">
+                            <div style="font-size: 3rem; color: var(--success); margin-bottom: 15px;">02</div>
+                            <h4 style="margin-bottom: 10px;">Practice Analysis</h4>
+                            <p style="color: var(--gray-text); font-size: 0.9rem;">Apply patterns to historical and live charts</p>
+                        </div>
+                        <div style="text-align: center; padding: 30px;">
+                            <div style="font-size: 3rem; color: var(--gold); margin-bottom: 15px;">03</div>
+                            <h4 style="margin-bottom: 10px;">Develop Strategy</h4>
+                            <p style="color: var(--gray-text); font-size: 0.9rem;">Create systematic approach with edge</p>
+                        </div>
+                        <div style="text-align: center; padding: 30px;">
+                            <div style="font-size: 3rem; color: var(--blue); margin-bottom: 15px;">04</div>
+                            <h4 style="margin-bottom: 10px;">Execute Discipline</h4>
+                            <p style="color: var(--gray-text); font-size: 0.9rem;">Follow system with risk management</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p class="footer-text">
+                Technical Analysis Visual Learning Platform — Master the patterns that move markets
+            </p>
+            <p style="color: var(--gray-lighter); font-size: 0.8rem; margin-top: 20px;">
+                Based on "Technical Analysis Plain and Simple" by Michael N. Kahn
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+        // App State
+        let chartState = {
+            candles: [],
+            supportLevel: null,
+            resistanceLevel: null,
+            trendline: null,
+            hoveredCandle: null
+        };
+
+        let continuationState = {
+            pattern: null,
+            candles: []
+        };
+
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+                initializeCharts();
+            }, 1500);
+        });
+
+        function showModule(moduleId) {
+            document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+            document.getElementById(moduleId).classList.add('active');
+            
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Reinitialize charts when switching modules
+            setTimeout(() => {
+                if (moduleId === 'anatomy') initializeCharts();
+                if (moduleId === 'continuation') initializeContinuationCanvas();
+                if (moduleId === 'indicators') initializeIndicatorCanvas();
+            }, 100);
+        }
+
+        function initializeCharts() {
+            const canvas = document.getElementById('chartCanvas');
+            
+            if (canvas) {
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+                drawCandles();
+            }
+        }
+
+        function initializeContinuationCanvas() {
+            const canvas = document.getElementById('continuationCanvas');
+            if (canvas) {
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+            }
+        }
+
+        function initializeIndicatorCanvas() {
+            const canvas = document.getElementById('indicatorCanvas');
+            if (canvas) {
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+            }
+        }
+
+        // Candlestick Generation
+        function generateCandleData(count) {
+            const candles = [];
+            let price = 100;
+            const trend = Math.random() > 0.5 ? 1 : -1; // 1 = uptrend, -1 = downtrend
+            
+            for (let i = 0; i < count; i++) {
+                // Add trend bias
+                const trendBias = trend * 0.3;
+                const open = price + (Math.random() - 0.5 + trendBias) * 3;
+                const close = open + (Math.random() - 0.5 + trendBias) * 5;
+                const high = Math.max(open, close) + Math.random() * 3;
+                const low = Math.min(open, close) - Math.random() * 3;
+                
+                candles.push({ open, high, low, close });
+                price = close;
+            }
+            
+            return candles;
+        }
+
+        function drawCandles() {
+            const canvas = document.getElementById('chartCanvas');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Generate candles
+            const candleCount = isMobile ? 15 : 25;
+            chartState.candles = generateCandleData(candleCount);
+            
+            // Draw grid
+            drawGrid(ctx, canvas.width, canvas.height);
+            
+            // Calculate price range
+            const prices = chartState.candles.flatMap(c => [c.high, c.low]);
+            const maxPrice = Math.max(...prices);
+            const minPrice = Math.min(...prices);
+            const priceRange = maxPrice - minPrice;
+            const padding = priceRange * 0.1;
+            
+            // Draw candles
+            const candleWidth = (canvas.width - 60) / chartState.candles.length;
+            const bodyWidth = candleWidth * 0.7;
+            const wickWidth = 2;
+            
+            chartState.candles.forEach((candle, i) => {
+                const x = 30 + i * candleWidth + candleWidth / 2;
+                
+                // Scale prices to canvas
+                const scaleY = (price) => {
+                    return canvas.height - 20 - ((price - minPrice + padding) / (priceRange + padding * 2)) * (canvas.height - 40);
+                };
+                
+                const highY = scaleY(candle.high);
+                const lowY = scaleY(candle.low);
+                const openY = scaleY(candle.open);
+                const closeY = scaleY(candle.close);
+                
+                const isBullish = candle.close > candle.open;
+                const bodyTop = Math.min(openY, closeY);
+                const bodyHeight = Math.abs(closeY - openY);
+                
+                // Draw wick
+                ctx.strokeStyle = isBullish ? '#00ff88' : '#ff3b3b';
+                ctx.lineWidth = wickWidth;
+                ctx.beginPath();
+                ctx.moveTo(x, highY);
+                ctx.lineTo(x, lowY);
+                ctx.stroke();
+                
+                // Draw body
+                ctx.fillStyle = isBullish ? '#00ff88' : '#ff3b3b';
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = isBullish ? 'rgba(0, 255, 136, 0.5)' : 'rgba(255, 59, 59, 0.5)';
+                
+                if (bodyHeight < 2) {
+                    // Doji - draw thin line
+                    ctx.fillRect(x - bodyWidth / 2, bodyTop, bodyWidth, 2);
+                } else {
+                    ctx.fillRect(x - bodyWidth / 2, bodyTop, bodyWidth, bodyHeight);
+                }
+                
+                ctx.shadowBlur = 0;
+            });
+            
+            // Draw support/resistance/trendline if they exist
+            if (chartState.supportLevel !== null) {
+                drawSupportLine(ctx, canvas, chartState.supportLevel, minPrice, maxPrice, priceRange, padding);
+            }
+            
+            if (chartState.resistanceLevel !== null) {
+                drawResistanceLine(ctx, canvas, chartState.resistanceLevel, minPrice, maxPrice, priceRange, padding);
+            }
+            
+            if (chartState.trendline !== null) {
+                drawTrendLine(ctx, canvas);
+            }
+            
+            // Setup hover interaction
+            setupCandleHover(canvas, candleWidth, minPrice, maxPrice, priceRange, padding);
+            
+            // Highlight active button
+            highlightButton('btnDrawCandles');
+        }
+
+        function drawGrid(ctx, width, height) {
+            ctx.strokeStyle = '#1a1a1a';
+            ctx.lineWidth = 1;
+            
+            // Vertical lines
+            for (let i = 0; i < width; i += 50) {
+                ctx.beginPath();
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i, height);
+                ctx.stroke();
+            }
+            
+            // Horizontal lines
+            for (let i = 0; i < height; i += 40) {
+                ctx.beginPath();
+                ctx.moveTo(0, i);
+                ctx.lineTo(width, i);
+                ctx.stroke();
+            }
+        }
+
+        function drawSupportLine(ctx, canvas, level, minPrice, maxPrice, priceRange, padding) {
+            const scaleY = (price) => {
+                return canvas.height - 20 - ((price - minPrice + padding) / (priceRange + padding * 2)) * (canvas.height - 40);
+            };
+            
+            const y = scaleY(level);
+            
+            ctx.strokeStyle = '#00ff88';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            ctx.fillStyle = '#00ff88';
+            ctx.font = 'bold 11px monospace';
+            ctx.fillText('SUPPORT', 10, y - 8);
+        }
+
+        function drawResistanceLine(ctx, canvas, level, minPrice, maxPrice, priceRange, padding) {
+            const scaleY = (price) => {
+                return canvas.height - 20 - ((price - minPrice + padding) / (priceRange + padding * 2)) * (canvas.height - 40);
+            };
+            
+            const y = scaleY(level);
+            
+            ctx.strokeStyle = '#ff3b3b';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            ctx.fillStyle = '#ff3b3b';
+            ctx.font = 'bold 11px monospace';
+            ctx.fillText('RESISTANCE', 10, y + 18);
+        }
+
+        function drawTrendLine(ctx, canvas) {
+            ctx.strokeStyle = '#ffd700';
+            ctx.lineWidth = 3;
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = 'rgba(255, 215, 0, 0.5)';
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height * 0.8);
+            ctx.lineTo(canvas.width, canvas.height * 0.2);
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+            
+            ctx.fillStyle = '#ffd700';
+            ctx.font = 'bold 11px monospace';
+            ctx.fillText('TRENDLINE', canvas.width - 100, canvas.height * 0.25);
+        }
+
+        function setupCandleHover(canvas, candleWidth, minPrice, maxPrice, priceRange, padding) {
+            canvas.onmousemove = (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const candleIndex = Math.floor((x - 30) / candleWidth);
+                
+                if (candleIndex >= 0 && candleIndex < chartState.candles.length) {
+                    const candle = chartState.candles[candleIndex];
+                    const isBullish = candle.close > candle.open;
+                    const change = candle.close - candle.open;
+                    const changePercent = (change / candle.open * 100).toFixed(2);
+                    
+                    document.getElementById('chartInfo').innerHTML = `
+                        <div style="font-size: 0.85rem;">
+                            <div style="color: ${isBullish ? '#00ff88' : '#ff3b3b'}; font-weight: bold; margin-bottom: 8px;">
+                                ${isBullish ? '⬆ BULLISH' : '⬇ BEARISH'} CANDLE #${candleIndex + 1}
+                            </div>
+                            <div style="color: var(--gray-text); line-height: 1.6;">
+                                <strong>O:</strong> ${candle.open.toFixed(2)}<br>
+                                <strong>H:</strong> ${candle.high.toFixed(2)}<br>
+                                <strong>L:</strong> ${candle.low.toFixed(2)}<br>
+                                <strong>C:</strong> ${candle.close.toFixed(2)}<br>
+                                <strong>Δ:</strong> <span style="color: ${isBullish ? '#00ff88' : '#ff3b3b'}">${change > 0 ? '+' : ''}${change.toFixed(2)} (${changePercent}%)</span>
+                            </div>
+                        </div>
+                    `;
+                }
+            };
+        }
+
+        function drawSupport() {
+            if (chartState.candles.length === 0) drawCandles();
+            
+            // Calculate support level (near bottom third)
+            const prices = chartState.candles.flatMap(c => [c.high, c.low]);
+            const minPrice = Math.min(...prices);
+            const maxPrice = Math.max(...prices);
+            const priceRange = maxPrice - minPrice;
+            
+            chartState.supportLevel = minPrice + priceRange * 0.25;
+            drawCandles();
+            highlightButton('btnSupport');
+        }
+
+        function drawResistance() {
+            if (chartState.candles.length === 0) drawCandles();
+            
+            // Calculate resistance level (near top third)
+            const prices = chartState.candles.flatMap(c => [c.high, c.low]);
+            const minPrice = Math.min(...prices);
+            const maxPrice = Math.max(...prices);
+            const priceRange = maxPrice - minPrice;
+            
+            chartState.resistanceLevel = minPrice + priceRange * 0.75;
+            drawCandles();
+            highlightButton('btnResistance');
+        }
+
+        function drawTrendline() {
+            if (chartState.candles.length === 0) drawCandles();
+            
+            chartState.trendline = true;
+            drawCandles();
+            highlightButton('btnTrendline');
+        }
+
+        function clearChart() {
+            chartState = {
+                candles: [],
+                supportLevel: null,
+                resistanceLevel: null,
+                trendline: null,
+                hoveredCandle: null
+            };
+            
+            const canvas = document.getElementById('chartCanvas');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+            
+            document.getElementById('chartInfo').innerHTML = '<div style="font-size: 0.85rem; color: var(--gray-text);">Chart cleared</div>';
+            
+            document.querySelectorAll('.chart-controls .btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+        }
+
+        function highlightButton(btnId) {
+            document.querySelectorAll('.chart-controls .btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            const btn = document.getElementById(btnId);
+            if (btn) btn.classList.add('active');
+        }
+
+        // Continuation Pattern Builder
+        function buildPattern(patternType) {
+            const canvas = document.getElementById('continuationCanvas');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            drawGrid(ctx, canvas.width, canvas.height);
+            
+            continuationState.pattern = patternType;
+            
+            // Generate pattern-specific candles
+            const candleCount = 30;
+            const candles = [];
+            
+            switch(patternType) {
+                case 'rectangle':
+                    // Uptrend, then consolidation
+                    for (let i = 0; i < candleCount; i++) {
+                        if (i < 10) {
+                            // Uptrend
+                            candles.push(generateTrendCandle(100 + i * 2, 1));
+                        } else {
+                            // Rectangle consolidation
+                            candles.push(generateRangeCandle(118, 122));
+                        }
+                    }
+                    break;
+                    
+                case 'triangle':
+                    for (let i = 0; i < candleCount; i++) {
+                        if (i < 10) {
+                            candles.push(generateTrendCandle(100 + i * 2, 1));
+                        } else {
+                            // Converging range
+                            const volatility = 4 * (1 - (i - 10) / 20);
+                            candles.push(generateRangeCandle(118 - volatility, 122 + volatility));
+                        }
+                    }
+                    break;
+                    
+                case 'flag':
+                    for (let i = 0; i < candleCount; i++) {
+                        if (i < 8) {
+                            // Sharp move up
+                            candles.push(generateTrendCandle(100 + i * 4, 1));
+                        } else {
+                            // Small drift down
+                            candles.push(generateTrendCandle(132 - (i - 8) * 0.5, -1));
+                        }
+                    }
+                    break;
+                    
+                case 'cup':
+                    for (let i = 0; i < candleCount; i++) {
+                        const angle = (i / candleCount) * Math.PI;
+                        const cupDepth = 15;
+                        const price = 120 - Math.sin(angle) * cupDepth;
+                        candles.push(generateRangeCandle(price - 1, price + 1));
+                    }
+                    break;
+            }
+            
+            continuationState.candles = candles;
+            
+            // Draw the candles
+            drawPatternCandles(ctx, canvas, candles);
+            
+            // Show analysis
+            showPatternAnalysis(patternType);
+        }
+
+        function generateTrendCandle(basePrice, direction) {
+            const open = basePrice + (Math.random() - 0.5) * 2;
+            const close = open + direction * (Math.random() * 3 + 1);
+            const high = Math.max(open, close) + Math.random() * 1.5;
+            const low = Math.min(open, close) - Math.random() * 1.5;
+            return { open, high, low, close };
+        }
+
+        function generateRangeCandle(minPrice, maxPrice) {
+            const open = minPrice + Math.random() * (maxPrice - minPrice);
+            const close = minPrice + Math.random() * (maxPrice - minPrice);
+            const high = Math.max(open, close) + Math.random() * 1;
+            const low = Math.min(open, close) - Math.random() * 1;
+            return { open, high, low, close };
+        }
+
+        function drawPatternCandles(ctx, canvas, candles) {
+            const prices = candles.flatMap(c => [c.high, c.low]);
+            const maxPrice = Math.max(...prices);
+            const minPrice = Math.min(...prices);
+            const priceRange = maxPrice - minPrice;
+            const padding = priceRange * 0.1;
+            
+            const candleWidth = (canvas.width - 40) / candles.length;
+            const bodyWidth = Math.max(candleWidth * 0.6, 3);
+            
+            candles.forEach((candle, i) => {
+                const x = 20 + i * candleWidth + candleWidth / 2;
+                
+                const scaleY = (price) => {
+                    return canvas.height - 20 - ((price - minPrice + padding) / (priceRange + padding * 2)) * (canvas.height - 40);
+                };
+                
+                const highY = scaleY(candle.high);
+                const lowY = scaleY(candle.low);
+                const openY = scaleY(candle.open);
+                const closeY = scaleY(candle.close);
+                
+                const isBullish = candle.close > candle.open;
+                const bodyTop = Math.min(openY, closeY);
+                const bodyHeight = Math.abs(closeY - openY);
+                
+                // Wick
+                ctx.strokeStyle = isBullish ? '#00ff88' : '#ff3b3b';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.moveTo(x, highY);
+                ctx.lineTo(x, lowY);
+                ctx.stroke();
+                
+                // Body
+                ctx.fillStyle = isBullish ? '#00ff88' : '#ff3b3b';
+                ctx.globalAlpha = 0.8;
+                
+                if (bodyHeight < 2) {
+                    ctx.fillRect(x - bodyWidth / 2, bodyTop, bodyWidth, 2);
+                } else {
+                    ctx.fillRect(x - bodyWidth / 2, bodyTop, bodyWidth, bodyHeight);
+                }
+                
+                ctx.globalAlpha = 1;
+            });
+        }
+
+        function showPatternAnalysis(patternType) {
+            const analyses = {
+                rectangle: `
+                    <strong style="color: var(--accent);">Rectangle Pattern Detected</strong><br><br>
+                    <strong>Structure:</strong> Horizontal support and resistance with oscillating price action<br>
+                    <strong>Breakout Direction:</strong> 60-70% break in direction of prevailing trend (up in this case)<br>
+                    <strong>Entry:</strong> Close beyond resistance with volume<br>
+                    <strong>Stop Loss:</strong> Below support level<br>
+                    <strong>Target:</strong> Height of rectangle projected upward
+                `,
+                triangle: `
+                    <strong style="color: var(--accent);">Symmetrical Triangle Detected</strong><br><br>
+                    <strong>Structure:</strong> Converging trendlines showing decreasing volatility<br>
+                    <strong>Psychology:</strong> Coiling action - bulls and bears becoming uncertain<br>
+                    <strong>Breakout:</strong> Should occur at 2/3 point from apex<br>
+                    <strong>Entry:</strong> Breakout with volume spike<br>
+                    <strong>Confirmation:</strong> Close beyond trendline on high volume
+                `,
+                flag: `
+                    <strong style="color: var(--accent);">Bull Flag Pattern Detected</strong><br><br>
+                    <strong>Structure:</strong> Sharp advance (pole) + small counter-trend drift (flag)<br>
+                    <strong>Success Rate:</strong> 80%+ when trend is strong<br>
+                    <strong>Entry:</strong> Break above flag's upper boundary<br>
+                    <strong>Target:</strong> Pole height projected from breakout<br>
+                    <strong>Timeframe:</strong> 1-4 weeks typically for daily charts
+                `,
+                cup: `
+                    <strong style="color: var(--accent);">Cup & Handle Pattern Detected</strong><br><br>
+                    <strong>Structure:</strong> U-shaped consolidation (cup) + small pullback (handle)<br>
+                    <strong>Significance:</strong> Institutional accumulation pattern<br>
+                    <strong>Duration:</strong> 7+ weeks for validity<br>
+                    <strong>Entry:</strong> Break of handle resistance<br>
+                    <strong>Volume:</strong> Should be higher on right side of cup
+                `
+            };
+            
+            document.getElementById('analysisContent').innerHTML = analyses[patternType] || 'Pattern analysis loading...';
+            document.getElementById('patternAnalysis').style.display = 'block';
+        }
+
+        // Pattern Detail Display
+        function showPatternDetail(patternName) {
+            const details = {
+                rectangle: {
+                    title: 'Rectangle Pattern Deep Dive',
+                    content: `
+                        <div style="line-height: 1.8; color: var(--gray-text);">
+                            <h4 style="color: var(--accent); margin: 20px 0 10px;">Formation</h4>
+                            <p>Forms when price consolidates between parallel horizontal support and resistance. Represents equilibrium between bulls and bears. Neither side can break the other's defense.</p>
+                            
+                            <h4 style="color: var(--success); margin: 20px 0 10px;">Trading Rules</h4>
+                            <ul style="margin-left: 20px;">
+                                <li>Wait for 2+ tests of each boundary</li>
+                                <li>Enter on close beyond boundary with volume</li>
+                                <li>Stop loss beyond opposite boundary</li>
+                                <li>Target = height of rectangle</li>
+                            </ul>
+                            
+                            <h4 style="color: var(--gold); margin: 20px 0 10px;">Success Factors</h4>
+                            <p>• Pattern duration: 2-12 weeks ideal<br>
+                            • Volume: Should contract during formation<br>
+                            • Breakout volume: 50%+ above average<br>
+                            • False breakouts common - wait for close</p>
+                        </div>
+                    `
+                },
+                triangle: {
+                    title: 'Triangle Patterns Explained',
+                    content: `
+                        <div style="line-height: 1.8; color: var(--gray-text);">
+                            <h4 style="color: var(--accent); margin: 20px 0 10px;">Three Types</h4>
+                            <p><strong>Symmetrical:</strong> Both boundaries converging - neutral bias<br>
+                            <strong>Ascending:</strong> Flat top, rising bottom - bullish bias (75% up)<br>
+                            <strong>Descending:</strong> Flat bottom, falling top - bearish bias (75% down)</p>
+                            
+                            <h4 style="color: var(--success); margin: 20px 0 10px;">Critical Rules</h4>
+                            <ul style="margin-left: 20px;">
+                                <li>Need 4+ touches minimum (2 per side)</li>
+                                <li>Breakout should occur at 2/3 to 3/4 point</li>
+                                <li>Later breakouts often fail</li>
+                                <li>Volume must surge on breakout</li>
+                            </ul>
+                            
+                            <h4 style="color: var(--danger); margin: 20px 0 10px;">Common Mistakes</h4>
+                            <p>Don't trade inside the triangle! Wait for confirmed breakout. False breaks are common - need close beyond boundary. Triangles that break at the apex are unreliable.</p>
+                        </div>
+                    `
+                },
+                ascending: {
+                    title: 'Ascending Triangle - Bullish Power',
+                    content: `
+                        <div style="line-height: 1.8; color: var(--gray-text);">
+                            <h4 style="color: var(--success); margin: 20px 0 10px;">Structure</h4>
+                            <p>Flat resistance (horizontal top) with rising support (ascending bottom). Shows buyers getting more aggressive with each pullback while sellers defend same price level.</p>
+                            
+                            <h4 style="color: var(--accent); margin: 20px 0 10px;">Psychology</h4>
+                            <p>Each higher low = bulls willing to pay more. Flat top = sellers defending same level. Eventually buyers overwhelm sellers. 75% breakout upward.</p>
+                            
+                            <h4 style="color: var(--gold); margin: 20px 0 10px;">Trading Setup</h4>
+                            <ul style="margin-left: 20px;">
+                                <li>Entry: Close above resistance with volume spike</li>
+                                <li>Stop: Below most recent higher low</li>
+                                <li>Target: Height of triangle added to breakout</li>
+                                <li>Confirmation: Hold breakout for 2-3 days</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                descending: {
+                    title: 'Descending Triangle - Bearish Pressure',
+                    content: `
+                        <div style="line-height: 1.8; color: var(--gray-text);">
+                            <h4 style="color: var(--danger); margin: 20px 0 10px;">Structure</h4>
+                            <p>Flat support (horizontal bottom) with falling resistance (descending top). Shows sellers getting more aggressive while buyers defend same price level.</p>
+                            
+                            <h4 style="color: var(--accent); margin: 20px 0 10px;">Psychology</h4>
+                            <p>Each lower high = bears willing to sell lower. Flat bottom = buyers defending. Eventually sellers break through. 75% breakdown probability.</p>
+                            
+                            <h4 style="color: var(--gold); margin: 20px 0 10px;">Trading Setup</h4>
+                            <ul style="margin-left: 20px;">
+                                <li>Entry: Close below support with volume</li>
+                                <li>Stop: Above most recent lower high</li>
+                                <li>Target: Height projected downward</li>
+                                <li>Warning: Can fail in strong uptrends</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                flag: {
+                    title: 'Bull Flag - Continuation Powerhouse',
+                    content: `
+                        <div style="line-height: 1.8; color: var(--gray-text);">
+                            <h4 style="color: var(--success); margin: 20px 0 10px;">Structure</h4>
+                            <p>Sharp upward move (pole) followed by tight counter-trend consolidation (flag). Very short-term pattern, typically 1-3 weeks.</p>
+                            
+                            <h4 style="color: var(--accent); margin: 20px 0 10px;">Why It Works</h4>
+                            <p>Pole = strong demand surge. Flag = early buyers taking quick profits while new buyers accumulate. Breakout = fresh wave of buying.</p>
+                            
+                            <h4 style="color: var(--gold); margin: 20px 0 10px;">Trading Rules</h4>
+                            <ul style="margin-left: 20px;">
+                                <li>Pole must be near-vertical (strong momentum)</li>
+                                <li>Flag should slope against trend slightly</li>
+                                <li>Volume: Low during flag, surge on breakout</li>
+                                <li>Target: Pole height from breakout point</li>
+                                <li>Success rate: 80%+ in strong trends</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                pennant: {
+                    title: 'Pennant - Short-term Explosion',
+                    content: `
+                        <div style="line-height: 1.8; color: var(--gray-text);">
+                            <h4 style="color: var(--accent); margin: 20px 0 10px;">What Is It?</h4>
+                            <p>Essentially a flag but with symmetrical triangle shape instead of parallel channels. Same sharp pole, but consolidation converges to a point.</p>
+                            
+                            <h4 style="color: var(--success); margin: 20px 0 10px;">Key Differences</h4>
+                            <p>• Faster formation (1-3 weeks max)<br>
+                            • More explosive breakout<br>
+                            • Higher reliability (85%+)<br>
+                            • Shorter duration before breakout</p>
+                            
+                            <h4 style="color: var(--gold); margin: 20px 0 10px;">Trading</h4>
+                            <p>Trade exactly like flags. Wait for breakout, use pole height for target, tight stop below pennant. Watch for fake-outs near apex.</p>
+                        </div>
+                    `
+                },
+                cup: {
+                    title: 'Cup & Handle - Institutional Pattern',
+                    content: `
+                        <div style="line-height: 1.8; color: var(--gray-text);">
+                            <h4 style="color: var(--success); margin: 20px 0 10px;">Structure</h4>
+                            <p>U-shaped consolidation (cup) followed by small pullback (handle). Takes 7+ weeks to form. Signals major institutional accumulation.</p>
+                            
+                            <h4 style="color: var(--accent); margin: 20px 0 10px;">The Cup</h4>
+                            <p>• Rounded bottom (not V-shaped)<br>
+                            • Volume decreases at bottom<br>
+                            • Right side has higher volume than left<br>
+                            • Duration: 7 weeks to several months</p>
+                            
+                            <h4 style="color: var(--gold); margin: 20px 0 10px;">The Handle</h4>
+                            <p>• Forms in upper third of cup<br>
+                            • Small pullback (10-15% max)<br>
+                            • Low volume<br>
+                            • Duration: 1-4 weeks</p>
+                            
+                            <h4 style="color: var(--blue); margin: 20px 0 10px;">Trading</h4>
+                            <ul style="margin-left: 20px;">
+                                <li>Entry: Breakout above handle resistance</li>
+                                <li>Stop: Below handle low</li>
+                                <li>Target: Cup depth added to breakout</li>
+                                <li>Best in bull markets</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                wedge: {
+                    title: 'Rising Wedge - False Breakout Warning',
+                    content: `
+                        <div style="line-height: 1.8; color: var(--gray-text);">
+                            <h4 style="color: var(--danger); margin: 20px 0 10px;">The Trap</h4>
+                            <p>Rising wedge LOOKS bullish (price going up) but is actually bearish. Both boundaries slope up but converge. Momentum dying.</p>
+                            
+                            <h4 style="color: var(--accent); margin: 20px 0 10px;">Why It Fails</h4>
+                            <p>Each higher high requires less volume. Bears getting aggressive earlier. Bulls losing conviction. Unsustainable slope.</p>
+                            
+                            <h4 style="color: var(--gold); margin: 20px 0 10px;">Trading</h4>
+                            <ul style="margin-left: 20px;">
+                                <li>Wait for breakdown below support</li>
+                                <li>Don't buy the upward slope!</li>
+                                <li>Volume should increase on breakdown</li>
+                                <li>Target: Height projected down</li>
+                                <li>Note: Falling wedge is bullish reversal</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                headshoulders: {
+                    title: 'Head & Shoulders - The Classic Top',
+                    content: `
+                        <div style="line-height: 1.8; color: var(--gray-text);">
+                            <h4 style="color: var(--danger); margin: 20px 0 10px;">Structure</h4>
+                            <p>Three peaks: left shoulder, higher head, right shoulder (lower than head). Neckline connects the troughs. Most reliable reversal pattern.</p>
+                            
+                            <h4 style="color: var(--accent); margin: 20px 0 10px;">Formation Process</h4>
+                            <p><strong>Left Shoulder:</strong> Normal rally in uptrend<br>
+                            <strong>Head:</strong> Final push to new high with weakening volume<br>
+                            <strong>Right Shoulder:</strong> Failed attempt, can't reach head<br>
+                            <strong>Neckline Break:</strong> Confirmation of reversal</p>
+                            
+                            <h4 style="color: var(--gold); margin: 20px 0 10px;">Trading Rules</h4>
+                            <ul style="margin-left: 20px;">
+                                <li>Entry: Close below neckline</li>
+                                <li>Stop: Above right shoulder</li>
+                                <li>Target: Head to neckline distance projected down</li>
+                                <li>Volume: Should increase on neckline break</li>
+                                <li>Pullback: Often retests neckline (now resistance)</li>
+                            </ul>
+                            
+                            <h4 style="color: var(--blue); margin: 20px 0 10px;">Success Rate</h4>
+                            <p>85%+ when volume confirms. One of most reliable patterns in technical analysis.</p>
+                        </div>
+                    `
+                },
+                doubletop: {
+                    title: 'Double Top - Twin Peak Reversal',
+                    content: `
+                        <div style="line-height: 1.8; color: var(--gray-text);">
+                            <h4 style="color: var(--danger); margin: 20px 0 10px;">M-Shaped Pattern</h4>
+                            <p>Two peaks at approximately same level with moderate valley between. Shows twice-rejected resistance. Sellers defend price level successfully.</p>
+                            
+                            <h4 style="color: var(--accent); margin: 20px 0 10px;">Requirements</h4>
+                            <p>• Peaks within 3-5% of each other<br>
+                            • Valley depth: 10-20% from peaks<br>
+                            • Time between peaks: 1-3 months<br>
+                            • Second peak lower volume than first</p>
+                            
+                            <h4 style="color: var(--gold); margin: 20px 0 10px;">Trading</h4>
+                            <ul style="margin-left: 20px;">
+                                <li>Entry: Break below valley support</li>
+                                <li>Stop: Above second peak</li>
+                                <li>Target: Peak-to-valley distance down</li>
+                                <li>Confirmation: Close below support</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                doublebottom: {
+                    title: 'Double Bottom - Twin Valley Reversal',
+                    content: `
+                        <div style="line-height: 1.8; color: var(--gray-text);">
+                            <h4 style="color: var(--success); margin: 20px 0 10px;">W-Shaped Pattern</h4>
+                            <p>Two troughs at approximately same level. Buyers defend support twice. Second test on lower volume = sellers exhausted.</p>
+                            
+                            <h4 style="color: var(--accent); margin: 20px 0 10px;">Adam & Eve Variations</h4>
+                            <p><strong>Adam & Adam:</strong> Two sharp V bottoms - less reliable<br>
+                            <strong>Eve & Eve:</strong> Two rounded bottoms - most reliable<br>
+                            <strong>Adam & Eve:</strong> Sharp then rounded - good middle ground</p>
+                            
+                            <h4 style="color: var(--gold); margin: 20px 0 10px;">Trading</h4>
+                            <ul style="margin-left: 20px;">
+                                <li>Entry: Break above peak resistance</li>
+                                <li>Stop: Below second bottom</li>
+                                <li>Target: Trough-to-peak height up</li>
+                                <li>Volume: Higher on breakout</li>
+                                <li>Success: 78% in strong trends</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                roundedtop: {
+                    title: 'Rounded Top - Distribution Pattern',
+                    content: `
+                        <div style="line-height: 1.8; color: var(--gray-text);">
+                            <h4 style="color: var(--danger); margin: 20px 0 10px;">Dome Formation</h4>
+                            <p>Gradual arc from uptrend to downtrend. No sharp reversal - slow shift in control from bulls to bears. Also called "saucer top" or "inverted bowl".</p>
+                            
+                            <h4 style="color: var(--accent); margin: 20px 0 10px;">Psychology</h4>
+                            <p>Slow institutional distribution. Large holders quietly selling over weeks/months. No panic, just steady supply. Buyers slowly overwhelmed.</p>
+                            
+                            <h4 style="color: var(--gold); margin: 20px 0 10px;">Trading Challenge</h4>
+                            <p>Hard to identify in real-time. Only clear in hindsight. No precise entry point. Better to wait for neckline break if one forms.</p>
+                        </div>
+                    `
+                },
+                spike: {
+                    title: 'Spike Reversal - V-Shaped Panic',
+                    content: `
+                        <div style="line-height: 1.8; color: var(--gray-text);">
+                            <h4 style="color: var(--accent); margin: 20px 0 10px;">Sharp V or Inverted V</h4>
+                            <p>Sudden, violent reversal. No consolidation - just snap back. Caused by panic, climax, or major news. Most dramatic of all patterns.</p>
+                            
+                            <h4 style="color: var(--danger); margin: 20px 0 10px;">Warning</h4>
+                            <p>Hardest pattern to trade! No advance warning. Happens fast. Only trade in hindsight after reversal confirmed. Don't try to catch the exact bottom/top.</p>
+                            
+                            <h4 style="color: var(--gold); margin: 20px 0 10px;">Recognition</h4>
+                            <p>• Volume spike at reversal point<br>
+                            • No pattern leading up to it<br>
+                            • Often gaps at turning point<br>
+                            • Caused by exhaustion or news</p>
+                        </div>
+                    `
+                },
+                oneday: {
+                    title: 'One-Day Reversal - Key Reversal Bar',
+                    content: `
+                        <div style="line-height: 1.8; color: var(--gray-text);">
+                            <h4 style="color: var(--accent); margin: 20px 0 10px;">Single Bar Signal</h4>
+                            <p>After rally: Makes new high but closes below previous close<br>
+                            After decline: Makes new low but closes above previous close</p>
+                            
+                            <h4 style="color: var(--success); margin: 20px 0 10px;">Requirements</h4>
+                            <p>• Must make new extreme (high/low)<br>
+                            • Must close beyond previous close<br>
+                            • Higher volume than average<br>
+                            • At significant support/resistance</p>
+                            
+                            <h4 style="color: var(--gold); margin: 20px 0 10px;">Significance</h4>
+                            <p>Shows intraday sentiment shift. Bulls/bears tried to continue trend but failed. Opposite side took control by close. Not 100% reliable alone - use with other signals.</p>
+                        </div>
+                    `
+                },
+                breakaway: {
+                    title: 'Breakaway Gap - New Trend Beginning',
+                    content: `
+                        <div style="line-height: 1.8; color: var(--gray-text);">
+                            <h4 style="color: var(--success); margin: 20px 0 10px;">Gap at Trend Start</h4>
+                            <p>Occurs at start of new move away from consolidation. Price gaps away from pattern. Signals strong momentum and conviction.</p>
+                            
+                            <h4 style="color: var(--accent); margin: 20px 0 10px;">Characteristics</h4>
+                            <p>• Forms after consolidation period<br>
+                            • Heavy volume on gap<br>
+                            • Rarely fills quickly<br>
+                            • Acts as future support/resistance</p>
+                            
+                            <h4 style="color: var(--gold); margin: 20px 0 10px;">Trading</h4>
+                            <p>Entry: On gap or pullback to gap edge. Stop: Beyond gap. Target: Measure move pattern. Don't fade it - go with it!</p>
+                        </div>
+                    `
+                },
+                continuation: {
+                    title: 'Continuation Gap - Halfway Point',
+                    content: `
+                        <div style="line-height: 1.8; color: var(--gray-text);">
+                            <h4 style="color: var(--accent); margin: 20px 0 10px;">Measuring Gap</h4>
+                            <p>Forms in middle of strong trend. Also called "measuring gap" because it marks approximate halfway point of move.</p>
+                            
+                            <h4 style="color: var(--success); margin: 20px 0 10px;">How To Use</h4>
+                            <p>1. Measure distance from start to gap<br>
+                            2. Project equal distance from gap<br>
+                            3. That's your target<br>
+                            4. Often very accurate!</p>
+                            
+                            <h4 style="color: var(--gold); margin: 20px 0 10px;">Trading</h4>
+                            <p>Don't trade gap itself. Use it for target projection. Stay in trend. Gap shows move has room to run.</p>
+                        </div>
+                    `
+                },
+                exhaustion: {
+                    title: 'Exhaustion Gap - Final Push',
+                    content: `
+                        <div style="line-height: 1.8; color: var(--gray-text);">
+                            <h4 style="color: var(--danger); margin: 20px 0 10px;">Last Gasp</h4>
+                            <p>Forms near end of trend. Final surge before reversal. Usually fills within days. Sign of climax, not strength.</p>
+                            
+                            <h4 style="color: var(--accent); margin: 20px 0 10px;">How To Identify</h4>
+                            <p>• After extended trend<br>
+                            • Very high volume<br>
+                            • Wide gap<br>
+                            • Quick fill<br>
+                            • Followed by reversal</p>
+                            
+                            <h4 style="color: var(--gold); margin: 20px 0 10px;">Trading</h4>
+                            <p>Exit longs immediately. Wait for fill confirmation before shorting. If gap fills quickly, trend likely over. High risk to chase!</p>
+                        </div>
+                    `
+                },
+                island: {
+                    title: 'Island Reversal - Isolated Extreme',
+                    content: `
+                        <div style="line-height: 1.8; color: var(--gray-text);">
+                            <h4 style="color: var(--accent); margin: 20px 0 10px;">Formation</h4>
+                            <p>Price gaps up/down, trades briefly, then gaps back in opposite direction. Creates "island" isolated by gaps on both sides.</p>
+                            
+                            <h4 style="color: var(--danger); margin: 20px 0 10px;">Significance</h4>
+                            <p>Very powerful reversal signal! Shows complete sentiment shift. Exhaustion gap up, then immediately breakaway gap down (or inverse).</p>
+                            
+                            <h4 style="color: var(--gold); margin: 20px 0 10px;">Trading</h4>
+                            <ul style="margin-left: 20px;">
+                                <li>Entry: After second gap confirms</li>
+                                <li>Stop: Beyond island extreme</li>
+                                <li>Target: Measure from first gap start</li>
+                                <li>Rare but highly reliable pattern</li>
+                                <li>Success rate: 85%+</li>
+                            </ul>
+                        </div>
+                    `
+                }
+            };
+            
+            const detail = details[patternName];
+            if (detail) {
+                document.getElementById('patternDetailTitle').textContent = detail.title;
+                document.getElementById('patternDetailContent').innerHTML = detail.content;
+                document.getElementById('patternDetailBox').style.display = 'block';
+                document.getElementById('patternDetailBox').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        function closePatternDetail() {
+            document.getElementById('patternDetailBox').style.display = 'none';
+        }
+
+        // Indicator Drawing
+        function drawIndicator(type) {
+            const canvas = document.getElementById('indicatorCanvas');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            drawGrid(ctx, canvas.width, canvas.height);
+            
+            const points = isMobile ? 30 : 50;
+            const stepX = (canvas.width - 40) / points;
+            
+            switch(type) {
+                case 'ma':
+                    // Price line (noisy)
+                    ctx.strokeStyle = '#666';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    for (let i = 0; i < points; i++) {
+                        const x = 20 + i * stepX;
+                        const y = canvas.height / 2 + Math.sin(i / 5) * 60 + (Math.random() - 0.5) * 40;
+                        if (i === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
+                    
+                    // Moving average (smooth)
+                    ctx.strokeStyle = '#00ff88';
+                    ctx.lineWidth = 3;
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = 'rgba(0, 255, 136, 0.5)';
+                    ctx.beginPath();
+                    for (let i = 0; i < points; i++) {
+                        const x = 20 + i * stepX;
+                        const y = canvas.height / 2 + Math.sin(i / 5) * 60;
+                        if (i === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
+                    ctx.shadowBlur = 0;
+                    
+                    // Label
+                    ctx.fillStyle = '#00ff88';
+                    ctx.font = 'bold 12px monospace';
+                    ctx.fillText('20-Period MA', 30, 30);
+                    ctx.fillStyle = '#666';
+                    ctx.fillText('Price', 30, 50);
+                    break;
+                    
+                case 'rsi':
+                    // RSI line
+                    ctx.strokeStyle = '#00a6ff';
+                    ctx.lineWidth = 2;
+                    ctx.shadowBlur = 8;
+                    ctx.shadowColor = 'rgba(0, 166, 255, 0.5)';
+                    ctx.beginPath();
+                    for (let i = 0; i < points; i++) {
+                        const x = 20 + i * stepX;
+                        const rsi = 50 + Math.sin(i / 3) * 25 + (Math.random() - 0.5) * 10;
+                        const y = canvas.height - 20 - (rsi / 100) * (canvas.height - 40);
+                        if (i === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
+                    ctx.shadowBlur = 0;
+                    
+                    // Overbought line (70)
+                    const ob70 = canvas.height - 20 - (70 / 100) * (canvas.height - 40);
+                    ctx.strokeStyle = '#ff3b3b';
+                    ctx.setLineDash([5, 5]);
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(20, ob70);
+                    ctx.lineTo(canvas.width - 20, ob70);
+                    ctx.stroke();
+                    ctx.fillStyle = '#ff3b3b';
+                    ctx.font = 'bold 11px monospace';
+                    ctx.fillText('OVERBOUGHT (70)', canvas.width - 150, ob70 - 5);
+                    
+                    // Oversold line (30)
+                    const os30 = canvas.height - 20 - (30 / 100) * (canvas.height - 40);
+                    ctx.strokeStyle = '#00ff88';
+                    ctx.beginPath();
+                    ctx.moveTo(20, os30);
+                    ctx.lineTo(canvas.width - 20, os30);
+                    ctx.stroke();
+                    ctx.fillStyle = '#00ff88';
+                    ctx.fillText('OVERSOLD (30)', canvas.width - 150, os30 + 15);
+                    
+                    ctx.setLineDash([]);
+                    break;
+                    
+                case 'macd':
+                    // MACD line
+                    ctx.strokeStyle = '#00ff88';
+                    ctx.lineWidth = 2;
+                    ctx.shadowBlur = 8;
+                    ctx.shadowColor = 'rgba(0, 255, 136, 0.5)';
+                    ctx.beginPath();
+                    for (let i = 0; i < points; i++) {
+                        const x = 20 + i * stepX;
+                        const y = canvas.height / 2 + Math.sin(i / 4) * 100;
+                        if (i === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
+                    ctx.shadowBlur = 0;
+                    
+                    // Signal line
+                    ctx.strokeStyle = '#ff3b3b';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    for (let i = 0; i < points; i++) {
+                        const x = 20 + i * stepX;
+                        const y = canvas.height / 2 + Math.sin((i / 4) - 0.5) * 100;
+                        if (i === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
+                    
+                    // Zero line
+                    ctx.strokeStyle = '#666';
+                    ctx.setLineDash([3, 3]);
+                    ctx.beginPath();
+                    ctx.moveTo(20, canvas.height / 2);
+                    ctx.lineTo(canvas.width - 20, canvas.height / 2);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                    
+                    // Labels
+                    ctx.fillStyle = '#00ff88';
+                    ctx.font = 'bold 11px monospace';
+                    ctx.fillText('MACD', 30, 30);
+                    ctx.fillStyle = '#ff3b3b';
+                    ctx.fillText('Signal', 30, 45);
+                    break;
+                    
+                case 'volume':
+                    for (let i = 0; i < points; i++) {
+                        const x = 20 + i * stepX;
+                        const height = (Math.random() * 0.7 + 0.3) * (canvas.height - 40);
+                        const y = canvas.height - 20 - height;
+                        
+                        const color = i % 3 === 0 ? '#00ff88' : '#ff3b3b';
+                        ctx.fillStyle = color;
+                        ctx.globalAlpha = 0.7;
+                        ctx.fillRect(x, y, Math.max(stepX - 2, 2), height);
+                    }
+                    ctx.globalAlpha = 1;
+                    
+                    // Average volume line
+                    const avgY = canvas.height - 20 - (canvas.height - 40) * 0.5;
+                    ctx.strokeStyle = '#ffd700';
+                    ctx.setLineDash([5, 5]);
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(20, avgY);
+                    ctx.lineTo(canvas.width - 20, avgY);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                    ctx.fillStyle = '#ffd700';
+                    ctx.font = 'bold 11px monospace';
+                    ctx.fillText('AVG VOLUME', canvas.width - 120, avgY - 5);
+                    break;
+            }
+        }
+
+        // Responsive handling
+        window.addEventListener('resize', debounce(() => {
+            initializeCharts();
+            initializeContinuationCanvas();
+            initializeIndicatorCanvas();
+        }, 250));
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+    </script>
+</body>
+</html>

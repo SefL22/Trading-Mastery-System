@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Trading Education System – Interactive Modules</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+
+    :root {
+        --black: #000000;
+        --dark: #0a0a0a;
+        --gray-dark: #1a1a1a;
+        --gray: #2a2a2a;
+        --gray-light: #3a3a3a;
+        --gray-lighter: #666666;
+        --gray-text: #999999;
+        --white: #ffffff;
+        --accent: #00ff88;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        background: var(--black);
+        color: var(--white);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .shell {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid var(--gray-dark);
+        border-radius: 999px;
+        padding: 10px 18px;
+        background: radial-gradient(circle at top left, rgba(0, 255, 136, 0.16), transparent 60%);
+        margin-bottom: 30px;
+        position: sticky;
+        top: 10px;
+        z-index: 20;
+        backdrop-filter: blur(18px);
+    }
+
+    .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .logo-dot {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 1px solid rgba(0, 255, 136, 0.8);
+        background: radial-gradient(circle at 30% 0, #00ff88, #0a0a0a);
+        box-shadow: 0 0 16px rgba(0, 255, 136, 0.8);
+    }
+
+    .brand {
+        font-size: 0.8rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--gray-text);
+    }
+
+    .brand span {
+        color: var(--accent);
+    }
+
+    .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .nav-link {
+        font-size: 0.75rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--gray-dark);
+        color: var(--gray-text);
+        text-decoration: none;
+        background: rgba(10, 10, 10, 0.9);
+    }
+
+    .nav-link:hover {
+        border-color: var(--accent);
+        color: var(--white);
+    }
+
+    .nav-link.active {
+        border-color: var(--accent);
+        color: var(--black);
+        background: var(--accent);
+    }
+
+    header {
+        padding: 60px 20px 40px;
+        text-align: left;
+        border-bottom: 1px solid var(--gray-dark);
+        position: relative;
+    }
+
+    header h1 {
+        font-size: 3.2rem;
+        font-weight: 200;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+    }
+
+    header .subtitle {
+        color: var(--gray-text);
+        font-size: 0.9rem;
+        font-weight: 300;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        margin-bottom: 18px;
+    }
+
+    header .hero-text {
+        max-width: 720px;
+        color: var(--gray-text);
+        font-size: 0.95rem;
+        line-height: 1.8;
+    }
+
+    .pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 16px;
+    }
+
+    .pill {
+        border-radius: 999px;
+        border: 1px solid var(--gray-dark);
+        padding: 6px 12px;
+        font-size: 0.7rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--gray-text);
+        background: var(--dark);
+    }
+
+    .pill.accent {
+        border-color: var(--accent);
+        color: var(--accent);
+    }
+
+    main {
+        padding: 40px 0 40px;
+        display: grid;
+        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+        gap: 30px;
+    }
+
+    @media (max-width: 900px) {
+        main {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .frame-shell {
+        background: var(--dark);
+        border: 1px solid var(--gray-dark);
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .frame-header {
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--gray-dark);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.75rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--gray-text);
+    }
+
+    iframe {
+        display: block;
+        width: 100%;
+        height: 560px;
+        border: none;
+        background: #000;
+    }
+
+    @media (max-width: 600px) {
+        iframe {
+            height: 520px;
+        }
+    }
+
+    .open-btn {
+        border-radius: 999px;
+        border: 1px solid var(--gray-light);
+        padding: 6px 12px;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        text-decoration: none;
+        color: var(--white);
+        background: transparent;
+    }
+
+    .open-btn:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+    }
+
+    .side-panel {
+        background: var(--dark);
+        border: 1px solid var(--gray-dark);
+        border-radius: 20px;
+        padding: 20px 20px 18px;
+        font-size: 0.9rem;
+        color: var(--gray-text);
+    }
+
+    .side-panel h2 {
+        font-size: 0.9rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        color: var(--white);
+    }
+
+    .side-panel ul {
+        list-style: none;
+        margin-top: 8px;
+    }
+
+    .side-panel li {
+        margin-bottom: 8px;
+        padding-left: 14px;
+        position: relative;
+    }
+
+    .side-panel li::before {
+        content: '•';
+        position: absolute;
+        left: 0;
+        color: var(--accent);
+    }
+
+    footer {
+        padding: 30px 0 10px;
+        border-top: 1px solid var(--gray-dark);
+        text-align: center;
+        font-size: 0.75rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--gray-text);
+    }
+
+    @media (max-width: 640px) {
+        .nav {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        header {
+            padding: 40px 10px 30px;
+        }
+
+        header h1 {
+            font-size: 2.4rem;
+            letter-spacing: 0.3em;
+        }
+
+        .shell {
+            padding: 16px;
+        }
+    }
+
+
+  main.home-main {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      padding-top: 30px;
+  }
+
+  .module-card {
+      background: var(--dark);
+      border-radius: 18px;
+      border: 1px solid var(--gray-dark);
+      padding: 18px 18px 16px;
+      position: relative;
+      overflow: hidden;
+  }
+
+  .module-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0.4;
+  }
+
+  .module-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--gray-text);
+      margin-bottom: 6px;
+  }
+
+  .module-title {
+      font-size: 1rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+  }
+
+  .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+  }
+
+  .tag {
+      font-size: 0.7rem;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--gray-dark);
+      color: var(--gray-text);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+  }
+
+  .module-text {
+      font-size: 0.86rem;
+      color: var(--gray-text);
+      margin-bottom: 10px;
+  }
+
+  .module-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--gray-text);
+  }
+
+  .module-link {
+      border-radius: 999px;
+      border: 1px solid var(--gray-light);
+      padding: 6px 10px;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.7rem;
+      color: var(--white);
+  }
+
+  .module-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+  }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <nav class="nav">
+      <div class="nav-left">
+        <div class="logo-dot"></div>
+        <div class="brand">
+          Trading System · <span>Interactive</span>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="candlestick-mastery.html" class="nav-link">Candlesticks</a>
+        <a href="stock-market-guide.html" class="nav-link">Investing Guide</a>
+        <a href="technical-analysis.html" class="nav-link">Technical Analysis</a>
+        <a href="learning-timeline.html" class="nav-link">Learning Timeline</a>
+      </div>
+    </nav>
+
+    <header>
+      <div class="pill-row">
+        <span class="pill accent">Trading Education System</span>
+        <span class="pill">Candlesticks · TA · Investing · Roadmap</span>
+      </div>
+      <h1>LEARNING STACK</h1>
+      <div class="subtitle">Four Connected Modules</div>
+      <p class="hero-text">
+        A cohesive set of interactive modules built in the same dark, neon-contrast aesthetic as your artifacts.
+        This hub routes you into Candlestick Mastery, Stock Market Foundations, Technical Analysis,
+        and your Stock Market 101 learning timeline.
+      </p>
+    </header>
+
+    <main class="home-main">
+      <article class="module-card">
+        <div class="module-label">Module 01 · Price Action</div>
+        <div class="module-title">Candlestick Mastery</div>
+        <div class="tag-row">
+          <span class="tag">Anatomy</span>
+          <span class="tag">Psychology</span>
+          <span class="tag">Patterns</span>
+        </div>
+        <p class="module-text">
+          Visual training environment for candles: bodies, wicks, bullish and bearish context,
+          plus pattern families you’ll use every day.
+        </p>
+        <div class="module-footer">
+          <a href="candlestick-mastery.html" class="module-link">Open Module</a>
+          <span>Start here for price action</span>
+        </div>
+      </article>
+
+      <article class="module-card">
+        <div class="module-label">Module 02 · Foundations</div>
+        <div class="module-title">Stock Market Guide</div>
+        <div class="tag-row">
+          <span class="tag">Concepts</span>
+          <span class="tag">Glossary</span>
+          <span class="tag">Quizzes</span>
+        </div>
+        <p class="module-text">
+          Full-spectrum guide to how the market works, how risk/reward behaves, and how to
+          think like a long-term investor.
+        </p>
+        <div class="module-footer">
+          <a href="stock-market-guide.html" class="module-link">Open Module</a>
+          <span>Perfect for beginners</span>
+        </div>
+      </article>
+
+      <article class="module-card">
+        <div class="module-label">Module 03 · Chartwork</div>
+        <div class="module-title">Technical Analysis Lab</div>
+        <div class="tag-row">
+          <span class="tag">Patterns</span>
+          <span class="tag">Gaps</span>
+          <span class="tag">Indicators</span>
+        </div>
+        <p class="module-text">
+          Visual sandbox for patterns, gaps, indicators, and overall structure with an
+          interface that feels native to your TA artifact.
+        </p>
+        <div class="module-footer">
+          <a href="technical-analysis.html" class="module-link">Open Module</a>
+          <span>For visual chart learners</span>
+        </div>
+      </article>
+
+      <article class="module-card">
+        <div class="module-label">Module 04 · Roadmap</div>
+        <div class="module-title">Learning Timeline</div>
+        <div class="tag-row">
+          <span class="tag">Phases</span>
+          <span class="tag">Checklists</span>
+          <span class="tag">Progress</span>
+        </div>
+        <p class="module-text">
+          A Stock Market 101 learning timeline in the same neon-dark style, keeping your study
+          plan and review cycles organized.
+        </p>
+        <div class="module-footer">
+          <a href="learning-timeline.html" class="module-link">Open Module</a>
+          <span>Plan and track study</span>
+        </div>
+      </article>
+    </main>
+
+    <footer>
+      Trading Education Mini Site · Theme Matched To Your Artifacts
+    </footer>
+  </div>
+</body>
+</html>

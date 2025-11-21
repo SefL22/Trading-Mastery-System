@@ -1,0 +1,2534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Ultimate guide to stock market investing with all 33 core concepts. Mobile-optimized learning platform.">
+    <meta name="theme-color" content="#000000">
+    <title>Stock Market Investing Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #000000;
+            --dark: #0a0a0a;
+            --gray-dark: #1a1a1a;
+            --gray: #2a2a2a;
+            --gray-light: #3a3a3a;
+            --gray-lighter: #666666;
+            --gray-text: #999999;
+            --white: #ffffff;
+            --accent: #00ff88;
+            --danger: #ff3b3b;
+            --success: #00ff88;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            scroll-behavior: smooth;
+        }
+
+        @supports (-webkit-touch-callout: none) {
+            body {
+                min-height: -webkit-fill-available;
+            }
+        }
+
+        button, .nav-tab, .btn, .quiz-option {
+            -webkit-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: rgba(0, 255, 136, 0.1);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gray-light);
+            border-radius: 4px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            padding: 80px 20px 60px;
+            text-align: center;
+            border-bottom: 1px solid var(--gray-dark);
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, transparent, var(--accent));
+        }
+
+        .header h1 {
+            font-size: 4rem;
+            font-weight: 200;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            background: linear-gradient(180deg, var(--white) 0%, var(--gray-text) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header .subtitle {
+            color: var(--gray-text);
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .header .intro {
+            max-width: 800px;
+            margin: 30px auto 0;
+            color: var(--gray-text);
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1px;
+            margin: 60px 0;
+            background: var(--gray-dark);
+            border: 1px solid var(--gray-dark);
+        }
+
+        .stat-card {
+            background: var(--black);
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            background: var(--dark);
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 100;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: var(--gray-text);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-container {
+            margin: 60px 0;
+            border-bottom: 1px solid var(--gray-dark);
+            position: sticky;
+            top: 0;
+            background: var(--black);
+            z-index: 100;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .nav-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-tab {
+            flex: 1;
+            min-width: 140px;
+            padding: 20px 30px;
+            background: transparent;
+            border: none;
+            color: var(--gray-text);
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tab::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-tab:hover {
+            color: var(--white);
+        }
+
+        .nav-tab.active {
+            color: var(--white);
+        }
+
+        .nav-tab.active::after {
+            transform: scaleX(1);
+        }
+
+        .module {
+            display: none;
+            animation: fadeIn 0.6s ease;
+            min-height: 600px;
+            padding: 60px 0;
+        }
+
+        .module.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 200;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .section-subtitle {
+            color: var(--gray-text);
+            font-size: 1rem;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .card {
+            background: var(--dark);
+            border: 1px solid var(--gray-dark);
+            padding: 40px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .card:hover {
+            border-color: var(--gray-light);
+            transform: translateY(-5px);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--gray-light);
+            color: var(--accent);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .card-content {
+            color: var(--gray-text);
+            line-height: 1.8;
+        }
+
+        .card-content p {
+            margin-bottom: 15px;
+        }
+
+        .card-content ul {
+            list-style: none;
+            margin-top: 20px;
+            padding-left: 0;
+        }
+
+        .card-content ul li {
+            margin: 10px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card-content ul li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .example-box {
+            background: var(--black);
+            border-left: 2px solid var(--accent);
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .example-title {
+            color: var(--accent);
+            font-weight: 400;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .key-concept {
+            background: var(--black);
+            border: 1px solid var(--gray-dark);
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .key-concept-title {
+            color: var(--white);
+            font-weight: 400;
+            margin-bottom: 10px;
+        }
+
+        .glossary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .glossary-card {
+            background: var(--dark);
+            border: 1px solid var(--gray-dark);
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .glossary-card:hover {
+            border-color: var(--gray-light);
+            transform: translateY(-5px);
+        }
+
+        .glossary-number {
+            font-size: 1.5rem;
+            font-weight: 200;
+            color: var(--gray-lighter);
+            margin-bottom: 10px;
+        }
+
+        .glossary-term {
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: var(--white);
+            margin-bottom: 10px;
+        }
+
+        .glossary-description {
+            color: var(--gray-text);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .quiz-container {
+            background: var(--dark);
+            border: 1px solid var(--gray-dark);
+            padding: 60px;
+            margin: 60px 0;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--gray-dark);
+        }
+
+        .quiz-progress {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .progress-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--gray-dark);
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.active {
+            background: var(--accent);
+            transform: scale(1.5);
+        }
+
+        .progress-dot.completed {
+            background: var(--gray-lighter);
+        }
+
+        .quiz-question {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 15px;
+        }
+
+        .quiz-option {
+            padding: 20px 30px;
+            background: var(--black);
+            border: 1px solid var(--gray-dark);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-left: 60px;
+        }
+
+        .quiz-option::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--gray-light);
+        }
+
+        .quiz-option:hover {
+            border-color: var(--gray-light);
+            background: var(--dark);
+        }
+
+        .quiz-option.selected::before {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .quiz-option.correct {
+            border-color: var(--success);
+        }
+
+        .quiz-option.correct::before {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        .quiz-option.incorrect {
+            border-color: var(--danger);
+        }
+
+        .quiz-option.incorrect::before {
+            background: var(--danger);
+            border-color: var(--danger);
+        }
+
+        .btn {
+            padding: 15px 30px;
+            background: transparent;
+            border: 1px solid var(--gray-light);
+            color: var(--white);
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            border-color: var(--accent);
+            background: var(--accent);
+            color: var(--black);
+        }
+
+        .footer {
+            margin-top: 120px;
+            padding: 60px 20px;
+            border-top: 1px solid var(--gray-dark);
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-title {
+            font-size: 2rem;
+            font-weight: 200;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .footer-text {
+            color: var(--gray-text);
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-text {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--gray-text);
+            animation: pulse 2s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .nav-tab {
+                min-width: 120px;
+                padding: 15px 20px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .glossary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quiz-container {
+                padding: 30px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 25px;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .loading, .nav-container, .stats-container, .quiz-container, #glossarySearch, .btn, .footer {
+                display: none !important;
+            }
+
+            body {
+                background: white;
+                color: black;
+            }
+
+            .header, .card, .glossary-card {
+                border-color: #ccc !important;
+                background: white !important;
+                page-break-inside: avoid;
+            }
+
+            .section-title, .card-title, .glossary-term {
+                color: black !important;
+            }
+
+            .card-content, .glossary-description {
+                color: #333 !important;
+            }
+
+            .example-box, .key-concept {
+                border-color: #999 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading" id="loading">
+        <div class="loading-text">Loading System</div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <h1>Ultimate Guide to Stock Market Investing</h1>
+            <p class="subtitle">Master Financial Freedom</p>
+            <p class="intro">
+                Financial freedom is achieved by making smart, educated investments. 
+                In this guide, we'll walk you through the core concepts of stock market investing, 
+                giving you the knowledge to make confident decisions in your investment journey.
+            </p>
+        </header>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-value">33</div>
+                <div class="stat-label">Core Concepts</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="progress">0%</div>
+                <div class="stat-label">Progress</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="quizScore">0/10</div>
+                <div class="stat-label">Quiz Score</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="studyTime">0m</div>
+                <div class="stat-label">Study Time</div>
+            </div>
+        </div>
+
+        <nav class="nav-container">
+            <div class="nav-tabs">
+                <button class="nav-tab active" onclick="showModule('foundation')">Foundation</button>
+                <button class="nav-tab" onclick="showModule('advanced')">Advanced Concepts</button>
+                <button class="nav-tab" onclick="showModule('analysis')">Analysis & Strategy</button>
+                <button class="nav-tab" onclick="showModule('glossary')">Complete Glossary</button>
+                <button class="nav-tab" onclick="showModule('quiz')">Knowledge Test</button>
+            </div>
+        </nav>
+
+        <main>
+            <!-- Foundation Module -->
+            <div class="module active" id="foundation">
+                <div class="section-header">
+                    <h2 class="section-title">Foundation Concepts</h2>
+                    <p class="section-subtitle">
+                        By the end of this guide, you'll be comfortable understanding and applying 
+                        key stock market terms, making smart investments, and navigating the world of brokerage accounts.
+                    </p>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">01</span>
+                            Stocks
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What are Stocks?</h4>
+                            <p>A stock represents a small ownership share in a company. When you buy stock, you're buying a piece of that company. Stocks are traded on the stock market, where buyers and sellers exchange shares.</p>
+                            
+                            <h4 style="color: var(--white); margin: 20px 0 10px;">Types of Stocks</h4>
+                            <ul>
+                                <li><strong>Common Stock:</strong> The most common type of stock, giving you voting rights and a share of dividends</li>
+                                <li><strong>Preferred Stock:</strong> A type of stock that gives no voting rights but often pays a higher dividend</li>
+                            </ul>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>Let's say you buy 1 share of Apple Inc. (AAPL). This means you own a tiny part of Apple. If Apple's business does well, the value of your stock may increase, and you might make a profit when you sell it.</p>
+                            </div>
+
+                            <div class="key-concept">
+                                <div class="key-concept-title">Key Concepts:</div>
+                                <ul>
+                                    <li><strong>Stock Price:</strong> The current price of one share of a company</li>
+                                    <li><strong>Ticker Symbol:</strong> The short code used to identify a company's stock (e.g., AAPL is the ticker for Apple)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">02</span>
+                            The Stock Market
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is the Stock Market?</h4>
+                            <p>The stock market is a place where stocks (and other securities like bonds and ETFs) are bought and sold. You can think of it like a giant marketplace where buyers and sellers meet to trade shares of companies.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">The two main exchanges in the U.S. are:</div>
+                                <ul>
+                                    <li><strong>New York Stock Exchange (NYSE)</strong> – The oldest and largest stock exchange in the world</li>
+                                    <li><strong>NASDAQ</strong> – A technology-heavy exchange where companies like Apple, Amazon, and Google are listed</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">03</span>
+                            ETFs (Exchange-Traded Funds)
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is an ETF?</h4>
+                            <p>An ETF is like a basket that holds a collection of stocks, bonds, or other assets. It allows you to invest in a broad range of companies without buying individual stocks.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>SPDR S&P 500 ETF (SPY) holds shares from the 500 largest companies in the U.S. (like Apple, Microsoft, and Amazon). By buying one share of the SPY ETF, you're investing in all 500 companies at once.</p>
+                            </div>
+
+                            <div class="key-concept">
+                                <div class="key-concept-title">Why Use ETFs?</div>
+                                <p><strong>Diversification:</strong> By owning an ETF, you spread your risk across many companies, rather than putting all your money into one stock.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">04</span>
+                            Dividends
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is a Dividend?</h4>
+                            <p>A dividend is a payment that some companies make to their shareholders, usually in the form of cash. It's like a reward for owning stock in the company.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>Coca-Cola (KO) pays a quarterly dividend to its shareholders. If you own 100 shares of Coca-Cola, and the dividend is $0.50 per share, you would receive $50 in dividend payments each quarter.</p>
+                            </div>
+
+                            <div class="key-concept">
+                                <div class="key-concept-title">Why Do Companies Pay Dividends?</div>
+                                <p>Dividends are often paid by well-established companies with stable earnings. They reward investors and attract more people to buy the stock.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">05</span>
+                            Yields
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is a Yield?</h4>
+                            <p>A yield is the percentage return on an investment. It's often used to describe how much income (like dividends) an investment generates relative to its price.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>If Coca-Cola's stock price is $50 per share, and it pays a dividend of $2 per share annually, the dividend yield is 4% ($2 ÷ $50 = 0.04 or 4%).</p>
+                            </div>
+
+                            <div class="key-concept">
+                                <div class="key-concept-title">Formula:</div>
+                                <p><strong>Dividend Yield = Annual Dividend ÷ Stock Price</strong></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">06</span>
+                            Bull Market vs. Bear Market
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is a Bull Market?</h4>
+                            <p>A bull market refers to a period when the stock market (or a specific stock) is rising or expected to rise. Investors are confident and optimistic.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>The stock market experienced a bull market in 2017, where many stocks, including Amazon and Tesla, were rising in value.</p>
+                            </div>
+
+                            <h4 style="color: var(--white); margin: 20px 0 10px;">What is a Bear Market?</h4>
+                            <p>A bear market is the opposite — it's when the stock market or a specific stock is falling or expected to fall. Investor confidence is low.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>The stock market entered a bear market in 2008 during the financial crisis, where many stocks lost a lot of value.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">07</span>
+                            Capital Gain and Capital Loss
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is a Capital Gain?</h4>
+                            <p>A capital gain is the profit you make when you sell a stock for more than you paid for it.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>If you buy 10 shares of Amazon at $100 each ($1,000 total) and sell them for $150 each ($1,500 total), you made a capital gain of $500.</p>
+                            </div>
+
+                            <h4 style="color: var(--white); margin: 20px 0 10px;">What is a Capital Loss?</h4>
+                            <p>A capital loss is when you sell a stock for less than you paid for it.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>If you bought 10 shares of Netflix for $200 each ($2,000 total) and sold them for $150 each ($1,500 total), you experienced a capital loss of $500.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">08</span>
+                            Market Order vs. Limit Order
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is a Market Order?</h4>
+                            <p>A market order is when you buy or sell a stock immediately at the current market price.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>If you place a market order to buy 10 shares of Tesla at $250 each, your order will execute at the best available price.</p>
+                            </div>
+
+                            <h4 style="color: var(--white); margin: 20px 0 10px;">What is a Limit Order?</h4>
+                            <p>A limit order is when you set a specific price at which you want to buy or sell a stock. The order will only execute when the stock reaches that price.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>If you set a limit order to buy Apple at $130 per share, your order will only be filled if Apple's price drops to $130 or lower.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">09</span>
+                            Risk and Reward
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is Risk and Reward?</h4>
+                            <p>Risk and reward are two sides of investing. Risk is the chance of losing money, and reward is the potential for making money. Generally, the higher the potential reward, the higher the risk.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Examples:</div>
+                                <ul>
+                                    <li>Stocks like Tesla or Bitcoin have higher potential rewards but also higher risk because their prices can change quickly</li>
+                                    <li>Stable companies like Johnson & Johnson (JNJ) or Procter & Gamble (PG) are generally lower risk but may offer slower growth</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">10</span>
+                            P/E Ratio (Price-to-Earnings Ratio)
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is a P/E Ratio?</h4>
+                            <p>The P/E ratio compares a company's stock price to its earnings (profits). It helps investors decide whether a stock is expensive or cheap.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <ul>
+                                    <li>If a company's stock is $100 per share and its earnings are $5 per share, the P/E ratio is 20 ($100 ÷ $5)</li>
+                                    <li>A higher P/E ratio might mean the stock is expensive, while a lower P/E ratio could mean it's cheap relative to earnings</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Concepts Module -->
+            <div class="module" id="advanced">
+                <div class="section-header">
+                    <h2 class="section-title">Advanced Concepts</h2>
+                    <p class="section-subtitle">
+                        Deepen your understanding with these intermediate and advanced stock market concepts.
+                    </p>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">11</span>
+                            Index
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is an Index?</h4>
+                            <p>An index is a collection of stocks that represents a particular market or sector. It helps investors measure the overall performance of a specific part of the stock market.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Examples:</div>
+                                <ul>
+                                    <li>The <strong>S&P 500 Index</strong> is made up of 500 of the largest U.S. companies, like Apple, Microsoft, and Amazon. It is often used to track the overall health of the U.S. stock market</li>
+                                    <li>The <strong>Dow Jones Industrial Average (DJIA)</strong> is another index that tracks 30 major U.S. companies, including companies like Coca-Cola, McDonald's, and IBM</li>
+                                </ul>
+                            </div>
+
+                            <div class="key-concept">
+                                <div class="key-concept-title">Why is an Index Important?</div>
+                                <p>An index allows investors to get a snapshot of the market's performance without needing to track every individual stock.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">12</span>
+                            Volume
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is Volume?</h4>
+                            <p>Volume refers to the number of shares of a stock that are traded during a specific period (usually one day). High volume means a lot of shares are being bought and sold, while low volume means less trading activity.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>If Tesla's stock traded 10 million shares in one day, its volume for that day would be 10 million. If it only traded 1 million shares, the volume would be lower.</p>
+                            </div>
+
+                            <div class="key-concept">
+                                <div class="key-concept-title">Why Does Volume Matter?</div>
+                                <p>High volume can indicate strong investor interest, while low volume might suggest that investors are unsure or not interested in the stock.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">13</span>
+                            Market Capitalization (Market Cap)
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is Market Capitalization?</h4>
+                            <p>Market capitalization (market cap) is the total value of a company's outstanding shares of stock. It is calculated by multiplying the stock's price by the number of shares outstanding.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>If Apple (AAPL) has 5 billion shares outstanding and the price of one share is $200, its market cap would be: 5 billion shares × $200 = $1 trillion</p>
+                            </div>
+
+                            <div class="key-concept">
+                                <div class="key-concept-title">Why Does Market Cap Matter?</div>
+                                <p>Companies with a large market cap (like Apple) are often more stable and less risky, while small-cap companies can have higher growth potential but may also be riskier.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">14</span>
+                            Blue-Chip Stocks
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What are Blue-Chip Stocks?</h4>
+                            <p>Blue-chip stocks are shares of well-established companies that are known for their reliability, stability, and ability to pay dividends. These companies often have a long history of strong performance.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Examples:</div>
+                                <p>Companies like Coca-Cola (KO), Johnson & Johnson (JNJ), and Microsoft (MSFT) are considered blue-chip stocks because they are large, well-established, and financially stable.</p>
+                            </div>
+
+                            <div class="key-concept">
+                                <div class="key-concept-title">Why Invest in Blue-Chip Stocks?</div>
+                                <p>Blue-chip stocks are generally considered safer investments because they tend to weather market downturns better and provide steady returns.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">15</span>
+                            Dividend Reinvestment Plan (DRIP)
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is a DRIP?</h4>
+                            <p>A Dividend Reinvestment Plan (DRIP) allows investors to automatically reinvest the dividends they receive from a stock back into additional shares of that same stock. This can help grow your investment over time without having to do anything manually.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>If you own 10 shares of Coca-Cola (KO) and receive $0.50 per share as a dividend, instead of receiving $5 in cash, a DRIP would automatically buy more shares of Coca-Cola for you with that $5.</p>
+                            </div>
+
+                            <div class="key-concept">
+                                <div class="key-concept-title">Why Use DRIP?</div>
+                                <p>DRIPs allow investors to benefit from compound growth, where the reinvested dividends purchase more shares, potentially increasing future dividend income.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">16</span>
+                            Short Selling (Shorting)
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is Short Selling?</h4>
+                            <p>Short selling is a way to make money when you believe the price of a stock will decrease. You borrow shares of a stock and sell them at the current price, hoping to buy them back at a lower price later, returning them to the lender and pocketing the difference.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>Let's say you borrow 10 shares of Netflix (NFLX) at $400 each and sell them for $4,000. If Netflix's stock drops to $350 per share, you can buy those shares back for $3,500 and return them to the lender, making a profit of $500.</p>
+                            </div>
+
+                            <div class="key-concept">
+                                <div class="key-concept-title">Why Is Short Selling Risky?</div>
+                                <p>If the stock price goes up instead of down, you can lose money, and there's no limit to how much you could lose (the price could keep rising).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">17</span>
+                            IPO (Initial Public Offering)
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is an IPO?</h4>
+                            <p>An IPO is the first time a company offers its stock to the public. It's a way for companies to raise money by selling shares of ownership to investors.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>Uber Technologies (UBER) went public in 2019 with an IPO. Before the IPO, Uber was a private company, but after the IPO, anyone could buy shares of Uber on the stock market.</p>
+                            </div>
+
+                            <div class="key-concept">
+                                <div class="key-concept-title">Why Do Companies Have IPOs?</div>
+                                <p>IPOs allow companies to raise capital to fund growth, pay down debt, or make acquisitions. It also provides an opportunity for early investors to sell their shares.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">18</span>
+                            Bonds
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is a Bond?</h4>
+                            <p>A bond is a type of loan that investors give to a company or government in exchange for periodic interest payments and the return of the principal amount at the bond's maturity.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>When the U.S. government issues bonds, it is borrowing money from investors. If you buy a U.S. Treasury bond, you're lending the government money, and in return, they pay you interest over a set period of time, usually a few years.</p>
+                            </div>
+
+                            <div class="key-concept">
+                                <div class="key-concept-title">Why Invest in Bonds?</div>
+                                <p>Bonds are considered safer investments compared to stocks because they offer regular interest payments and are less volatile. However, they also offer lower potential returns.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">19</span>
+                            Volatility
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is Volatility?</h4>
+                            <p>Volatility refers to how much and how quickly the price of a stock or other financial asset changes. High volatility means the stock price can swing wildly, while low volatility means the price is more stable.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Examples:</div>
+                                <ul>
+                                    <li>Tesla (TSLA) is known for high volatility because its stock price can change a lot in a short period of time, especially based on news and earnings reports</li>
+                                    <li>Procter & Gamble (PG) has lower volatility because it is a stable, established company that doesn't experience large price swings</li>
+                                </ul>
+                            </div>
+
+                            <div class="key-concept">
+                                <div class="key-concept-title">Why Does Volatility Matter?</div>
+                                <p>Volatility can create opportunities for large gains, but it also increases the risk of big losses. Investors need to decide if they're comfortable with the level of volatility of a stock before investing.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">20</span>
+                            Market Correction
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is a Market Correction?</h4>
+                            <p>A market correction occurs when stock prices drop by 10% or more from their recent highs. This can happen for various reasons, such as economic downturns or negative news affecting certain sectors.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>In 2020, the stock market experienced a correction due to the COVID-19 pandemic. Many stocks, including those of airlines and cruise companies, lost more than 10% of their value.</p>
+                            </div>
+
+                            <div class="key-concept">
+                                <div class="key-concept-title">Why Do Market Corrections Happen?</div>
+                                <p>Market corrections are a natural part of the market cycle and can sometimes present buying opportunities for investors who believe the market will recover.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">21</span>
+                            Compound Interest
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is Compound Interest?</h4>
+                            <p>Compound interest is the interest on an investment that is calculated not only on the initial amount of money you invested, but also on any interest that has been added to that amount.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>If you invest $1,000 in a savings account with an interest rate of 5% per year, you'll earn $50 in interest after the first year. In the second year, you earn 5% interest on $1,050 (the original $1,000 plus the $50 interest), which equals $52.50 in interest for the second year.</p>
+                            </div>
+
+                            <div class="key-concept">
+                                <div class="key-concept-title">Why is Compound Interest Important?</div>
+                                <p>Compound interest can help your investments grow over time, especially if you reinvest earnings and let them build on each other.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">22</span>
+                            Sector and Industry
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is a Sector?</h4>
+                            <p>A sector is a broad category of companies that operate in the same area of the economy. Examples of sectors include technology, healthcare, finance, and consumer goods.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Examples:</div>
+                                <ul>
+                                    <li>The <strong>Technology sector</strong> includes companies like Apple, Microsoft, and Alphabet (Google)</li>
+                                    <li>The <strong>Healthcare sector</strong> includes companies like Pfizer, Johnson & Johnson, and Merck</li>
+                                </ul>
+                            </div>
+
+                            <h4 style="color: var(--white); margin: 20px 0 10px;">What is an Industry?</h4>
+                            <p>An industry is a more specific category within a sector. For example, the technology sector includes industries like software, hardware, and semiconductors.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Examples:</div>
+                                <ul>
+                                    <li>The <strong>Software industry</strong> includes companies like Microsoft, Salesforce, and Adobe</li>
+                                    <li>The <strong>Semiconductor industry</strong> includes companies like Intel and Nvidia</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analysis & Strategy Module -->
+            <div class="module" id="analysis">
+                <div class="section-header">
+                    <h2 class="section-title">Analysis & Strategy</h2>
+                    <p class="section-subtitle">
+                        Learn the methodologies and strategies professional investors use to evaluate stocks and make informed decisions.
+                    </p>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">23</span>
+                            Bull Market vs. Bear Market (Extended)
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is a Bull Market?</h4>
+                            <p>A bull market refers to a period when the stock market is generally rising or expected to rise. Investors are confident, and prices are trending upward.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>From 2009 to 2020, the stock market experienced a long bull market following the 2008 financial crisis, with major stocks like Apple, Amazon, and Microsoft seeing significant growth.</p>
+                            </div>
+
+                            <h4 style="color: var(--white); margin: 20px 0 10px;">What is a Bear Market?</h4>
+                            <p>A bear market is the opposite of a bull market. It occurs when stock prices are falling, often by 20% or more from their recent highs. Investor sentiment is negative, and there's a general sense of pessimism.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>The COVID-19 pandemic caused a bear market in early 2020, with stock prices of companies like Airlines and Cruise Lines dropping significantly as the economy slowed down.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">24</span>
+                            Earnings Report
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is an Earnings Report?</h4>
+                            <p>An earnings report is a quarterly (or annual) statement published by a company detailing its financial performance. It includes data such as revenue, profit, and expenses.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>Apple releases an earnings report every quarter, showing how much money it made (revenue), how much it spent, and how much profit it earned. If Apple's earnings report beats expectations, its stock price might go up.</p>
+                            </div>
+
+                            <div class="key-concept">
+                                <div class="key-concept-title">Why Are Earnings Reports Important?</div>
+                                <p>Earnings reports can affect stock prices. Strong earnings may cause a stock's price to rise, while disappointing earnings may cause the stock to fall.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">25</span>
+                            Fundamental Analysis
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is Fundamental Analysis?</h4>
+                            <p>Fundamental analysis is a method of evaluating a company's financial health, including its revenue, profit, competition, and growth potential. It involves looking at the company's earnings, management, products, and overall industry.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>Investors who use fundamental analysis might study Microsoft's earnings, revenue growth, competitive position, and industry trends before deciding whether to buy its stock.</p>
+                            </div>
+
+                            <div class="key-concept">
+                                <div class="key-concept-title">Why is Fundamental Analysis Important?</div>
+                                <p>It helps investors determine the intrinsic value of a stock, helping them decide whether it's overvalued or undervalued based on the company's fundamentals.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">26</span>
+                            Technical Analysis
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is Technical Analysis?</h4>
+                            <p>Technical analysis involves studying past stock price movements and trading volumes to forecast future price movements. It uses charts and patterns to predict where a stock's price might go.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>Investors might use chart patterns (like the Head and Shoulders pattern or Moving Averages) to make predictions about the future price direction of Tesla's stock.</p>
+                            </div>
+
+                            <div class="key-concept">
+                                <div class="key-concept-title">Why is Technical Analysis Important?</div>
+                                <p>It's useful for short-term traders who want to make decisions based on price trends and patterns, rather than the underlying company's financial health.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">27</span>
+                            Asset Allocation
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is Asset Allocation?</h4>
+                            <p>Asset allocation is the practice of dividing investments among different types of assets, such as stocks, bonds, and cash. The goal is to balance risk and reward based on an individual's goals, risk tolerance, and time horizon.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>A young investor might allocate 80% of their money into stocks and 20% into bonds, while an older investor might allocate 60% into bonds and 40% into stocks to reduce risk.</p>
+                            </div>
+
+                            <div class="key-concept">
+                                <div class="key-concept-title">Why is Asset Allocation Important?</div>
+                                <p>Diversifying investments across different assets can reduce the overall risk of your portfolio. The mix of assets depends on your financial goals and risk tolerance.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">28</span>
+                            Market Sentiment
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is Market Sentiment?</h4>
+                            <p>Market sentiment refers to the overall attitude or feeling of investors toward the stock market or a particular stock. It can be bullish (positive) or bearish (negative), and it affects how people buy and sell stocks.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>Amazon (AMZN) might experience bullish sentiment if the company releases strong earnings, leading to more buying of the stock. Conversely, if a company faces a scandal or poor earnings, bearish sentiment might drive the stock price lower.</p>
+                            </div>
+
+                            <div class="key-concept">
+                                <div class="key-concept-title">Why is Market Sentiment Important?</div>
+                                <p>Understanding market sentiment can help you predict short-term stock price movements, especially when sentiment is driven by news, earnings reports, or broader economic trends.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">29</span>
+                            Dollar-Cost Averaging (DCA)
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is Dollar-Cost Averaging?</h4>
+                            <p>Dollar-cost averaging (DCA) is an investment strategy where you invest a fixed amount of money at regular intervals (e.g., monthly) regardless of the stock price. Over time, this strategy lowers the average cost per share.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>If you invest $100 every month in Apple stock, whether the stock is at $150 or $200 per share, you'll buy more shares when the price is lower and fewer shares when the price is higher. This helps smooth out the effects of market volatility.</p>
+                            </div>
+
+                            <div class="key-concept">
+                                <div class="key-concept-title">Why Use Dollar-Cost Averaging?</div>
+                                <p>DCA reduces the impact of volatility, preventing you from trying to time the market perfectly. It's a great strategy for long-term investors.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">30</span>
+                            Margin Trading
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is Margin Trading?</h4>
+                            <p>Margin trading is borrowing money from a brokerage to buy more stocks than you could with your own cash. The brokerage loans you the money, and you pay it back with interest.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>If you want to buy $10,000 worth of stock but only have $5,000, you can borrow the other $5,000 from a broker. However, you must pay back the loan with interest.</p>
+                            </div>
+
+                            <div class="key-concept">
+                                <div class="key-concept-title">Why is Margin Trading Risky?</div>
+                                <p>If the stock price goes down, you can lose more than your initial investment and be required to repay the borrowed funds. This makes margin trading a risky strategy.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">31</span>
+                            Stock Split
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is a Stock Split?</h4>
+                            <p>A stock split happens when a company issues more shares to its existing shareholders, increasing the total number of shares while reducing the stock price proportionally. It doesn't affect the total value of your holdings, but it makes the stock more affordable for new investors.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>If Tesla announces a 2-for-1 stock split, each shareholder would receive 2 shares for every 1 share they currently own. If the stock was priced at $2,000 before the split, it would drop to $1,000 per share after the split.</p>
+                            </div>
+
+                            <div class="key-concept">
+                                <div class="key-concept-title">Why Do Companies Do Stock Splits?</div>
+                                <p>Companies may do stock splits to make their stock more affordable to individual investors, which can increase liquidity and attract more buyers.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">32</span>
+                            Risk Tolerance
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is Risk Tolerance?</h4>
+                            <p>Risk tolerance refers to the amount of risk you're willing to take on with your investments. It's influenced by factors like your financial goals, investment time frame, and emotional comfort with market fluctuations.</p>
+
+                            <div class="example-box">
+                                <div class="example-title">Example:</div>
+                                <p>A young investor saving for retirement might have a high risk tolerance and invest in growth stocks, while a retiree looking to preserve wealth might have a lower risk tolerance and invest in bonds.</p>
+                            </div>
+
+                            <div class="key-concept">
+                                <div class="key-concept-title">Why is Risk Tolerance Important?</div>
+                                <p>Knowing your risk tolerance helps you build a portfolio that fits your financial goals and psychological comfort with market ups and downs.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">33</span>
+                            ETFs vs. Mutual Funds
+                        </h3>
+                        <div class="card-content">
+                            <h4 style="color: var(--white); margin-bottom: 10px;">What is the Difference Between ETFs and Mutual Funds?</h4>
+                            <p>Both ETFs (Exchange-Traded Funds) and mutual funds are investment vehicles that pool money from many investors to invest in a diversified portfolio of stocks, bonds, or other assets.</p>
+
+                            <p style="margin-top: 15px;"><strong>The main difference is how they're traded:</strong></p>
+                            <ul>
+                                <li><strong>ETFs</strong> are bought and sold on stock exchanges like individual stocks, and their prices fluctuate throughout the day</li>
+                                <li><strong>Mutual Funds</strong> are priced once a day, after the market closes, and you can only buy or sell them at that price</li>
+                            </ul>
+
+                            <div class="example-box">
+                                <div class="example-title">Examples:</div>
+                                <ul>
+                                    <li>SPDR S&P 500 ETF (SPY) tracks the S&P 500 Index, and you can buy and sell shares of it during market hours</li>
+                                    <li>A Vanguard mutual fund might track the same S&P 500 Index, but it's bought and sold at the end of the trading day</li>
+                                </ul>
+                            </div>
+
+                            <div class="key-concept">
+                                <div class="key-concept-title">Why Choose One Over the Other?</div>
+                                <p>ETFs generally offer lower fees and more flexibility, while mutual funds may be better for long-term investors who don't mind less frequent trading.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Complete Glossary Module -->
+            <div class="module" id="glossary">
+                <div class="section-header">
+                    <h2 class="section-title">Complete Glossary</h2>
+                    <p class="section-subtitle">
+                        Quick reference guide for all 33 essential stock market investing terms.
+                    </p>
+                </div>
+
+                <div style="margin-bottom: 40px;">
+                    <input type="text" id="glossarySearch" placeholder="Search terms..." style="width: 100%; padding: 15px 20px; background: var(--dark); border: 1px solid var(--gray-dark); color: var(--white); font-size: 1rem; transition: border-color 0.3s ease;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--gray-dark)'" oninput="filterGlossary()">
+                </div>
+
+                <div class="glossary-grid" id="glossaryGrid">
+                    <div class="glossary-card">
+                        <div class="glossary-number">01</div>
+                        <div class="glossary-term">Stock</div>
+                        <div class="glossary-description">A small ownership in a company</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">02</div>
+                        <div class="glossary-term">Stock Market</div>
+                        <div class="glossary-description">Where stocks and securities are bought and sold</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">03</div>
+                        <div class="glossary-term">ETF</div>
+                        <div class="glossary-description">A collection of investments that you can buy like a single stock</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">04</div>
+                        <div class="glossary-term">Dividend</div>
+                        <div class="glossary-description">A cash payment to shareholders</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">05</div>
+                        <div class="glossary-term">Yield</div>
+                        <div class="glossary-description">The income from an investment, expressed as a percentage</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">06</div>
+                        <div class="glossary-term">P/E Ratio</div>
+                        <div class="glossary-description">The price of a stock relative to its earnings</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">07</div>
+                        <div class="glossary-term">Bull Market</div>
+                        <div class="glossary-description">A period of rising stock prices</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">08</div>
+                        <div class="glossary-term">Bear Market</div>
+                        <div class="glossary-description">A period of falling stock prices</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">09</div>
+                        <div class="glossary-term">Market Order</div>
+                        <div class="glossary-description">Buying or selling immediately at the current price</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">10</div>
+                        <div class="glossary-term">Limit Order</div>
+                        <div class="glossary-description">Buying or selling at a specific price</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">11</div>
+                        <div class="glossary-term">Index</div>
+                        <div class="glossary-description">A collection of stocks used to measure market performance</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">12</div>
+                        <div class="glossary-term">Volume</div>
+                        <div class="glossary-description">The number of shares traded in a specific time period</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">13</div>
+                        <div class="glossary-term">Market Cap</div>
+                        <div class="glossary-description">The total value of a company's stock</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">14</div>
+                        <div class="glossary-term">Blue-Chip Stocks</div>
+                        <div class="glossary-description">Large, well-established companies with stable earnings</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">15</div>
+                        <div class="glossary-term">DRIP</div>
+                        <div class="glossary-description">A way to automatically reinvest dividends into more shares</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">16</div>
+                        <div class="glossary-term">Short Selling</div>
+                        <div class="glossary-description">Selling borrowed stocks with the hope of buying them back at a lower price</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">17</div>
+                        <div class="glossary-term">IPO</div>
+                        <div class="glossary-description">The first time a company offers its stock to the public</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">18</div>
+                        <div class="glossary-term">Bonds</div>
+                        <div class="glossary-description">Loans to companies or governments in exchange for interest payments</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">19</div>
+                        <div class="glossary-term">Volatility</div>
+                        <div class="glossary-description">The level of price fluctuations in a stock or market</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">20</div>
+                        <div class="glossary-term">Market Correction</div>
+                        <div class="glossary-description">A decline of 10% or more in stock prices from recent highs</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">21</div>
+                        <div class="glossary-term">Compound Interest</div>
+                        <div class="glossary-description">Interest on both the original amount and any previously earned interest</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">22</div>
+                        <div class="glossary-term">Sector</div>
+                        <div class="glossary-description">A broad category of companies (e.g., technology, healthcare, finance)</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">23</div>
+                        <div class="glossary-term">Bull Market (Extended)</div>
+                        <div class="glossary-description">A period when stock prices are rising</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">24</div>
+                        <div class="glossary-term">Earnings Report</div>
+                        <div class="glossary-description">A quarterly report showing a company's financial performance</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">25</div>
+                        <div class="glossary-term">Fundamental Analysis</div>
+                        <div class="glossary-description">Evaluating a company's financial health and potential for growth</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">26</div>
+                        <div class="glossary-term">Technical Analysis</div>
+                        <div class="glossary-description">Using stock price movements and patterns to predict future trends</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">27</div>
+                        <div class="glossary-term">Asset Allocation</div>
+                        <div class="glossary-description">The process of spreading investments across different asset classes</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">28</div>
+                        <div class="glossary-term">Market Sentiment</div>
+                        <div class="glossary-description">The overall attitude of investors toward a market or stock</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">29</div>
+                        <div class="glossary-term">Dollar-Cost Averaging (DCA)</div>
+                        <div class="glossary-description">Investing a fixed amount at regular intervals to reduce volatility impact</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">30</div>
+                        <div class="glossary-term">Margin Trading</div>
+                        <div class="glossary-description">Borrowing money to buy stocks, amplifying both potential gains and losses</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">31</div>
+                        <div class="glossary-term">Stock Split</div>
+                        <div class="glossary-description">When a company increases the number of shares and reduces the stock price proportionally</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">32</div>
+                        <div class="glossary-term">Risk Tolerance</div>
+                        <div class="glossary-description">The level of risk an investor is comfortable with</div>
+                    </div>
+
+                    <div class="glossary-card">
+                        <div class="glossary-number">33</div>
+                        <div class="glossary-term">ETFs vs. Mutual Funds</div>
+                        <div class="glossary-description">Both are diversified investments; ETFs trade like stocks, mutual funds are bought/sold at end of day</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Knowledge Test Module -->
+            <div class="module" id="quiz">
+                <div class="section-header">
+                    <h2 class="section-title">Knowledge Test</h2>
+                    <p class="section-subtitle">
+                        Test your understanding with 10 comprehensive questions covering all core concepts.
+                    </p>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-header">
+                        <h3>Question <span id="questionNumber">1</span> of 10</h3>
+                        <div class="quiz-progress" id="quizProgress">
+                            <!-- Progress dots will be generated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <div id="quizContent">
+                        <div class="quiz-question" id="question"></div>
+                        <div class="quiz-options" id="options"></div>
+                    </div>
+
+                    <button class="btn" style="margin-top: 40px; display: none; width: 100%;" id="nextQuestion" onclick="loadNextQuestion()">
+                        Next Question →
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <h2 class="footer-title">Begin Your Investment Journey</h2>
+                <p class="footer-text">
+                    Master the fundamentals of stock market investing through disciplined learning and strategic thinking. 
+                    Build confidence in your investment decisions and take control of your financial future.
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loadingEl = document.getElementById('loading');
+                if (loadingEl) {
+                    loadingEl.classList.add('hidden');
+                }
+                initializeApp();
+            }, 1500);
+        });
+
+        let appState = {
+            currentQuestion: 0,
+            quizScore: 0,
+            studyTime: 0
+        };
+
+        const allQuizQuestions = [
+            {
+                question: "What does a stock represent?",
+                answers: [
+                    { text: "A loan to a company", correct: false },
+                    { text: "A small ownership share in a company", correct: true },
+                    { text: "A type of bond", correct: false },
+                    { text: "A government security", correct: false }
+                ]
+            },
+            {
+                question: "What are the two main types of stocks?",
+                answers: [
+                    { text: "Common and Uncommon", correct: false },
+                    { text: "Common and Preferred", correct: true },
+                    { text: "Dividend and Non-Dividend", correct: false },
+                    { text: "Public and Private", correct: false }
+                ]
+            },
+            {
+                question: "Which stock exchange is the oldest and largest in the world?",
+                answers: [
+                    { text: "NASDAQ", correct: false },
+                    { text: "New York Stock Exchange (NYSE)", correct: true },
+                    { text: "London Stock Exchange", correct: false },
+                    { text: "Tokyo Stock Exchange", correct: false }
+                ]
+            },
+            {
+                question: "What is an ETF?",
+                answers: [
+                    { text: "A single stock", correct: false },
+                    { text: "A basket holding a collection of stocks, bonds, or other assets", correct: true },
+                    { text: "A type of cryptocurrency", correct: false },
+                    { text: "A government bond", correct: false }
+                ]
+            },
+            {
+                question: "What is the main benefit of investing in ETFs?",
+                answers: [
+                    { text: "Guaranteed returns", correct: false },
+                    { text: "Diversification across many companies", correct: true },
+                    { text: "No market risk", correct: false },
+                    { text: "Higher fees than individual stocks", correct: false }
+                ]
+            },
+            {
+                question: "What is a dividend?",
+                answers: [
+                    { text: "The price of a stock", correct: false },
+                    { text: "A cash payment to shareholders", correct: true },
+                    { text: "A type of stock split", correct: false },
+                    { text: "A market index", correct: false }
+                ]
+            },
+            {
+                question: "How is dividend yield calculated?",
+                answers: [
+                    { text: "Stock Price ÷ Annual Dividend", correct: false },
+                    { text: "Annual Dividend ÷ Stock Price", correct: true },
+                    { text: "Annual Dividend × Stock Price", correct: false },
+                    { text: "Stock Price - Annual Dividend", correct: false }
+                ]
+            },
+            {
+                question: "What characterizes a Bull Market?",
+                answers: [
+                    { text: "Falling stock prices and pessimism", correct: false },
+                    { text: "Rising stock prices and investor confidence", correct: true },
+                    { text: "Sideways market movement", correct: false },
+                    { text: "High volatility only", correct: false }
+                ]
+            },
+            {
+                question: "What characterizes a Bear Market?",
+                answers: [
+                    { text: "Rising stock prices", correct: false },
+                    { text: "Falling stock prices and investor pessimism", correct: true },
+                    { text: "Stable market conditions", correct: false },
+                    { text: "High dividend yields", correct: false }
+                ]
+            },
+            {
+                question: "What is a capital gain?",
+                answers: [
+                    { text: "A dividend payment", correct: false },
+                    { text: "Profit from selling stock above purchase price", correct: true },
+                    { text: "Interest from bonds", correct: false },
+                    { text: "A type of stock split", correct: false }
+                ]
+            },
+            {
+                question: "What is a Market Order?",
+                answers: [
+                    { text: "An order to buy/sell at a specific price", correct: false },
+                    { text: "An order to buy/sell immediately at current market price", correct: true },
+                    { text: "An order that expires at end of day", correct: false },
+                    { text: "An order to buy only during market corrections", correct: false }
+                ]
+            },
+            {
+                question: "What is a Limit Order?",
+                answers: [
+                    { text: "An order that executes immediately", correct: false },
+                    { text: "An order that executes only at a specific price or better", correct: true },
+                    { text: "An order with no price restrictions", correct: false },
+                    { text: "An order that cannot be cancelled", correct: false }
+                ]
+            },
+            {
+                question: "What does P/E Ratio measure?",
+                answers: [
+                    { text: "Stock price relative to earnings", correct: true },
+                    { text: "Total market capitalization", correct: false },
+                    { text: "Dividend yield percentage", correct: false },
+                    { text: "Daily trading volume", correct: false }
+                ]
+            },
+            {
+                question: "What does a high P/E ratio typically indicate?",
+                answers: [
+                    { text: "The stock is undervalued", correct: false },
+                    { text: "The stock may be expensive or is a growth stock", correct: true },
+                    { text: "The company is bankrupt", correct: false },
+                    { text: "Low investor interest", correct: false }
+                ]
+            },
+            {
+                question: "What is an Index?",
+                answers: [
+                    { text: "A single stock price", correct: false },
+                    { text: "A collection of stocks representing a market or sector", correct: true },
+                    { text: "A type of bond", correct: false },
+                    { text: "A trading strategy", correct: false }
+                ]
+            },
+            {
+                question: "How many companies are in the S&P 500 Index?",
+                answers: [
+                    { text: "100 companies", correct: false },
+                    { text: "500 companies", correct: true },
+                    { text: "1000 companies", correct: false },
+                    { text: "30 companies", correct: false }
+                ]
+            },
+            {
+                question: "What does trading volume indicate?",
+                answers: [
+                    { text: "The price of a stock", correct: false },
+                    { text: "The number of shares traded during a specific period", correct: true },
+                    { text: "The company's profit", correct: false },
+                    { text: "The dividend amount", correct: false }
+                ]
+            },
+            {
+                question: "What does market capitalization represent?",
+                answers: [
+                    { text: "The total value of a company's outstanding shares", correct: true },
+                    { text: "The company's annual revenue", correct: false },
+                    { text: "The company's total debt", correct: false },
+                    { text: "The number of employees", correct: false }
+                ]
+            },
+            {
+                question: "What are Blue-Chip stocks?",
+                answers: [
+                    { text: "New startup companies", correct: false },
+                    { text: "Large, well-established companies with stable earnings", correct: true },
+                    { text: "High-risk penny stocks", correct: false },
+                    { text: "Foreign companies only", correct: false }
+                ]
+            },
+            {
+                question: "What is a DRIP?",
+                answers: [
+                    { text: "A type of stock order", correct: false },
+                    { text: "A plan to automatically reinvest dividends into more shares", correct: true },
+                    { text: "A market correction", correct: false },
+                    { text: "A trading strategy", correct: false }
+                ]
+            },
+            {
+                question: "What is short selling?",
+                answers: [
+                    { text: "Buying stocks quickly", correct: false },
+                    { text: "Borrowing and selling stocks hoping to buy back at lower price", correct: true },
+                    { text: "Selling stocks after a short time period", correct: false },
+                    { text: "Buying small amounts of stock", correct: false }
+                ]
+            },
+            {
+                question: "What is an IPO?",
+                answers: [
+                    { text: "A type of dividend payment", correct: false },
+                    { text: "The first time a company offers stock to the public", correct: true },
+                    { text: "A stock split", correct: false },
+                    { text: "A market index", correct: false }
+                ]
+            },
+            {
+                question: "What is a bond?",
+                answers: [
+                    { text: "Ownership in a company", correct: false },
+                    { text: "A loan to a company or government with interest payments", correct: true },
+                    { text: "A type of stock", correct: false },
+                    { text: "A dividend payment", correct: false }
+                ]
+            },
+            {
+                question: "What does volatility measure?",
+                answers: [
+                    { text: "Company profits", correct: false },
+                    { text: "How much and how quickly stock prices change", correct: true },
+                    { text: "Dividend amounts", correct: false },
+                    { text: "Trading volume", correct: false }
+                ]
+            },
+            {
+                question: "What is a market correction?",
+                answers: [
+                    { text: "When prices rise by 10%", correct: false },
+                    { text: "When stock prices drop by 10% or more from recent highs", correct: true },
+                    { text: "When dividends are increased", correct: false },
+                    { text: "A trading error", correct: false }
+                ]
+            },
+            {
+                question: "What is compound interest?",
+                answers: [
+                    { text: "Interest paid only on the principal amount", correct: false },
+                    { text: "Interest calculated on both principal and previously earned interest", correct: true },
+                    { text: "A type of dividend payment", correct: false },
+                    { text: "Interest from multiple sources", correct: false }
+                ]
+            },
+            {
+                question: "What is a sector in the stock market?",
+                answers: [
+                    { text: "A type of stock order", correct: false },
+                    { text: "A broad category of companies in the same area of economy", correct: true },
+                    { text: "A trading strategy", correct: false },
+                    { text: "A market index", correct: false }
+                ]
+            },
+            {
+                question: "What is an earnings report?",
+                answers: [
+                    { text: "A daily stock price summary", correct: false },
+                    { text: "A quarterly statement detailing company financial performance", correct: true },
+                    { text: "A dividend payment schedule", correct: false },
+                    { text: "A stock split announcement", correct: false }
+                ]
+            },
+            {
+                question: "What is fundamental analysis?",
+                answers: [
+                    { text: "Studying price charts and patterns", correct: false },
+                    { text: "Evaluating a company's financial health and growth potential", correct: true },
+                    { text: "Trading based on news", correct: false },
+                    { text: "Following market trends", correct: false }
+                ]
+            },
+            {
+                question: "What is technical analysis?",
+                answers: [
+                    { text: "Analyzing company financial statements", correct: false },
+                    { text: "Using past price movements and patterns to forecast future prices", correct: true },
+                    { text: "Evaluating company management", correct: false },
+                    { text: "Studying dividend payments", correct: false }
+                ]
+            },
+            {
+                question: "What is asset allocation?",
+                answers: [
+                    { text: "Buying only stocks", correct: false },
+                    { text: "Dividing investments among different asset types to balance risk", correct: true },
+                    { text: "Investing all money at once", correct: false },
+                    { text: "Trading frequently", correct: false }
+                ]
+            },
+            {
+                question: "What is market sentiment?",
+                answers: [
+                    { text: "Company earnings", correct: false },
+                    { text: "The overall attitude of investors toward a market or stock", correct: true },
+                    { text: "Stock price only", correct: false },
+                    { text: "Trading volume", correct: false }
+                ]
+            },
+            {
+                question: "What is the purpose of dollar-cost averaging?",
+                answers: [
+                    { text: "To time the market perfectly", correct: false },
+                    { text: "To reduce the impact of market volatility by investing regularly", correct: true },
+                    { text: "To maximize short-term gains", correct: false },
+                    { text: "To avoid paying taxes", correct: false }
+                ]
+            },
+            {
+                question: "What is margin trading?",
+                answers: [
+                    { text: "Trading with only your own money", correct: false },
+                    { text: "Borrowing money from a broker to buy more stocks", correct: true },
+                    { text: "Trading at market close", correct: false },
+                    { text: "Buying stocks on discount", correct: false }
+                ]
+            },
+            {
+                question: "What happens in a stock split?",
+                answers: [
+                    { text: "The company's value doubles", correct: false },
+                    { text: "More shares are issued and price drops proportionally", correct: true },
+                    { text: "Dividends are eliminated", correct: false },
+                    { text: "The stock is delisted", correct: false }
+                ]
+            },
+            {
+                question: "What is risk tolerance?",
+                answers: [
+                    { text: "The maximum investment amount", correct: false },
+                    { text: "The level of risk an investor is comfortable with", correct: true },
+                    { text: "A type of insurance", correct: false },
+                    { text: "The minimum required investment", correct: false }
+                ]
+            },
+            {
+                question: "What is the main difference between ETFs and Mutual Funds?",
+                answers: [
+                    { text: "ETFs are riskier than mutual funds", correct: false },
+                    { text: "ETFs trade throughout the day like stocks; mutual funds are priced once daily", correct: true },
+                    { text: "Mutual funds have lower fees", correct: false },
+                    { text: "ETFs cannot hold bonds", correct: false }
+                ]
+            },
+            {
+                question: "Which type of stock typically pays higher dividends?",
+                answers: [
+                    { text: "Common Stock", correct: false },
+                    { text: "Preferred Stock", correct: true },
+                    { text: "Penny Stocks", correct: false },
+                    { text: "Growth Stocks", correct: false }
+                ]
+            },
+            {
+                question: "What does a capital loss represent?",
+                answers: [
+                    { text: "A profit from selling stock", correct: false },
+                    { text: "A loss from selling stock below purchase price", correct: true },
+                    { text: "A missed dividend payment", correct: false },
+                    { text: "A market correction", correct: false }
+                ]
+            },
+            {
+                question: "Why do companies conduct IPOs?",
+                answers: [
+                    { text: "To pay more taxes", correct: false },
+                    { text: "To raise capital for growth and expansion", correct: true },
+                    { text: "To reduce company size", correct: false },
+                    { text: "To eliminate shareholders", correct: false }
+                ]
+            }
+        ];
+
+        // Shuffle function
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        // Select and shuffle questions for quiz
+        let quizQuestions = [];
+
+        // Glossary data
+        const glossaryTerms = [
+            { number: "01", term: "Stock", description: "A small ownership in a company" },
+            { number: "02", term: "Stock Market", description: "Where stocks and securities are bought and sold" },
+            { number: "03", term: "ETF", description: "A collection of investments that you can buy like a single stock" },
+            { number: "04", term: "Dividend", description: "A cash payment to shareholders" },
+            { number: "05", term: "Yield", description: "The income from an investment, expressed as a percentage" },
+            { number: "06", term: "P/E Ratio", description: "The price of a stock relative to its earnings" },
+            { number: "07", term: "Bull Market", description: "A period of rising stock prices" },
+            { number: "08", term: "Bear Market", description: "A period of falling stock prices" },
+            { number: "09", term: "Market Order", description: "Buying or selling immediately at the current price" },
+            { number: "10", term: "Limit Order", description: "Buying or selling at a specific price" },
+            { number: "11", term: "Index", description: "A collection of stocks used to measure market performance" },
+            { number: "12", term: "Volume", description: "The number of shares traded in a specific time period" },
+            { number: "13", term: "Market Cap", description: "The total value of a company's stock" },
+            { number: "14", term: "Blue-Chip Stocks", description: "Large, well-established companies with stable earnings" },
+            { number: "15", term: "DRIP", description: "A way to automatically reinvest dividends into more shares" },
+            { number: "16", term: "Short Selling", description: "Selling borrowed stocks with the hope of buying them back at a lower price" },
+            { number: "17", term: "IPO", description: "The first time a company offers its stock to the public" },
+            { number: "18", term: "Bonds", description: "Loans to companies or governments in exchange for interest payments" },
+            { number: "19", term: "Volatility", description: "The level of price fluctuations in a stock or market" },
+            { number: "20", term: "Market Correction", description: "A decline of 10% or more in stock prices from recent highs" },
+            { number: "21", term: "Compound Interest", description: "Interest on both the original amount and any previously earned interest" },
+            { number: "22", term: "Sector", description: "A broad category of companies (e.g., technology, healthcare, finance)" },
+            { number: "23", term: "Bull Market (Extended)", description: "A period when stock prices are rising" },
+            { number: "24", term: "Earnings Report", description: "A quarterly report showing a company's financial performance" },
+            { number: "25", term: "Fundamental Analysis", description: "Evaluating a company's financial health and potential for growth" },
+            { number: "26", term: "Technical Analysis", description: "Using stock price movements and patterns to predict future trends" },
+            { number: "27", term: "Asset Allocation", description: "The process of spreading investments across different asset classes" },
+            { number: "28", term: "Market Sentiment", description: "The overall attitude of investors toward a market or stock" },
+            { number: "29", term: "Dollar-Cost Averaging", description: "Investing a fixed amount at regular intervals to reduce volatility impact" },
+            { number: "30", term: "Margin Trading", description: "Borrowing money to buy stocks, amplifying both potential gains and losses" },
+            { number: "31", term: "Stock Split", description: "When a company increases the number of shares and reduces the stock price proportionally" },
+            { number: "32", term: "Risk Tolerance", description: "The level of risk an investor is comfortable with" },
+            { number: "33", term: "ETFs vs. Mutual Funds", description: "Both are diversified investments; ETFs trade like stocks, mutual funds are bought/sold at end of day" }
+        ];
+
+        function filterGlossary() {
+            const searchInput = document.getElementById('glossarySearch');
+            const glossaryGrid = document.getElementById('glossaryGrid');
+            
+            if (!searchInput || !glossaryGrid) return;
+            
+            const searchTerm = searchInput.value.toLowerCase();
+            
+            const filteredTerms = glossaryTerms.filter(item => 
+                item.term.toLowerCase().includes(searchTerm) || 
+                item.description.toLowerCase().includes(searchTerm)
+            );
+            
+            if (filteredTerms.length === 0) {
+                glossaryGrid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--gray-text);">
+                        <p style="font-size: 1.2rem; margin-bottom: 10px;">No terms found</p>
+                        <p>Try a different search term</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            glossaryGrid.innerHTML = filteredTerms.map(item => `
+                <div class="glossary-card">
+                    <div class="glossary-number">${item.number}</div>
+                    <div class="glossary-term">${item.term}</div>
+                    <div class="glossary-description">${item.description}</div>
+                </div>
+            `).join('');
+        }
+
+        // Progress tracking
+        const progressData = {
+            conceptsRead: new Set(),
+            quizzesTaken: 0,
+            bestScore: 0
+        };
+
+        function saveProgress() {
+            try {
+                const data = {
+                    conceptsRead: Array.from(progressData.conceptsRead),
+                    quizzesTaken: progressData.quizzesTaken,
+                    bestScore: progressData.bestScore,
+                    studyTime: appState.studyTime
+                };
+                localStorage.setItem('stockMarketProgress', JSON.stringify(data));
+            } catch (e) {
+                console.log('Progress saving not available');
+            }
+        }
+
+        function loadProgress() {
+            try {
+                const saved = localStorage.getItem('stockMarketProgress');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    progressData.conceptsRead = new Set(data.conceptsRead);
+                    progressData.quizzesTaken = data.quizzesTaken || 0;
+                    progressData.bestScore = data.bestScore || 0;
+                    appState.studyTime = data.studyTime || 0;
+                    updateProgressDisplay();
+                }
+            } catch (e) {
+                console.log('Progress loading not available');
+            }
+        }
+
+        function updateProgressDisplay() {
+            const percentage = Math.round((progressData.conceptsRead.size / 33) * 100);
+            const progressEl = document.getElementById('progress');
+            if (progressEl) {
+                progressEl.textContent = percentage + '%';
+            }
+        }
+
+        // Track concept reading
+        function trackConceptRead(conceptNumber) {
+            progressData.conceptsRead.add(conceptNumber);
+            saveProgress();
+            updateProgressDisplay();
+        }
+
+        // Add scroll tracking for concepts
+        function setupScrollTracking() {
+            const cards = document.querySelectorAll('.card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+                        const cardTitle = entry.target.querySelector('.card-icon');
+                        if (cardTitle) {
+                            const conceptNum = cardTitle.textContent.trim();
+                            trackConceptRead(conceptNum);
+                        }
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            cards.forEach(card => observer.observe(card));
+        }
+
+        function initializeApp() {
+            // Load saved progress
+            loadProgress();
+            
+            // Initialize glossary
+            filterGlossary();
+            
+            // Setup scroll tracking for progress
+            setupScrollTracking();
+            
+            // Randomize and select 10 questions from the pool
+            const shuffled = shuffleArray(allQuizQuestions);
+            quizQuestions = shuffled.slice(0, 10);
+            
+            // Also shuffle the answers for each selected question
+            quizQuestions = quizQuestions.map(q => ({
+                question: q.question,
+                answers: shuffleArray(q.answers)
+            }));
+            
+            // Generate progress dots
+            const progressContainer = document.getElementById('quizProgress');
+            if (progressContainer) {
+                progressContainer.innerHTML = ''; // Clear existing dots
+                for (let i = 0; i < quizQuestions.length; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'progress-dot' + (i === 0 ? ' active' : '');
+                    progressContainer.appendChild(dot);
+                }
+            }
+            
+            loadQuestion();
+            
+            // Start study timer
+            setInterval(() => {
+                appState.studyTime++;
+                saveProgress();
+                const hours = Math.floor(appState.studyTime / 60);
+                const minutes = appState.studyTime % 60;
+                const studyTimeEl = document.getElementById('studyTime');
+                if (studyTimeEl) {
+                    if (hours > 0) {
+                        studyTimeEl.textContent = hours + 'h ' + minutes + 'm';
+                    } else {
+                        studyTimeEl.textContent = minutes + 'm';
+                    }
+                }
+            }, 60000);
+        }
+
+        function showModule(moduleId) {
+            document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+            const targetModule = document.getElementById(moduleId);
+            if (targetModule) {
+                targetModule.classList.add('active');
+            }
+            
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            if (window.event && window.event.target) {
+                window.event.target.classList.add('active');
+            }
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function loadQuestion() {
+            if (appState.currentQuestion >= quizQuestions.length) {
+                showResults();
+                return;
+            }
+
+            const q = quizQuestions[appState.currentQuestion];
+            const questionEl = document.getElementById('question');
+            if (questionEl) {
+                questionEl.textContent = q.question;
+            }
+            
+            const optionsHTML = q.answers.map((answer, index) => 
+                `<div class="quiz-option" onclick="selectAnswer(${index}, ${answer.correct})">${answer.text}</div>`
+            ).join('');
+            
+            const optionsEl = document.getElementById('options');
+            if (optionsEl) {
+                optionsEl.innerHTML = optionsHTML;
+            }
+            
+            const nextBtn = document.getElementById('nextQuestion');
+            if (nextBtn) {
+                nextBtn.style.display = 'none';
+            }
+        }
+
+        function selectAnswer(index, isCorrect) {
+            const options = document.querySelectorAll('.quiz-option');
+            
+            options.forEach(opt => opt.style.pointerEvents = 'none');
+            
+            if (isCorrect) {
+                options[index].classList.add('correct');
+                appState.quizScore++;
+            } else {
+                options[index].classList.add('incorrect');
+                quizQuestions[appState.currentQuestion].answers.forEach((a, i) => {
+                    if (a.correct) options[i].classList.add('correct');
+                });
+            }
+            
+            const nextBtn = document.getElementById('nextQuestion');
+            if (nextBtn) {
+                nextBtn.style.display = 'block';
+            }
+        }
+
+        function loadNextQuestion() {
+            const dots = document.querySelectorAll('.progress-dot');
+            if (dots[appState.currentQuestion]) {
+                dots[appState.currentQuestion].classList.remove('active');
+                dots[appState.currentQuestion].classList.add('completed');
+            }
+            
+            appState.currentQuestion++;
+            
+            if (appState.currentQuestion < quizQuestions.length) {
+                if (dots[appState.currentQuestion]) {
+                    dots[appState.currentQuestion].classList.add('active');
+                }
+                const questionNumberEl = document.getElementById('questionNumber');
+                if (questionNumberEl) {
+                    questionNumberEl.textContent = appState.currentQuestion + 1;
+                }
+            }
+            
+            loadQuestion();
+        }
+
+        function showResults() {
+            const score = appState.quizScore;
+            const percentage = Math.round((score / quizQuestions.length) * 100);
+            
+            // Update progress tracking
+            progressData.quizzesTaken++;
+            if (percentage > progressData.bestScore) {
+                progressData.bestScore = percentage;
+            }
+            saveProgress();
+            
+            const quizContentEl = document.getElementById('quizContent');
+            if (quizContentEl) {
+                quizContentEl.innerHTML = `
+                    <div style="text-align: center; padding: 60px 0;">
+                        <h2 style="font-size: 3rem; font-weight: 200; margin-bottom: 20px;">Test Complete</h2>
+                        <p style="font-size: 2rem; color: var(--accent); margin-bottom: 20px;">
+                            ${score}/${quizQuestions.length} (${percentage}%)
+                        </p>
+                        ${percentage > progressData.bestScore - percentage ? `
+                            <p style="color: var(--accent); font-size: 1.2rem; margin-bottom: 20px;">🏆 New Best Score!</p>
+                        ` : `
+                            <p style="color: var(--gray-text); font-size: 0.9rem; margin-bottom: 10px;">Best Score: ${progressData.bestScore}%</p>
+                        `}
+                        <p style="color: var(--gray-text); margin-bottom: 30px;">
+                            ${percentage >= 80 ? 'Excellent! You have a strong understanding of stock market fundamentals.' : 
+                              percentage >= 60 ? 'Good work! Review the material to strengthen your knowledge further.' : 
+                              'Keep studying! Review the concepts and try again.'}
+                        </p>
+                        <p style="color: var(--gray-lighter); font-size: 0.85rem; margin-bottom: 30px;">
+                            Total Quizzes Taken: ${progressData.quizzesTaken}
+                        </p>
+                        <button class="btn" onclick="resetQuiz()">
+                            Retake Test
+                        </button>
+                    </div>
+                `;
+            }
+            
+            const quizScoreEl = document.getElementById('quizScore');
+            if (quizScoreEl) {
+                quizScoreEl.textContent = score + '/' + quizQuestions.length;
+            }
+            
+            const progressEl = document.getElementById('progress');
+            if (progressEl && progressData.conceptsRead.size > 0) {
+                const readPercentage = Math.round((progressData.conceptsRead.size / 33) * 100);
+                progressEl.textContent = readPercentage + '%';
+            }
+            
+            const nextBtn = document.getElementById('nextQuestion');
+            if (nextBtn) {
+                nextBtn.style.display = 'none';
+            }
+        }
+
+        function resetQuiz() {
+            appState.currentQuestion = 0;
+            appState.quizScore = 0;
+            
+            // Randomize questions again for retake
+            const shuffled = shuffleArray(allQuizQuestions);
+            quizQuestions = shuffled.slice(0, 10);
+            
+            // Shuffle answers for each question
+            quizQuestions = quizQuestions.map(q => ({
+                question: q.question,
+                answers: shuffleArray(q.answers)
+            }));
+            
+            // Reset progress dots
+            const dots = document.querySelectorAll('.progress-dot');
+            dots.forEach((dot, i) => {
+                dot.classList.remove('active', 'completed');
+                if (i === 0) dot.classList.add('active');
+            });
+            
+            // Reset question number
+            const questionNumberEl = document.getElementById('questionNumber');
+            if (questionNumberEl) {
+                questionNumberEl.textContent = '1';
+            }
+            
+            // Reset quiz content to show questions again
+            const quizContentEl = document.getElementById('quizContent');
+            if (quizContentEl) {
+                quizContentEl.innerHTML = `
+                    <div class="quiz-question" id="question"></div>
+                    <div class="quiz-options" id="options"></div>
+                `;
+            }
+            
+            // Reset and hide next button
+            const nextBtn = document.getElementById('nextQuestion');
+            if (nextBtn) {
+                nextBtn.style.display = 'none';
+            }
+            
+            // Load first question
+            loadQuestion();
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            // Only in quiz module
+            const quizModule = document.getElementById('quiz');
+            if (!quizModule || !quizModule.classList.contains('active')) return;
+            
+            const options = document.querySelectorAll('.quiz-option');
+            const nextBtn = document.getElementById('nextQuestion');
+            
+            // Number keys 1-4 to select answers
+            if (e.key >= '1' && e.key <= '4') {
+                const index = parseInt(e.key) - 1;
+                if (options[index] && options[index].style.pointerEvents !== 'none') {
+                    options[index].click();
+                }
+            }
+            
+            // Enter or Space to proceed to next question
+            if ((e.key === 'Enter' || e.key === ' ') && nextBtn && nextBtn.style.display === 'block') {
+                e.preventDefault();
+                nextBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>

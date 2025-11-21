@@ -1,0 +1,3910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Master candlestick trading patterns with interactive lessons, real-time simulator, and comprehensive strategies. Mobile-optimized learning platform.">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Candlestick Trading Bible - Minimalist Edition</title>
+    <!-- 
+        MOBILE OPTIMIZATIONS:
+        - Fully responsive design with breakpoints at 1024px, 768px, and 480px
+        - Touch-friendly buttons and interactive elements (min 44px touch targets)
+        - Adaptive chart rendering (fewer candles on mobile for performance)
+        - Haptic feedback on supported devices
+        - Smooth scrolling and optimized animations
+        - Landscape mode support
+        - Pull-to-refresh prevention
+        - iOS Safari specific fixes
+        - Debounced resize handlers for better performance
+    -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #000000;
+            --dark: #0a0a0a;
+            --gray-dark: #1a1a1a;
+            --gray: #2a2a2a;
+            --gray-light: #3a3a3a;
+            --gray-lighter: #666666;
+            --gray-text: #999999;
+            --white: #ffffff;
+            --accent: #00ff88;
+            --danger: #ff3b3b;
+            --success: #00ff88;
+            --gold: #ffd700;
+            --blue: #00a6ff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--black);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            scroll-behavior: smooth;
+        }
+
+        /* iOS Safari specific fixes */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                min-height: -webkit-fill-available;
+            }
+        }
+
+        /* Prevent text selection on interactive elements */
+        button, .nav-tab, .btn, .sim-btn, .quiz-option {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: rgba(0, 255, 136, 0.1);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gray-light);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gray-lighter);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            padding: 80px 20px 60px;
+            text-align: center;
+            border-bottom: 1px solid var(--gray-dark);
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, transparent, var(--accent));
+        }
+
+        .header h1 {
+            font-size: 4rem;
+            font-weight: 200;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            background: linear-gradient(180deg, var(--white) 0%, var(--gray-text) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header .subtitle {
+            color: var(--gray-text);
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Stats */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1px;
+            margin: 60px 0;
+            background: var(--gray-dark);
+            border: 1px solid var(--gray-dark);
+        }
+
+        .stat-card {
+            background: var(--black);
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            background: var(--dark);
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 100;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: var(--gray-text);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Navigation */
+        .nav-container {
+            margin: 60px 0;
+            border-bottom: 1px solid var(--gray-dark);
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .nav-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-tab {
+            flex: 1;
+            min-width: 140px;
+            padding: 20px 30px;
+            background: transparent;
+            border: none;
+            color: var(--gray-text);
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tab::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-tab:hover {
+            color: var(--white);
+        }
+
+        .nav-tab.active {
+            color: var(--white);
+        }
+
+        .nav-tab.active::after {
+            transform: scaleX(1);
+        }
+
+        /* Modules */
+        .module {
+            display: none;
+            animation: fadeIn 0.6s ease;
+            min-height: 600px;
+            padding: 60px 0;
+        }
+
+        .module.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Section Headers */
+        .section-header {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 200;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .section-subtitle {
+            color: var(--gray-text);
+            font-size: 1rem;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        /* Anatomy Diagram */
+        .anatomy-diagram {
+            background: var(--dark);
+            border: 1px solid var(--gray-dark);
+            padding: 60px;
+            margin: 60px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .anatomy-title {
+            font-size: 1.8rem;
+            font-weight: 200;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        .anatomy-display {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .candle-example {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: var(--black);
+            padding: 40px;
+            border: 1px solid var(--gray-dark);
+        }
+
+        .candle-label {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .candle-diagram {
+            width: 120px;
+            height: 300px;
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .label-line {
+            position: absolute;
+            height: 1px;
+            background: var(--gray-lighter);
+            left: 130px;
+            width: 80px;
+        }
+
+        .label-text {
+            position: absolute;
+            left: 220px;
+            font-size: 0.9rem;
+            color: var(--gray-text);
+            white-space: nowrap;
+        }
+
+        .part-list {
+            list-style: none;
+            width: 100%;
+        }
+
+        .part-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--gray-dark);
+            color: var(--gray-text);
+        }
+
+        .part-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* Candlestick Types Grid */
+        .types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .type-card {
+            background: var(--dark);
+            border: 1px solid var(--gray-dark);
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .type-card:hover {
+            border-color: var(--gray-light);
+            transform: translateY(-5px);
+        }
+
+        .type-visual {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            background: var(--black);
+            border: 1px solid var(--gray-dark);
+        }
+
+        .type-name {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--white);
+        }
+
+        .type-description {
+            color: var(--gray-text);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .card {
+            background: var(--dark);
+            border: 1px solid var(--gray-dark);
+            padding: 40px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .card:hover {
+            border-color: var(--gray-light);
+            transform: translateY(-5px);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--gray-light);
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+
+        .card-content {
+            color: var(--gray-text);
+            line-height: 1.8;
+        }
+
+        .card-content ul {
+            list-style: none;
+            margin-top: 20px;
+            padding-left: 0;
+        }
+
+        .card-content ul li {
+            margin: 10px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card-content ul li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        /* Candlestick Visualization */
+        .candlestick-container {
+            background: var(--dark);
+            border: 1px solid var(--gray-dark);
+            padding: 40px;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .candlestick-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--gray-dark);
+        }
+
+        .candlestick-title {
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .candlestick-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: 1px solid var(--gray-light);
+            color: var(--gray-text);
+            cursor: pointer;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            color: var(--white);
+            border-color: var(--accent);
+        }
+
+        .btn.active {
+            background: var(--accent);
+            color: var(--black);
+            border-color: var(--accent);
+        }
+
+        .chart-area {
+            height: 400px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            padding: 20px;
+            background: var(--black);
+            border: 1px solid var(--gray-dark);
+            position: relative;
+        }
+
+        /* Grid lines */
+        .chart-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(to right, var(--gray-dark) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--gray-dark) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .candle {
+            width: 30px;
+            position: relative;
+            z-index: 1;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .candle:hover {
+            transform: scale(1.1);
+        }
+
+        .candle-body {
+            position: absolute;
+            width: 100%;
+            left: 0;
+            border: 2px solid;
+            border-radius: 2px;
+        }
+
+        .candle-wick {
+            position: absolute;
+            width: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #888888;
+        }
+
+        .candle.bullish .candle-body,
+        .bullish .candle-body {
+            background: #00ff88;
+            border-color: #00ff88;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+        }
+
+        .candle.bearish .candle-body,
+        .bearish .candle-body {
+            background: #ff3b3b;
+            border-color: #ff3b3b;
+            box-shadow: 0 0 15px rgba(255, 59, 59, 0.4);
+        }
+
+        /* Pattern Cards */
+        .pattern-card {
+            background: var(--black);
+            border: 1px solid var(--gray-dark);
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 30px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .pattern-card:hover {
+            border-color: var(--gray-light);
+            background: var(--dark);
+        }
+
+        .pattern-visual {
+            height: 120px;
+            background: var(--dark);
+            border: 1px solid var(--gray-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .pattern-info h3 {
+            font-size: 1.3rem;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+
+        .pattern-info p {
+            color: var(--gray-text);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .pattern-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 5px 15px;
+            border: 1px solid var(--gray-dark);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray-text);
+        }
+
+        .tag.success {
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .tag.danger {
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        /* Strategy Section */
+        .strategy-container {
+            background: var(--dark);
+            border: 1px solid var(--gray-dark);
+            padding: 60px;
+            margin: 60px 0;
+            position: relative;
+        }
+
+        .strategy-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 60px;
+            height: 60px;
+            border-top: 2px solid var(--accent);
+            border-left: 2px solid var(--accent);
+        }
+
+        .strategy-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 60px;
+            height: 60px;
+            border-bottom: 2px solid var(--accent);
+            border-right: 2px solid var(--accent);
+        }
+
+        .strategy-steps {
+            display: grid;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .strategy-step {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            border: 1px solid var(--gray-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 200;
+            color: var(--accent);
+        }
+
+        .step-content h4 {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+
+        .step-content p {
+            color: var(--gray-text);
+            line-height: 1.8;
+        }
+
+        /* Risk Management */
+        .risk-calculator {
+            background: var(--black);
+            border: 1px solid var(--gray-dark);
+            padding: 40px;
+            margin: 40px 0;
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .input-group label {
+            color: var(--gray-text);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .input-group input {
+            background: var(--dark);
+            border: 1px solid var(--gray-dark);
+            color: var(--white);
+            padding: 15px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--accent);
+            color: var(--black);
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .calculate-btn:hover {
+            background: var(--white);
+        }
+
+        .result-display {
+            background: var(--dark);
+            border: 1px solid var(--gray-dark);
+            padding: 30px;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .result-display.active {
+            display: block;
+        }
+
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 200;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .result-label {
+            color: var(--gray-text);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 60px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: var(--gray-dark);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 100px;
+            margin-bottom: 60px;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 40px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background: var(--black);
+            border: 2px solid var(--accent);
+            z-index: 1;
+        }
+
+        .timeline-content {
+            background: var(--dark);
+            border: 1px solid var(--gray-dark);
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            border-color: var(--gray-light);
+        }
+
+        .timeline-date {
+            color: var(--accent);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .timeline-title {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 15px;
+        }
+
+        .timeline-description {
+            color: var(--gray-text);
+            line-height: 1.8;
+        }
+
+        /* Quiz Section */
+        .quiz-container {
+            background: var(--dark);
+            border: 1px solid var(--gray-dark);
+            padding: 60px;
+            margin: 60px 0;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--gray-dark);
+        }
+
+        .quiz-progress {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            max-width: 400px;
+            justify-content: center;
+        }
+
+        .progress-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--gray-dark);
+            transition: all 0.3s ease;
+            border-radius: 50%;
+        }
+
+        .progress-dot.active {
+            background: var(--accent);
+            transform: scale(1.5);
+        }
+
+        .progress-dot.completed {
+            background: var(--gray-lighter);
+        }
+
+        .quiz-question {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 15px;
+        }
+
+        .quiz-option {
+            padding: 20px 30px;
+            background: var(--black);
+            border: 1px solid var(--gray-dark);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-left: 60px;
+        }
+
+        .quiz-option::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--gray-light);
+        }
+
+        .quiz-option:hover {
+            border-color: var(--gray-light);
+            background: var(--dark);
+        }
+
+        .quiz-option.selected::before {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .quiz-option.correct {
+            border-color: var(--success);
+        }
+
+        .quiz-option.correct::before {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        .quiz-option.incorrect {
+            border-color: var(--danger);
+        }
+
+        .quiz-option.incorrect::before {
+            background: var(--danger);
+            border-color: var(--danger);
+        }
+
+        /* Trading Simulator */
+        .simulator-container {
+            background: var(--dark);
+            border: 1px solid var(--gray-dark);
+            padding: 40px;
+            margin: 60px 0;
+        }
+
+        .simulator-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .sim-btn {
+            padding: 15px 30px;
+            background: transparent;
+            border: 1px solid var(--gray-light);
+            color: var(--white);
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .sim-btn.buy {
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .sim-btn.buy:hover {
+            background: var(--success);
+            color: var(--black);
+        }
+
+        .sim-btn.sell {
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        .sim-btn.sell:hover {
+            background: var(--danger);
+            color: var(--black);
+        }
+
+        .simulator-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1px;
+            background: var(--gray-dark);
+            border: 1px solid var(--gray-dark);
+            margin: 40px 0;
+        }
+
+        .sim-metric {
+            background: var(--black);
+            padding: 30px;
+            text-align: center;
+        }
+
+        .metric-label {
+            color: var(--gray-text);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 200;
+            color: var(--white);
+        }
+
+        .metric-value.positive {
+            color: var(--success);
+        }
+
+        .metric-value.negative {
+            color: var(--danger);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 120px;
+            padding: 60px 20px;
+            border-top: 1px solid var(--gray-dark);
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-title {
+            font-size: 2rem;
+            font-weight: 200;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .footer-text {
+            color: var(--gray-text);
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--gray-text);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .footer-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--white);
+        }
+
+        .footer-link:hover::after {
+            transform: scaleX(1);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .anatomy-display {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .candlestick-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+            .candlestick-controls {
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .header .subtitle {
+                font-size: 0.9rem;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .nav-tabs {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .nav-tab {
+                min-width: 120px;
+                padding: 15px 20px;
+                font-size: 0.85rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .section-subtitle {
+                font-size: 0.95rem;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .types-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .pattern-card {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .pattern-visual {
+                height: 80px;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                padding-left: 60px;
+            }
+            
+            .timeline-marker {
+                left: 10px;
+            }
+
+            .anatomy-display {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .candle-diagram {
+                width: 100px;
+                height: 250px;
+            }
+
+            .label-line {
+                left: 110px;
+                width: 60px;
+            }
+
+            .label-text {
+                left: 180px;
+                font-size: 0.8rem;
+            }
+
+            .strategy-container {
+                padding: 30px 20px;
+            }
+
+            .strategy-step {
+                grid-template-columns: 50px 1fr;
+                gap: 15px;
+            }
+
+            .step-number {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .calculator-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-area {
+                height: 300px;
+                padding: 10px;
+            }
+
+            .candle {
+                width: 20px;
+            }
+
+            .quiz-container {
+                padding: 30px 20px;
+            }
+
+            .quiz-option {
+                padding: 15px 20px 15px 50px;
+            }
+
+            .simulator-container {
+                padding: 20px;
+            }
+
+            .simulator-controls {
+                flex-direction: column;
+            }
+
+            .sim-btn,
+            .btn {
+                width: 100%;
+            }
+
+            .simulator-display {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            /* Body Size Analysis Mobile */
+            .candlestick-container > div[style*="grid-template-columns: repeat(auto-fit"] {
+                grid-template-columns: 1fr !important;
+                gap: 30px !important;
+            }
+
+            /* Trend Context Mobile */
+            div[style*="grid-template-columns: 200px 1fr"] {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+            }
+
+            div[style*="grid-template-columns: 1fr 1fr"] {
+                grid-template-columns: 1fr !important;
+            }
+
+            /* Pattern Strength Multipliers Mobile */
+            div[style*="grid-template-columns: 50px 1fr 100px"] {
+                grid-template-columns: 60px 1fr !important;
+                gap: 15px !important;
+            }
+
+            div[style*="grid-template-columns: 50px 1fr 100px"] > div:last-child {
+                display: none;
+            }
+
+            /* Cheat Sheet Mobile */
+            .strategy-container > div[style*="grid-template-columns: 1fr 1fr"] {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 60px 15px 40px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .header .subtitle {
+                font-size: 0.8rem;
+                letter-spacing: 1px;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+                gap: 1px;
+            }
+
+            .stat-card {
+                padding: 20px;
+            }
+
+            .stat-value {
+                font-size: 2rem;
+            }
+
+            .nav-tab {
+                min-width: 100px;
+                padding: 12px 15px;
+                font-size: 0.8rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .section-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .types-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 25px;
+            }
+
+            .card-title {
+                font-size: 1.2rem;
+            }
+
+            .card-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+
+            .anatomy-diagram {
+                padding: 30px 15px;
+            }
+
+            .anatomy-title {
+                font-size: 1.5rem;
+            }
+
+            .candle-diagram {
+                width: 80px;
+                height: 200px;
+            }
+
+            .label-line {
+                left: 90px;
+                width: 50px;
+            }
+
+            .label-text {
+                left: 150px;
+                font-size: 0.75rem;
+            }
+
+            .candle-label {
+                font-size: 1rem;
+            }
+
+            .part-list li {
+                font-size: 0.85rem;
+            }
+
+            .candlestick-container {
+                padding: 20px 15px;
+            }
+
+            .candlestick-title {
+                font-size: 1rem;
+            }
+
+            .candlestick-controls {
+                flex-wrap: wrap;
+            }
+
+            .btn {
+                padding: 8px 15px;
+                font-size: 0.75rem;
+            }
+
+            .chart-area {
+                height: 250px;
+                padding: 10px 5px;
+            }
+
+            .candle {
+                width: 15px;
+            }
+
+            .pattern-card {
+                padding: 20px;
+            }
+
+            .pattern-info h3 {
+                font-size: 1.1rem;
+            }
+
+            .pattern-tags {
+                gap: 5px;
+            }
+
+            .tag {
+                padding: 4px 10px;
+                font-size: 0.7rem;
+            }
+
+            .strategy-container {
+                padding: 30px 15px;
+            }
+
+            .strategy-container::before,
+            .strategy-container::after {
+                width: 40px;
+                height: 40px;
+            }
+
+            .strategy-step {
+                grid-template-columns: 40px 1fr;
+                gap: 15px;
+            }
+
+            .step-number {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .step-content h4 {
+                font-size: 1rem;
+            }
+
+            .step-content p {
+                font-size: 0.9rem;
+            }
+
+            .risk-calculator {
+                padding: 20px 15px;
+            }
+
+            .input-group input {
+                padding: 12px;
+                font-size: 1rem;
+            }
+
+            .calculate-btn {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+
+            .result-value {
+                font-size: 2rem;
+            }
+
+            .timeline-content {
+                padding: 20px;
+            }
+
+            .timeline-title {
+                font-size: 1.2rem;
+            }
+
+            .timeline-description {
+                font-size: 0.9rem;
+            }
+
+            .quiz-container {
+                padding: 20px 15px;
+            }
+
+            .quiz-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .quiz-progress {
+                gap: 6px;
+                max-width: 100%;
+            }
+
+            .progress-dot {
+                width: 8px;
+                height: 8px;
+            }
+
+            .progress-dot.active {
+                transform: scale(1.3);
+            }
+
+            .quiz-question {
+                font-size: 1.2rem;
+            }
+
+            .quiz-option {
+                padding: 12px 15px 12px 45px;
+                font-size: 0.9rem;
+            }
+
+            .quiz-option::before {
+                left: 15px;
+                width: 15px;
+                height: 15px;
+            }
+
+            .simulator-display {
+                grid-template-columns: 1fr;
+            }
+
+            .sim-metric {
+                padding: 20px;
+            }
+
+            .metric-value {
+                font-size: 1.5rem;
+            }
+
+            .footer {
+                padding: 40px 15px;
+                margin-top: 80px;
+            }
+
+            .footer-title {
+                font-size: 1.5rem;
+            }
+
+            .footer-text {
+                font-size: 0.9rem;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            /* SVG Charts Mobile - make them scrollable */
+            div[style*="height: 120px"][style*="position: relative"] {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* Hide complex visualizations on very small screens */
+            .label-line {
+                display: none;
+            }
+
+            .label-text {
+                position: static;
+                display: block;
+                margin-top: 10px;
+                text-align: left;
+                padding: 5px 10px;
+                background: var(--dark);
+                border-radius: 2px;
+            }
+        }
+
+        /* Touch-friendly improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .btn,
+            .sim-btn,
+            .nav-tab,
+            .quiz-option,
+            .card {
+                cursor: pointer;
+                -webkit-tap-highlight-color: rgba(0, 255, 136, 0.1);
+            }
+
+            .btn,
+            .sim-btn {
+                padding: 15px 25px;
+                font-size: 0.9rem;
+            }
+
+            .quiz-option {
+                padding: 18px 25px 18px 55px;
+            }
+
+            .candle {
+                cursor: default;
+            }
+
+            .candle:hover {
+                transform: none;
+            }
+
+            /* Larger touch targets */
+            .nav-tab {
+                min-height: 44px;
+            }
+
+            .calculate-btn {
+                min-height: 50px;
+            }
+
+            /* Disable hover effects on touch devices */
+            .card:hover,
+            .pattern-card:hover,
+            .timeline-content:hover,
+            .quiz-option:hover,
+            .btn:hover,
+            .nav-tab:hover {
+                transform: none;
+                border-color: var(--gray-dark);
+            }
+
+            .card:active,
+            .btn:active,
+            .sim-btn:active {
+                transform: scale(0.98);
+                opacity: 0.9;
+            }
+        }
+
+        /* Landscape mobile optimization */
+        @media (max-width: 900px) and (orientation: landscape) {
+            .header {
+                padding: 40px 20px 30px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .module {
+                padding: 40px 0;
+            }
+
+            .chart-area {
+                height: 250px;
+            }
+        }
+
+        /* Ensure text remains readable on all screen sizes */
+        @media (max-width: 768px) {
+            body {
+                font-size: 15px;
+            }
+
+            p, li, .card-content {
+                line-height: 1.7;
+            }
+        }
+
+        /* Optimize loading animation for mobile */
+        @media (max-width: 480px) {
+            .loading-text {
+                font-size: 0.8rem;
+                letter-spacing: 2px;
+            }
+        }
+
+        /* Loading State */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-text {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--gray-text);
+            animation: pulse 2s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div class="loading-text">Loading Trading System</div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>Candlestick Trading Bible</h1>
+            <p class="subtitle">Master the Art of Price Action</p>
+        </header>
+
+        <!-- Stats -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-value" id="patternsLearned">0</div>
+                <div class="stat-label">Patterns Mastered</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="winRate">0%</div>
+                <div class="stat-label">Win Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="profitLoss">$0</div>
+                <div class="stat-label">P&L</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="studyTime">0h</div>
+                <div class="stat-label">Study Time</div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="nav-container">
+            <div class="nav-tabs">
+                <button class="nav-tab active" onclick="showModule('foundation')">Foundation</button>
+                <button class="nav-tab" onclick="showModule('patterns')">Patterns</button>
+                <button class="nav-tab" onclick="showModule('strategies')">Strategies</button>
+                <button class="nav-tab" onclick="showModule('risk')">Risk Management</button>
+                <button class="nav-tab" onclick="showModule('simulator')">Simulator</button>
+                <button class="nav-tab" onclick="showModule('mastery')">Mastery Test</button>
+            </div>
+        </nav>
+
+        <!-- Content -->
+        <main>
+            <!-- Foundation Module -->
+            <div class="module active" id="foundation">
+                <div class="section-header">
+                    <h2 class="section-title">Trading Foundation</h2>
+                    <p class="section-subtitle">
+                        Discover the 300-year legacy of Japanese candlestick trading, from Munehisa Homma's 
+                        revolutionary rice market analysis to modern algorithmic trading systems.
+                    </p>
+                </div>
+
+                <!-- Candlestick Anatomy Diagram -->
+                <div class="anatomy-diagram">
+                    <h3 class="anatomy-title">Candlestick Anatomy: Understanding Every Component</h3>
+                    <div class="anatomy-display">
+                        <!-- Bullish Candle -->
+                        <div class="candle-example">
+                            <div class="candle-label">Bullish Candle</div>
+                            <div class="candle-diagram">
+                                <!-- Upper Wick -->
+                                <div class="candle-wick" style="position: absolute; bottom: 180px; height: 50px; left: 50%; transform: translateX(-50%); width: 2px; background: #00ff88;"></div>
+                                <div class="label-line" style="top: 70px;"></div>
+                                <div class="label-text" style="top: 65px;">HIGH - Upper Wick</div>
+                                
+                                <!-- Body -->
+                                <div style="position: absolute; bottom: 100px; height: 80px; width: 100%; border-radius: 2px; background: #00ff88; border: 2px solid #00ff88; box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);"></div>
+                                <div class="label-line" style="top: 130px;"></div>
+                                <div class="label-text" style="top: 125px;">CLOSE (top of body)</div>
+                                <div class="label-line" style="top: 200px;"></div>
+                                <div class="label-text" style="top: 195px;">OPEN (bottom of body)</div>
+                                
+                                <!-- Lower Wick -->
+                                <div class="candle-wick" style="position: absolute; bottom: 30px; height: 70px; left: 50%; transform: translateX(-50%); width: 2px; background: #00ff88;"></div>
+                                <div class="label-line" style="top: 260px;"></div>
+                                <div class="label-text" style="top: 255px;">LOW - Lower Wick</div>
+                            </div>
+                            <ul class="part-list">
+                                <li><strong>Body:</strong> Open to Close range</li>
+                                <li><strong>Color:</strong> Green = Bullish (Close > Open)</li>
+                                <li><strong>Upper Wick:</strong> Rejection at highs</li>
+                                <li><strong>Lower Wick:</strong> Support at lows</li>
+                            </ul>
+                        </div>
+
+                        <!-- Bearish Candle -->
+                        <div class="candle-example">
+                            <div class="candle-label">Bearish Candle</div>
+                            <div class="candle-diagram">
+                                <!-- Upper Wick -->
+                                <div class="candle-wick" style="position: absolute; bottom: 180px; height: 50px; left: 50%; transform: translateX(-50%); width: 2px; background: #ff3b3b;"></div>
+                                <div class="label-line" style="top: 70px;"></div>
+                                <div class="label-text" style="top: 65px;">HIGH - Upper Wick</div>
+                                
+                                <!-- Body -->
+                                <div style="position: absolute; bottom: 100px; height: 80px; width: 100%; border-radius: 2px; background: #ff3b3b; border: 2px solid #ff3b3b; box-shadow: 0 0 20px rgba(255, 59, 59, 0.4);"></div>
+                                <div class="label-line" style="top: 130px;"></div>
+                                <div class="label-text" style="top: 125px;">OPEN (top of body)</div>
+                                <div class="label-line" style="top: 200px;"></div>
+                                <div class="label-text" style="top: 195px;">CLOSE (bottom of body)</div>
+                                
+                                <!-- Lower Wick -->
+                                <div class="candle-wick" style="position: absolute; bottom: 30px; height: 70px; left: 50%; transform: translateX(-50%); width: 2px; background: #ff3b3b;"></div>
+                                <div class="label-line" style="top: 260px;"></div>
+                                <div class="label-text" style="top: 255px;">LOW - Lower Wick</div>
+                            </div>
+                            <ul class="part-list">
+                                <li><strong>Body:</strong> Open to Close range</li>
+                                <li><strong>Color:</strong> Red = Bearish (Close < Open)</li>
+                                <li><strong>Upper Wick:</strong> Failed rally attempt</li>
+                                <li><strong>Lower Wick:</strong> Temporary support</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Candlestick Types -->
+                <div class="section-header" style="margin-top: 80px;">
+                    <h2 class="section-title">Essential Candlestick Types</h2>
+                    <p class="section-subtitle">
+                        Master these fundamental candle formations that reveal market psychology and trading opportunities.
+                    </p>
+                </div>
+
+                <div class="types-grid">
+                    <div class="type-card">
+                        <div class="type-visual">
+                            <div style="width: 40px; height: 120px; position: relative;">
+                                <div class="candle-wick" style="position: absolute; bottom: 100px; height: 5px; left: 50%; transform: translateX(-50%); width: 2px; background: #888;"></div>
+                                <div class="candle-body bullish" style="position: absolute; bottom: 20px; height: 80px; width: 100%;"></div>
+                                <div class="candle-wick" style="position: absolute; bottom: 0; height: 20px; left: 50%; transform: translateX(-50%); width: 2px; background: #888;"></div>
+                            </div>
+                        </div>
+                        <div class="type-name">Marubozu</div>
+                        <div class="type-description">
+                            No wicks, pure conviction. Powerful directional movement with no rejection.
+                        </div>
+                    </div>
+
+                    <div class="type-card">
+                        <div class="type-visual">
+                            <div style="width: 40px; height: 120px; position: relative;">
+                                <div class="candle-wick" style="position: absolute; bottom: 65px; height: 50px; left: 50%; transform: translateX(-50%); width: 2px; background: #888;"></div>
+                                <div style="width: 100%; height: 3px; background: #ccc; position: absolute; bottom: 60px; border: 1px solid #888;"></div>
+                                <div class="candle-wick" style="position: absolute; bottom: 0; height: 60px; left: 50%; transform: translateX(-50%); width: 2px; background: #888;"></div>
+                            </div>
+                        </div>
+                        <div class="type-name">Doji</div>
+                        <div class="type-description">
+                            Open equals close. Market indecision at its peak. Potential reversal signal.
+                        </div>
+                    </div>
+
+                    <div class="type-card">
+                        <div class="type-visual">
+                            <div style="width: 40px; height: 120px; position: relative;">
+                                <div class="candle-wick" style="position: absolute; bottom: 55px; height: 10px; left: 50%; transform: translateX(-50%); width: 2px; background: #888;"></div>
+                                <div class="candle-body bullish" style="position: absolute; bottom: 30px; height: 25px; width: 100%;"></div>
+                                <div class="candle-wick" style="position: absolute; bottom: 0; height: 30px; left: 50%; transform: translateX(-50%); width: 2px; background: #888;"></div>
+                            </div>
+                        </div>
+                        <div class="type-name">Spinning Top</div>
+                        <div class="type-description">
+                            Small body, long wicks. Battle between bulls and bears ending in stalemate.
+                        </div>
+                    </div>
+
+                    <div class="type-card">
+                        <div class="type-visual">
+                            <div style="width: 40px; height: 120px; position: relative;">
+                                <div class="candle-wick" style="position: absolute; bottom: 60px; height: 10px; left: 50%; transform: translateX(-50%); width: 2px; background: #888;"></div>
+                                <div class="candle-body bullish" style="position: absolute; bottom: 30px; height: 30px; width: 100%;"></div>
+                                <div class="candle-wick" style="position: absolute; bottom: 0; height: 30px; left: 50%; transform: translateX(-50%); width: 2px; background: #888;"></div>
+                            </div>
+                        </div>
+                        <div class="type-name">Hammer</div>
+                        <div class="type-description">
+                            Long lower wick, small body at top. Bullish reversal at support levels.
+                        </div>
+                    </div>
+
+                    <div class="type-card">
+                        <div class="type-visual">
+                            <div style="width: 40px; height: 120px; position: relative;">
+                                <div class="candle-wick" style="position: absolute; bottom: 90px; height: 30px; left: 50%; transform: translateX(-50%); width: 2px; background: #888;"></div>
+                                <div class="candle-body bearish" style="position: absolute; bottom: 60px; height: 30px; width: 100%;"></div>
+                                <div class="candle-wick" style="position: absolute; bottom: 50px; height: 10px; left: 50%; transform: translateX(-50%); width: 2px; background: #888;"></div>
+                            </div>
+                        </div>
+                        <div class="type-name">Shooting Star</div>
+                        <div class="type-description">
+                            Long upper wick, small body at bottom. Bearish reversal at resistance.
+                        </div>
+                    </div>
+
+                    <div class="type-card">
+                        <div class="type-visual">
+                            <div style="width: 40px; height: 120px; position: relative;">
+                                <div class="candle-wick" style="position: absolute; bottom: 60px; height: 60px; left: 50%; transform: translateX(-50%); width: 2px; background: #888;"></div>
+                                <div style="width: 100%; height: 3px; background: #ccc; position: absolute; bottom: 57px; border: 1px solid #888;"></div>
+                                <div class="candle-wick" style="position: absolute; bottom: 0; height: 60px; left: 50%; transform: translateX(-50%); width: 2px; background: #888;"></div>
+                            </div>
+                        </div>
+                        <div class="type-name">Dragonfly Doji</div>
+                        <div class="type-description">
+                            Long lower wick, no upper wick. Strong bullish rejection at support.
+                        </div>
+                    </div>
+
+                    <div class="type-card">
+                        <div class="type-visual">
+                            <div style="width: 40px; height: 120px; position: relative;">
+                                <div class="candle-wick" style="position: absolute; bottom: 60px; height: 60px; left: 50%; transform: translateX(-50%); width: 2px; background: #888;"></div>
+                                <div style="width: 100%; height: 3px; background: #ccc; position: absolute; bottom: 57px; border: 1px solid #888;"></div>
+                                <div class="candle-wick" style="position: absolute; bottom: 0; height: 60px; left: 50%; transform: translateX(-50%); width: 2px; background: #888;"></div>
+                            </div>
+                        </div>
+                        <div class="type-name">Gravestone Doji</div>
+                        <div class="type-description">
+                            Long upper wick, no lower wick. Strong bearish rejection at resistance.
+                        </div>
+                    </div>
+
+                    <div class="type-card">
+                        <div class="type-visual">
+                            <div style="width: 40px; height: 120px; position: relative;">
+                                <div class="candle-wick" style="position: absolute; bottom: 65px; height: 20px; left: 50%; transform: translateX(-50%); width: 2px; background: #888;"></div>
+                                <div class="candle-body bullish" style="position: absolute; bottom: 35px; height: 30px; width: 100%;"></div>
+                                <div class="candle-wick" style="position: absolute; bottom: 15px; height: 20px; left: 50%; transform: translateX(-50%); width: 2px; background: #888;"></div>
+                            </div>
+                        </div>
+                        <div class="type-name">Long-Legged Doji</div>
+                        <div class="type-description">
+                            Equal long wicks, tiny body. Extreme indecision after volatile session.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Body Size Analysis -->
+                <div class="section-header" style="margin-top: 80px;">
+                    <h2 class="section-title">Reading Candle Bodies: Size Matters</h2>
+                    <p class="section-subtitle">
+                        The size and proportion of the candle body reveals the strength of market conviction.
+                    </p>
+                </div>
+
+                <div class="candlestick-container">
+                    <div class="candlestick-header">
+                        <h3 class="candlestick-title">Body Size Comparison</h3>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; padding: 40px; background: var(--black);">
+                        <div style="text-align: center;">
+                            <div style="height: 200px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                                <div style="width: 40px; height: 150px; position: relative;">
+                                    <div class="candle-wick" style="position: absolute; bottom: 155px; height: 10px; left: 50%; transform: translateX(-50%); width: 2px; background: #00ff88;"></div>
+                                    <div style="position: absolute; bottom: 25px; height: 130px; width: 100%; background: #00ff88; border: 2px solid #00ff88; box-shadow: 0 0 20px rgba(0, 255, 136, 0.5); border-radius: 2px;"></div>
+                                    <div class="candle-wick" style="position: absolute; bottom: 0; height: 25px; left: 50%; transform: translateX(-50%); width: 2px; background: #00ff88;"></div>
+                                </div>
+                            </div>
+                            <h4 style="color: var(--success); margin-bottom: 10px;">Long Body</h4>
+                            <p style="color: var(--gray-text); font-size: 0.9rem;">Strong conviction. Dominant buyers/sellers. High momentum.</p>
+                        </div>
+
+                        <div style="text-align: center;">
+                            <div style="height: 200px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                                <div style="width: 40px; height: 150px; position: relative;">
+                                    <div class="candle-wick" style="position: absolute; bottom: 110px; height: 30px; left: 50%; transform: translateX(-50%); width: 2px; background: #00ff88;"></div>
+                                    <div style="position: absolute; bottom: 60px; height: 50px; width: 100%; background: #00ff88; border: 2px solid #00ff88; box-shadow: 0 0 15px rgba(0, 255, 136, 0.4); border-radius: 2px;"></div>
+                                    <div class="candle-wick" style="position: absolute; bottom: 30px; height: 30px; left: 50%; transform: translateX(-50%); width: 2px; background: #00ff88;"></div>
+                                </div>
+                            </div>
+                            <h4 style="color: var(--white); margin-bottom: 10px;">Medium Body</h4>
+                            <p style="color: var(--gray-text); font-size: 0.9rem;">Moderate conviction. Normal trading activity. Watch for confirmation.</p>
+                        </div>
+
+                        <div style="text-align: center;">
+                            <div style="height: 200px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                                <div style="width: 40px; height: 150px; position: relative;">
+                                    <div class="candle-wick" style="position: absolute; bottom: 90px; height: 50px; left: 50%; transform: translateX(-50%); width: 2px; background: #888;"></div>
+                                    <div style="position: absolute; bottom: 75px; height: 15px; width: 100%; background: #00ff88; border: 2px solid #00ff88; box-shadow: 0 0 10px rgba(0, 255, 136, 0.3); border-radius: 2px;"></div>
+                                    <div class="candle-wick" style="position: absolute; bottom: 25px; height: 50px; left: 50%; transform: translateX(-50%); width: 2px; background: #888;"></div>
+                                </div>
+                            </div>
+                            <h4 style="color: var(--gray-text); margin-bottom: 10px;">Small Body</h4>
+                            <p style="color: var(--gray-text); font-size: 0.9rem;">Indecision. Battle between bulls and bears. Potential reversal zone.</p>
+                        </div>
+
+                        <div style="text-align: center;">
+                            <div style="height: 200px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                                <div style="width: 40px; height: 150px; position: relative;">
+                                    <div class="candle-wick" style="position: absolute; bottom: 82px; height: 60px; left: 50%; transform: translateX(-50%); width: 2px; background: #888;"></div>
+                                    <div style="position: absolute; bottom: 80px; height: 2px; width: 100%; background: #ccc; border: 1px solid #888;"></div>
+                                    <div class="candle-wick" style="position: absolute; bottom: 20px; height: 60px; left: 50%; transform: translateX(-50%); width: 2px; background: #888;"></div>
+                                </div>
+                            </div>
+                            <h4 style="color: var(--accent); margin-bottom: 10px;">No Body (Doji)</h4>
+                            <p style="color: var(--gray-text); font-size: 0.9rem;">Perfect balance. Trend exhaustion signal. Major reversal warning.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Common Mistakes -->
+                <div class="section-header" style="margin-top: 80px;">
+                    <h2 class="section-title">Common Mistakes to Avoid</h2>
+                    <p class="section-subtitle">
+                        Learn from these critical errors that cost traders millions every year.
+                    </p>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon" style="color: var(--danger);">⚠</span>
+                            Trading Against Trend
+                        </h3>
+                        <div class="card-content">
+                            <p>Never trade reversal patterns against a strong trend without multiple confirmations. 
+                            "The trend is your friend" exists for a reason.</p>
+                            <div style="margin-top: 15px; padding: 15px; background: var(--black); border-left: 3px solid var(--danger);">
+                                <strong>Fix:</strong> Always check higher timeframes. Only trade with the trend or wait for clear trend exhaustion signals.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon" style="color: var(--danger);">⚠</span>
+                            Ignoring Volume
+                        </h3>
+                        <div class="card-content">
+                            <p>A pattern without volume confirmation is like a car without gas. 
+                            It might look ready but won't take you far.</p>
+                            <div style="margin-top: 15px; padding: 15px; background: var(--black); border-left: 3px solid var(--danger);">
+                                <strong>Fix:</strong> Reversal patterns need HIGH volume. Continuation patterns need AVERAGE volume. Low volume = Skip the trade.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon" style="color: var(--danger);">⚠</span>
+                            No Stop Loss
+                        </h3>
+                        <div class="card-content">
+                            <p>Trading without a stop loss is gambling, not trading. One bad trade can wipe out 
+                            months of profits.</p>
+                            <div style="margin-top: 15px; padding: 15px; background: var(--black); border-left: 3px solid var(--danger);">
+                                <strong>Fix:</strong> Set stop loss BEFORE entering. Place it beyond pattern structure. Never move it against your position.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon" style="color: var(--danger);">⚠</span>
+                            Single Pattern Trading
+                        </h3>
+                        <div class="card-content">
+                            <p>Relying on one pattern alone is a rookie mistake. Professional traders stack 
+                            multiple confirmations.</p>
+                            <div style="margin-top: 15px; padding: 15px; background: var(--black); border-left: 3px solid var(--danger);">
+                                <strong>Fix:</strong> Need 3+ confirmations: Pattern + Key Level + Trend Alignment + Volume/Indicator.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon" style="color: var(--danger);">⚠</span>
+                            Emotional Trading
+                        </h3>
+                        <div class="card-content">
+                            <p>Revenge trading, FOMO, and greed destroy more accounts than bad strategy. 
+                            Psychology is 90% of trading.</p>
+                            <div style="margin-top: 15px; padding: 15px; background: var(--black); border-left: 3px solid var(--danger);">
+                                <strong>Fix:</strong> Follow your system mechanically. Take a break after 2 consecutive losses. Journal every trade.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon" style="color: var(--danger);">⚠</span>
+                            Poor Risk Management
+                        </h3>
+                        <div class="card-content">
+                            <p>Risking too much per trade means one bad streak ends your career. 
+                            Even the best traders have losing streaks.</p>
+                            <div style="margin-top: 15px; padding: 15px; background: var(--black); border-left: 3px solid var(--danger);">
+                                <strong>Fix:</strong> Never risk more than 2% per trade. Keep position sizes consistent. Survive to trade another day.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Reference Cheat Sheet -->
+                <div class="strategy-container" style="margin-top: 80px;">
+                    <h3 style="font-size: 1.8rem; font-weight: 200; margin-bottom: 30px;">
+                        Quick Reference Cheat Sheet
+                    </h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                        <div>
+                            <h4 style="color: var(--success); margin-bottom: 20px; font-size: 1.2rem;">✓ BULLISH SIGNALS</h4>
+                            <div style="display: grid; gap: 10px;">
+                                <div style="padding: 15px; background: var(--black); border-left: 2px solid var(--success);">
+                                    <strong>Hammer</strong> - Long lower wick at support
+                                </div>
+                                <div style="padding: 15px; background: var(--black); border-left: 2px solid var(--success);">
+                                    <strong>Bullish Engulfing</strong> - Green candle engulfs previous red
+                                </div>
+                                <div style="padding: 15px; background: var(--black); border-left: 2px solid var(--success);">
+                                    <strong>Morning Star</strong> - Three-candle reversal at bottom
+                                </div>
+                                <div style="padding: 15px; background: var(--black); border-left: 2px solid var(--success);">
+                                    <strong>Piercing Pattern</strong> - Closes above midpoint
+                                </div>
+                                <div style="padding: 15px; background: var(--black); border-left: 2px solid var(--success);">
+                                    <strong>Dragonfly Doji</strong> - Long lower wick, no upper
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 style="color: var(--danger); margin-bottom: 20px; font-size: 1.2rem;">✗ BEARISH SIGNALS</h4>
+                            <div style="display: grid; gap: 10px;">
+                                <div style="padding: 15px; background: var(--black); border-left: 2px solid var(--danger);">
+                                    <strong>Shooting Star</strong> - Long upper wick at resistance
+                                </div>
+                                <div style="padding: 15px; background: var(--black); border-left: 2px solid var(--danger);">
+                                    <strong>Bearish Engulfing</strong> - Red candle engulfs previous green
+                                </div>
+                                <div style="padding: 15px; background: var(--black); border-left: 2px solid var(--danger);">
+                                    <strong>Evening Star</strong> - Three-candle reversal at top
+                                </div>
+                                <div style="padding: 15px; background: var(--black); border-left: 2px solid var(--danger);">
+                                    <strong>Dark Cloud Cover</strong> - Closes below midpoint
+                                </div>
+                                <div style="padding: 15px; background: var(--black); border-left: 2px solid var(--danger);">
+                                    <strong>Gravestone Doji</strong> - Long upper wick, no lower
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 40px; padding: 30px; background: var(--black); border: 2px solid var(--accent);">
+                        <h4 style="color: var(--accent); margin-bottom: 15px; font-size: 1.2rem;">⚡ GOLDEN RULES FOR SUCCESS</h4>
+                        <div style="display: grid; gap: 10px; color: var(--gray-text);">
+                            <p>→ Always trade WITH the trend on higher timeframes</p>
+                            <p>→ Wait for pattern to CLOSE before entering</p>
+                            <p>→ Confirm with VOLUME and KEY LEVELS</p>
+                            <p>→ Risk max 2% per trade, target min 1:2 reward</p>
+                            <p>→ Never trade during major news events</p>
+                            <p>→ Keep a trading journal for every single trade</p>
+                            <p>→ When in doubt, stay out - capital preservation is key</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trend Context Guide -->
+                <div class="section-header" style="margin-top: 80px;">
+                    <h2 class="section-title">Trend Context: When to Trade What</h2>
+                    <p class="section-subtitle">
+                        The same pattern means different things in different trends. Context is everything.
+                    </p>
+                </div>
+
+                <div style="display: grid; gap: 30px; margin: 60px 0;">
+                    <!-- Uptrend -->
+                    <div style="background: var(--dark); border: 1px solid var(--gray-dark); padding: 40px;">
+                        <div style="display: grid; grid-template-columns: 200px 1fr; gap: 40px; align-items: center;">
+                            <div>
+                                <h3 style="color: var(--success); margin-bottom: 10px; font-size: 1.5rem;">UPTREND</h3>
+                                <p style="color: var(--gray-text); font-size: 0.9rem;">Higher highs, higher lows</p>
+                            </div>
+                            <div style="height: 120px; background: var(--black); border: 1px solid var(--gray-dark); position: relative; overflow: hidden;">
+                                <svg width="100%" height="120" style="position: absolute;">
+                                    <path d="M 0 100 L 100 90 L 200 70 L 300 60 L 400 40 L 500 30 L 600 20" 
+                                          stroke="#00ff88" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+                                    <!-- Candles going up -->
+                                    <rect x="80" y="85" width="15" height="20" fill="#00ff88" opacity="0.7"/>
+                                    <rect x="180" y="65" width="15" height="20" fill="#00ff88" opacity="0.7"/>
+                                    <rect x="280" y="55" width="15" height="20" fill="#ff3b3b" opacity="0.5"/>
+                                    <rect x="380" y="35" width="15" height="20" fill="#00ff88" opacity="0.7"/>
+                                    <rect x="480" y="25" width="15" height="20" fill="#00ff88" opacity="0.7"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div style="margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div style="padding: 20px; background: var(--black); border-left: 3px solid var(--success);">
+                                <h4 style="color: var(--success); margin-bottom: 10px;">✓ TRADE THESE:</h4>
+                                <ul style="color: var(--gray-text); list-style: none; padding: 0;">
+                                    <li style="margin: 8px 0;">→ Bullish patterns at support</li>
+                                    <li style="margin: 8px 0;">→ Pullback entries (Hammer, Engulfing)</li>
+                                    <li style="margin: 8px 0;">→ Continuation patterns</li>
+                                    <li style="margin: 8px 0;">→ Inside bars breaking up</li>
+                                </ul>
+                            </div>
+                            <div style="padding: 20px; background: var(--black); border-left: 3px solid var(--danger);">
+                                <h4 style="color: var(--danger); margin-bottom: 10px;">✗ AVOID THESE:</h4>
+                                <ul style="color: var(--gray-text); list-style: none; padding: 0;">
+                                    <li style="margin: 8px 0;">→ Bearish reversal patterns (low probability)</li>
+                                    <li style="margin: 8px 0;">→ Shorting strong uptrends</li>
+                                    <li style="margin: 8px 0;">→ Counter-trend trades without confirmation</li>
+                                    <li style="margin: 8px 0;">→ Top picking attempts</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Downtrend -->
+                    <div style="background: var(--dark); border: 1px solid var(--gray-dark); padding: 40px;">
+                        <div style="display: grid; grid-template-columns: 200px 1fr; gap: 40px; align-items: center;">
+                            <div>
+                                <h3 style="color: var(--danger); margin-bottom: 10px; font-size: 1.5rem;">DOWNTREND</h3>
+                                <p style="color: var(--gray-text); font-size: 0.9rem;">Lower highs, lower lows</p>
+                            </div>
+                            <div style="height: 120px; background: var(--black); border: 1px solid var(--gray-dark); position: relative; overflow: hidden;">
+                                <svg width="100%" height="120" style="position: absolute;">
+                                    <path d="M 0 20 L 100 30 L 200 50 L 300 60 L 400 80 L 500 90 L 600 100" 
+                                          stroke="#ff3b3b" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+                                    <!-- Candles going down -->
+                                    <rect x="80" y="25" width="15" height="20" fill="#ff3b3b" opacity="0.7"/>
+                                    <rect x="180" y="45" width="15" height="20" fill="#ff3b3b" opacity="0.7"/>
+                                    <rect x="280" y="55" width="15" height="20" fill="#00ff88" opacity="0.5"/>
+                                    <rect x="380" y="75" width="15" height="20" fill="#ff3b3b" opacity="0.7"/>
+                                    <rect x="480" y="85" width="15" height="20" fill="#ff3b3b" opacity="0.7"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div style="margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div style="padding: 20px; background: var(--black); border-left: 3px solid var(--success);">
+                                <h4 style="color: var(--success); margin-bottom: 10px;">✓ TRADE THESE:</h4>
+                                <ul style="color: var(--gray-text); list-style: none; padding: 0;">
+                                    <li style="margin: 8px 0;">→ Bearish patterns at resistance</li>
+                                    <li style="margin: 8px 0;">→ Pullback shorts (Shooting Star, Engulfing)</li>
+                                    <li style="margin: 8px 0;">→ Continuation breakdowns</li>
+                                    <li style="margin: 8px 0;">→ Failed rallies</li>
+                                </ul>
+                            </div>
+                            <div style="padding: 20px; background: var(--black); border-left: 3px solid var(--danger);">
+                                <h4 style="color: var(--danger); margin-bottom: 10px;">✗ AVOID THESE:</h4>
+                                <ul style="color: var(--gray-text); list-style: none; padding: 0;">
+                                    <li style="margin: 8px 0;">→ Bullish reversal patterns (low probability)</li>
+                                    <li style="margin: 8px 0;">→ Buying strong downtrends</li>
+                                    <li style="margin: 8px 0;">→ Catching falling knives</li>
+                                    <li style="margin: 8px 0;">→ Bottom picking attempts</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Range/Consolidation -->
+                    <div style="background: var(--dark); border: 1px solid var(--gray-dark); padding: 40px;">
+                        <div style="display: grid; grid-template-columns: 200px 1fr; gap: 40px; align-items: center;">
+                            <div>
+                                <h3 style="color: var(--accent); margin-bottom: 10px; font-size: 1.5rem;">RANGE BOUND</h3>
+                                <p style="color: var(--gray-text); font-size: 0.9rem;">Sideways movement</p>
+                            </div>
+                            <div style="height: 120px; background: var(--black); border: 1px solid var(--gray-dark); position: relative; overflow: hidden;">
+                                <svg width="100%" height="120" style="position: absolute;">
+                                    <!-- Top resistance -->
+                                    <line x1="0" y1="30" x2="600" y2="30" stroke="#999" stroke-width="1" stroke-dasharray="3,3"/>
+                                    <!-- Bottom support -->
+                                    <line x1="0" y1="90" x2="600" y2="90" stroke="#999" stroke-width="1" stroke-dasharray="3,3"/>
+                                    <!-- Price bouncing -->
+                                    <path d="M 0 60 L 100 40 L 200 80 L 300 35 L 400 85 L 500 40 L 600 75" 
+                                          stroke="#00a6ff" stroke-width="2" fill="none"/>
+                                    <!-- Candles bouncing -->
+                                    <rect x="80" y="35" width="15" height="15" fill="#ff3b3b" opacity="0.7"/>
+                                    <rect x="180" y="75" width="15" height="15" fill="#00ff88" opacity="0.7"/>
+                                    <rect x="280" y="30" width="15" height="15" fill="#ff3b3b" opacity="0.7"/>
+                                    <rect x="380" y="80" width="15" height="15" fill="#00ff88" opacity="0.7"/>
+                                    <rect x="480" y="35" width="15" height="15" fill="#ff3b3b" opacity="0.7"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div style="margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div style="padding: 20px; background: var(--black); border-left: 3px solid var(--success);">
+                                <h4 style="color: var(--success); margin-bottom: 10px;">✓ TRADE THESE:</h4>
+                                <ul style="color: var(--gray-text); list-style: none; padding: 0;">
+                                    <li style="margin: 8px 0;">→ Buy at support, sell at resistance</li>
+                                    <li style="margin: 8px 0;">→ Reversal patterns at range extremes</li>
+                                    <li style="margin: 8px 0;">→ Breakout patterns (with volume)</li>
+                                    <li style="margin: 8px 0;">→ Inside bars at boundaries</li>
+                                </ul>
+                            </div>
+                            <div style="padding: 20px; background: var(--black); border-left: 3px solid var(--danger);">
+                                <h4 style="color: var(--danger); margin-bottom: 10px;">✗ AVOID THESE:</h4>
+                                <ul style="color: var(--gray-text); list-style: none; padding: 0;">
+                                    <li style="margin: 8px 0;">→ Trading in the middle of the range</li>
+                                    <li style="margin: 8px 0;">→ False breakouts (no volume)</li>
+                                    <li style="margin: 8px 0;">→ Overtrading choppy action</li>
+                                    <li style="margin: 8px 0;">→ Continuation patterns mid-range</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">1700s</div>
+                            <h3 class="timeline-title">The Origin</h3>
+                            <p class="timeline-description">
+                                Munehisa Homma develops candlestick charting in Japanese rice markets,
+                                becoming the first to recognize that emotions influence market prices.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">1980s</div>
+                            <h3 class="timeline-title">Western Discovery</h3>
+                            <p class="timeline-description">
+                                Steve Nison introduces candlestick patterns to Wall Street,
+                                revolutionizing technical analysis in Western markets.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">Present</div>
+                            <h3 class="timeline-title">Digital Evolution</h3>
+                            <p class="timeline-description">
+                                Candlestick patterns form the foundation of modern algorithmic trading,
+                                used by hedge funds and institutions managing billions.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">01</span>
+                            Market Psychology
+                        </h3>
+                        <div class="card-content">
+                            <p>Candlesticks reveal the emotional state of market participants.
+                            Fear, greed, hope, and despair - all encoded in price patterns
+                            that repeat throughout history.</p>
+                            <ul>
+                                <li>Long bodies: Strong conviction</li>
+                                <li>Short bodies: Indecision</li>
+                                <li>Long shadows: Price rejection</li>
+                                <li>No shadows: Directional certainty</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">02</span>
+                            Time Frame Mastery
+                        </h3>
+                        <div class="card-content">
+                            <p>Different time frames reveal different market stories.
+                            Master the art of multi-timeframe analysis to align your
+                            trades with the dominant market forces.</p>
+                            <ul>
+                                <li>Weekly: Major trend direction</li>
+                                <li>Daily: Trading opportunities</li>
+                                <li>4-Hour: Entry refinement</li>
+                                <li>1-Hour: Precision timing</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">03</span>
+                            Volume Confirmation
+                        </h3>
+                        <div class="card-content">
+                            <p>Always confirm candlestick patterns with volume analysis.
+                            High volume validates pattern significance, while low volume
+                            suggests weak conviction.</p>
+                            <ul>
+                                <li>Reversal + High Volume = Strong signal</li>
+                                <li>Breakout + High Volume = Continuation</li>
+                                <li>Pattern + Low Volume = Caution</li>
+                                <li>Divergence = Potential reversal</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Patterns Module -->
+            <div class="module" id="patterns">
+                <div class="section-header">
+                    <h2 class="section-title">Pattern Recognition</h2>
+                    <p class="section-subtitle">
+                        Master the 16 essential candlestick patterns that professional traders use
+                        to identify high-probability market reversals and continuations.
+                    </p>
+                </div>
+
+                <!-- Pattern Strength Indicator -->
+                <div class="candlestick-container" style="margin-bottom: 60px;">
+                    <div class="candlestick-header">
+                        <h3 class="candlestick-title">Pattern Strength Multipliers</h3>
+                    </div>
+                    <div style="padding: 40px; background: var(--black);">
+                        <p style="color: var(--gray-text); margin-bottom: 30px;">
+                            Not all patterns are created equal. These factors multiply pattern reliability:
+                        </p>
+                        <div style="display: grid; gap: 20px;">
+                            <div style="display: grid; grid-template-columns: 50px 1fr 100px; gap: 20px; align-items: center; padding: 20px; background: var(--dark); border-left: 3px solid var(--accent);">
+                                <div style="font-size: 2rem; color: var(--accent); font-weight: 200;">3×</div>
+                                <div>
+                                    <h4 style="margin-bottom: 5px;">Pattern at Major S/R Level</h4>
+                                    <p style="color: var(--gray-text); font-size: 0.9rem;">Weekly/monthly support or resistance</p>
+                                </div>
+                                <div style="text-align: right; color: var(--success); font-weight: 600;">CRITICAL</div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 50px 1fr 100px; gap: 20px; align-items: center; padding: 20px; background: var(--dark); border-left: 3px solid var(--accent);">
+                                <div style="font-size: 2rem; color: var(--accent); font-weight: 200;">2.5×</div>
+                                <div>
+                                    <h4 style="margin-bottom: 5px;">High Volume Confirmation</h4>
+                                    <p style="color: var(--gray-text); font-size: 0.9rem;">Volume 2× average or higher</p>
+                                </div>
+                                <div style="text-align: right; color: var(--success); font-weight: 600;">STRONG</div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 50px 1fr 100px; gap: 20px; align-items: center; padding: 20px; background: var(--dark); border-left: 3px solid var(--accent);">
+                                <div style="font-size: 2rem; color: var(--accent); font-weight: 200;">2×</div>
+                                <div>
+                                    <h4 style="margin-bottom: 5px;">Trend Alignment</h4>
+                                    <p style="color: var(--gray-text); font-size: 0.9rem;">Pattern aligns with higher timeframe trend</p>
+                                </div>
+                                <div style="text-align: right; color: var(--success); font-weight: 600;">STRONG</div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 50px 1fr 100px; gap: 20px; align-items: center; padding: 20px; background: var(--dark); border-left: 3px solid var(--accent);">
+                                <div style="font-size: 2rem; color: var(--accent); font-weight: 200;">1.5×</div>
+                                <div>
+                                    <h4 style="margin-bottom: 5px;">Fibonacci Confluence</h4>
+                                    <p style="color: var(--gray-text); font-size: 0.9rem;">Pattern at 38.2%, 50%, or 61.8% retracement</p>
+                                </div>
+                                <div style="text-align: right; color: var(--white); font-weight: 600;">GOOD</div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 50px 1fr 100px; gap: 20px; align-items: center; padding: 20px; background: var(--dark); border-left: 3px solid var(--accent);">
+                                <div style="font-size: 2rem; color: var(--accent); font-weight: 200;">1.5×</div>
+                                <div>
+                                    <h4 style="margin-bottom: 5px;">Moving Average Bounce</h4>
+                                    <p style="color: var(--gray-text); font-size: 0.9rem;">Pattern at 20, 50, or 200 EMA</p>
+                                </div>
+                                <div style="text-align: right; color: var(--white); font-weight: 600;">GOOD</div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 50px 1fr 100px; gap: 20px; align-items: center; padding: 20px; background: var(--dark); border-left: 3px solid var(--gray-lighter);">
+                                <div style="font-size: 2rem; color: var(--gray-lighter); font-weight: 200;">0.5×</div>
+                                <div>
+                                    <h4 style="margin-bottom: 5px;">Counter-Trend Pattern</h4>
+                                    <p style="color: var(--gray-text); font-size: 0.9rem;">Pattern against strong trend</p>
+                                </div>
+                                <div style="text-align: right; color: var(--danger); font-weight: 600;">WEAK</div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 50px 1fr 100px; gap: 20px; align-items: center; padding: 20px; background: var(--dark); border-left: 3px solid var(--danger);">
+                                <div style="font-size: 2rem; color: var(--danger); font-weight: 200;">0.2×</div>
+                                <div>
+                                    <h4 style="margin-bottom: 5px;">Low Volume Pattern</h4>
+                                    <p style="color: var(--gray-text); font-size: 0.9rem;">Volume below average on reversal</p>
+                                </div>
+                                <div style="text-align: right; color: var(--danger); font-weight: 600;">AVOID</div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 30px; padding: 25px; background: var(--accent); color: var(--black); border-radius: 2px;">
+                            <strong style="font-size: 1.1rem;">💡 Pro Tip:</strong> Only trade patterns with a combined multiplier of 3× or higher. 
+                            A pattern at major support (3×) with high volume (2.5×) = 5.5× strength = HIGH PROBABILITY TRADE
+                        </div>
+                    </div>
+                </div>
+
+                <div class="candlestick-container">
+                    <div class="candlestick-header">
+                        <h3 class="candlestick-title">Live Pattern Formation</h3>
+                        <div class="candlestick-controls">
+                            <button class="btn" onclick="generatePattern('hammer')">Hammer</button>
+                            <button class="btn" onclick="generatePattern('shooting')">Shooting Star</button>
+                            <button class="btn" onclick="generatePattern('engulfing')">Engulfing</button>
+                            <button class="btn" onclick="generatePattern('doji')">Doji</button>
+                        </div>
+                    </div>
+                    <div class="chart-area" id="chartArea">
+                        <!-- Candlesticks will be generated here -->
+                    </div>
+                </div>
+
+                <div class="pattern-card">
+                    <div class="pattern-visual">
+                        <div class="candle" style="height: 100px; position: relative;">
+                            <div class="candle-wick" style="position: absolute; bottom: 60px; height: 10px; background: #888888; width: 2px; left: 50%; transform: translateX(-50%);"></div>
+                            <div class="candle-body" style="position: absolute; height: 25px; bottom: 35px; background: #00ff88; border: 2px solid #00ff88; box-shadow: 0 0 15px rgba(0, 255, 136, 0.5); border-radius: 2px; width: 100%; left: 0;"></div>
+                            <div class="candle-wick" style="position: absolute; bottom: 0; height: 35px; background: #888888; width: 2px; left: 50%; transform: translateX(-50%);"></div>
+                        </div>
+                    </div>
+                    <div class="pattern-info">
+                        <h3>Hammer / Pin Bar</h3>
+                        <p>A bullish reversal pattern forming at market bottoms. The long lower shadow 
+                        represents strong buying pressure as sellers are overwhelmed.</p>
+                        <div class="pattern-tags">
+                            <span class="tag success">85% Success Rate</span>
+                            <span class="tag">Bullish Reversal</span>
+                            <span class="tag">Support Zone</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pattern-card">
+                    <div class="pattern-visual">
+                        <div class="candle" style="height: 100px; position: relative;">
+                            <div class="candle-wick" style="position: absolute; bottom: 60px; height: 35px; background: #888888; width: 2px; left: 50%; transform: translateX(-50%);"></div>
+                            <div class="candle-body" style="position: absolute; height: 25px; bottom: 35px; background: #ff3b3b; border: 2px solid #ff3b3b; box-shadow: 0 0 15px rgba(255, 59, 59, 0.5); border-radius: 2px; width: 100%; left: 0;"></div>
+                            <div class="candle-wick" style="position: absolute; bottom: 0; height: 10px; background: #888888; width: 2px; left: 50%; transform: translateX(-50%);"></div>
+                        </div>
+                    </div>
+                    <div class="pattern-info">
+                        <h3>Shooting Star</h3>
+                        <p>A bearish reversal pattern at market tops. The long upper shadow shows 
+                        buyers losing control as sellers dominate at higher prices.</p>
+                        <div class="pattern-tags">
+                            <span class="tag danger">82% Success Rate</span>
+                            <span class="tag">Bearish Reversal</span>
+                            <span class="tag">Resistance Zone</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pattern-card">
+                    <div class="pattern-visual" style="display: flex; gap: 5px; justify-content: center;">
+                        <div class="candle" style="height: 80px; position: relative;">
+                            <div class="candle-body" style="position: absolute; height: 40px; bottom: 20px; background: #ff3b3b; border: 2px solid #ff3b3b; box-shadow: 0 0 15px rgba(255, 59, 59, 0.5); border-radius: 2px; width: 100%; left: 0;"></div>
+                        </div>
+                        <div class="candle" style="height: 80px; position: relative;">
+                            <div class="candle-body" style="position: absolute; height: 60px; bottom: 10px; background: #00ff88; border: 2px solid #00ff88; box-shadow: 0 0 15px rgba(0, 255, 136, 0.5); border-radius: 2px; width: 100%; left: 0;"></div>
+                        </div>
+                    </div>
+                    <div class="pattern-info">
+                        <h3>Bullish Engulfing</h3>
+                        <p>A powerful reversal signal where buyers completely overwhelm sellers, 
+                        engulfing the previous bearish candle entirely.</p>
+                        <div class="pattern-tags">
+                            <span class="tag success">78% Success Rate</span>
+                            <span class="tag">Strong Reversal</span>
+                            <span class="tag">Volume Confirmation</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pattern-card">
+                    <div class="pattern-visual">
+                        <div class="candle" style="height: 100px; position: relative;">
+                            <div class="candle-wick" style="position: absolute; bottom: 52px; height: 40px; background: #888888; width: 2px; left: 50%; transform: translateX(-50%);"></div>
+                            <div style="width: 30px; height: 3px; background: #cccccc; position: absolute; bottom: 50px; left: 0; border: 1px solid #888888; box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);"></div>
+                            <div class="candle-wick" style="position: absolute; bottom: 0; height: 50px; background: #888888; width: 2px; left: 50%; transform: translateX(-50%);"></div>
+                        </div>
+                    </div>
+                    <div class="pattern-info">
+                        <h3>Doji</h3>
+                        <p>Market indecision crystallized - open equals close. At extremes, 
+                        signals potential reversal as momentum exhausts.</p>
+                        <div class="pattern-tags">
+                            <span class="tag">Indecision</span>
+                            <span class="tag">Reversal Warning</span>
+                            <span class="tag">Trend Exhaustion</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- More Pattern Visual Examples -->
+                <div class="section-header" style="margin-top: 80px;">
+                    <h2 class="section-title">Multi-Candle Patterns</h2>
+                    <p class="section-subtitle">
+                        Advanced patterns that combine multiple candles for powerful trading signals.
+                    </p>
+                </div>
+
+                <div class="pattern-card">
+                    <div class="pattern-visual" style="display: flex; gap: 3px; justify-content: center;">
+                        <div class="candle" style="height: 80px; position: relative;">
+                            <div class="candle-body bearish" style="position: absolute; height: 50px; bottom: 15px; width: 100%; left: 0;"></div>
+                        </div>
+                        <div class="candle" style="height: 80px; position: relative;">
+                            <div class="candle-body bearish" style="position: absolute; height: 35px; bottom: 22px; width: 100%; left: 0;"></div>
+                        </div>
+                        <div class="candle" style="height: 80px; position: relative;">
+                            <div class="candle-body bullish" style="position: absolute; height: 55px; bottom: 10px; width: 100%; left: 0;"></div>
+                        </div>
+                    </div>
+                    <div class="pattern-info">
+                        <h3>Morning Star</h3>
+                        <p>Three-candle bullish reversal. Bearish candle, indecision candle, then strong bullish 
+                        candle. Signals the end of downtrend.</p>
+                        <div class="pattern-tags">
+                            <span class="tag success">83% Success Rate</span>
+                            <span class="tag">Strong Reversal</span>
+                            <span class="tag">Bottom Formation</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pattern-card">
+                    <div class="pattern-visual" style="display: flex; gap: 3px; justify-content: center;">
+                        <div class="candle" style="height: 80px; position: relative;">
+                            <div class="candle-body bullish" style="position: absolute; height: 50px; bottom: 15px; width: 100%; left: 0;"></div>
+                        </div>
+                        <div class="candle" style="height: 80px; position: relative;">
+                            <div class="candle-body bullish" style="position: absolute; height: 35px; bottom: 22px; width: 100%; left: 0;"></div>
+                        </div>
+                        <div class="candle" style="height: 80px; position: relative;">
+                            <div class="candle-body bearish" style="position: absolute; height: 55px; bottom: 10px; width: 100%; left: 0;"></div>
+                        </div>
+                    </div>
+                    <div class="pattern-info">
+                        <h3>Evening Star</h3>
+                        <p>Three-candle bearish reversal. Bullish candle, indecision candle, then strong bearish 
+                        candle. Signals the end of uptrend.</p>
+                        <div class="pattern-tags">
+                            <span class="tag danger">81% Success Rate</span>
+                            <span class="tag">Strong Reversal</span>
+                            <span class="tag">Top Formation</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pattern-card">
+                    <div class="pattern-visual" style="display: flex; gap: 3px; justify-content: center;">
+                        <div class="candle" style="height: 80px; position: relative;">
+                            <div class="candle-body bearish" style="position: absolute; height: 45px; bottom: 20px; width: 100%; left: 0;"></div>
+                        </div>
+                        <div class="candle" style="height: 80px; position: relative;">
+                            <div class="candle-body bullish" style="position: absolute; height: 30px; bottom: 25px; width: 100%; left: 0;"></div>
+                        </div>
+                    </div>
+                    <div class="pattern-info">
+                        <h3>Piercing Pattern</h3>
+                        <p>Bullish reversal where second candle opens below previous close and closes above 
+                        midpoint of first candle's body.</p>
+                        <div class="pattern-tags">
+                            <span class="tag success">75% Success Rate</span>
+                            <span class="tag">Bullish Reversal</span>
+                            <span class="tag">Support Test</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pattern-card">
+                    <div class="pattern-visual" style="display: flex; gap: 3px; justify-content: center;">
+                        <div class="candle" style="height: 80px; position: relative;">
+                            <div class="candle-body bullish" style="position: absolute; height: 45px; bottom: 20px; width: 100%; left: 0;"></div>
+                        </div>
+                        <div class="candle" style="height: 80px; position: relative;">
+                            <div class="candle-body bearish" style="position: absolute; height: 30px; bottom: 35px; width: 100%; left: 0;"></div>
+                        </div>
+                    </div>
+                    <div class="pattern-info">
+                        <h3>Dark Cloud Cover</h3>
+                        <p>Bearish reversal where second candle opens above previous close and closes below 
+                        midpoint of first candle's body.</p>
+                        <div class="pattern-tags">
+                            <span class="tag danger">73% Success Rate</span>
+                            <span class="tag">Bearish Reversal</span>
+                            <span class="tag">Resistance Test</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Strategies Module -->
+            <div class="module" id="strategies">
+                <div class="section-header">
+                    <h2 class="section-title">Professional Strategies</h2>
+                    <p class="section-subtitle">
+                        Battle-tested strategies used by institutional traders to consistently
+                        extract profits from financial markets.
+                    </p>
+                </div>
+
+                <div class="strategy-container">
+                    <h3 style="font-size: 1.8rem; font-weight: 200; margin-bottom: 30px;">
+                        The Pin Bar Strategy
+                    </h3>
+                    <div class="strategy-steps">
+                        <div class="strategy-step">
+                            <div class="step-number">01</div>
+                            <div class="step-content">
+                                <h4>Identify Key Level</h4>
+                                <p>Locate major support/resistance zones, Fibonacci retracements (50%, 61.8%), 
+                                or moving average confluences where institutional traders operate.</p>
+                            </div>
+                        </div>
+                        <div class="strategy-step">
+                            <div class="step-number">02</div>
+                            <div class="step-content">
+                                <h4>Wait for Pin Bar Formation</h4>
+                                <p>The tail must be minimum 2x the body length. Longer tails indicate 
+                                stronger rejection and higher probability trades.</p>
+                            </div>
+                        </div>
+                        <div class="strategy-step">
+                            <div class="step-number">03</div>
+                            <div class="step-content">
+                                <h4>Confirm Market Context</h4>
+                                <p>Ensure alignment with dominant trend or clear reversal setup. 
+                                Check multiple timeframes for confluence.</p>
+                            </div>
+                        </div>
+                        <div class="strategy-step">
+                            <div class="step-number">04</div>
+                            <div class="step-content">
+                                <h4>Execute Entry</h4>
+                                <p>Enter at break of pin bar nose. Place stop loss beyond the tail. 
+                                Target minimum 1:2 risk-reward ratio.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">→</span>
+                            Engulfing Bar Strategy
+                        </h3>
+                        <div class="card-content">
+                            <p>Trade powerful reversals when the market shows complete sentiment shift:</p>
+                            <ul>
+                                <li>Entry: Close of engulfing candle</li>
+                                <li>Stop: Beyond pattern extremes</li>
+                                <li>Target: Previous swing levels</li>
+                                <li>Filter: Volume confirmation essential</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">→</span>
+                            Inside Bar Breakout
+                        </h3>
+                        <div class="card-content">
+                            <p>Capitalize on consolidation breakouts with controlled risk:</p>
+                            <ul>
+                                <li>Setup: Inside bar at key levels</li>
+                                <li>Entry: Break of mother candle</li>
+                                <li>Stop: Opposite side of pattern</li>
+                                <li>Edge: Tight stops, large rewards</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">→</span>
+                            False Breakout Trap
+                        </h3>
+                        <div class="card-content">
+                            <p>Trade against the crowd when breakouts fail:</p>
+                            <ul>
+                                <li>Watch: Key level breakouts</li>
+                                <li>Signal: Quick reversal back</li>
+                                <li>Entry: After failed breakout</li>
+                                <li>Profit: Trapped trader stops</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="strategy-container">
+                    <h3 style="font-size: 1.8rem; font-weight: 200; margin-bottom: 30px;">
+                        Confluence Trading Method
+                    </h3>
+                    <p style="color: var(--gray-text); margin-bottom: 30px;">
+                        Never trade a single signal. Stack multiple confirmations for highest probability setups:
+                    </p>
+                    <div style="display: grid; gap: 15px;">
+                        <div style="padding: 20px; background: var(--black); border-left: 2px solid var(--accent);">
+                            <strong>Level 1:</strong> Price action pattern formation (pin bar, engulfing, inside bar)
+                        </div>
+                        <div style="padding: 20px; background: var(--black); border-left: 2px solid var(--accent);">
+                            <strong>Level 2:</strong> Key support/resistance or Fibonacci level
+                        </div>
+                        <div style="padding: 20px; background: var(--black); border-left: 2px solid var(--accent);">
+                            <strong>Level 3:</strong> Trend alignment on higher timeframe
+                        </div>
+                        <div style="padding: 20px; background: var(--black); border-left: 2px solid var(--accent);">
+                            <strong>Level 4:</strong> Moving average or indicator confirmation
+                        </div>
+                        <div style="padding: 20px; background: var(--success); color: var(--black);">
+                            <strong>Result:</strong> 3+ confluences = HIGH PROBABILITY TRADE
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Risk Management Module -->
+            <div class="module" id="risk">
+                <div class="section-header">
+                    <h2 class="section-title">Risk Management</h2>
+                    <p class="section-subtitle">
+                        The foundation of professional trading - preserve capital, 
+                        maximize returns, and survive market volatility.
+                    </p>
+                </div>
+
+                <div class="risk-calculator">
+                    <h3 style="font-size: 1.5rem; font-weight: 300; margin-bottom: 30px;">
+                        Position Size Calculator
+                    </h3>
+                    <div class="calculator-grid">
+                        <div class="input-group">
+                            <label>Account Balance</label>
+                            <input type="number" id="accountBalance" value="10000" onchange="calculatePosition()">
+                        </div>
+                        <div class="input-group">
+                            <label>Risk Per Trade (%)</label>
+                            <input type="number" id="riskPercent" value="2" onchange="calculatePosition()">
+                        </div>
+                        <div class="input-group">
+                            <label>Stop Loss (Pips)</label>
+                            <input type="number" id="stopLoss" value="50" onchange="calculatePosition()">
+                        </div>
+                    </div>
+                    <button class="calculate-btn" onclick="calculatePosition()">Calculate Position Size</button>
+                    
+                    <div class="result-display" id="positionResult">
+                        <div class="result-value" id="positionSize">0.4 Lots</div>
+                        <div class="result-label">Recommended Position Size</div>
+                        <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--gray-dark);">
+                            <p style="color: var(--gray-text);">Risk Amount: <span style="color: var(--white);">$200</span></p>
+                            <p style="color: var(--gray-text);">Maximum Loss: <span style="color: var(--white);">2%</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">2%</span>
+                            The Golden Rule
+                        </h3>
+                        <div class="card-content">
+                            <p>Never risk more than 2% of your account on a single trade. 
+                            This ensures survival through 50 consecutive losses - giving you 
+                            time to refine your edge.</p>
+                            <div style="margin-top: 20px; padding: 15px; background: var(--black); border: 1px solid var(--gray-dark);">
+                                <p style="font-size: 0.9rem;">$10,000 account → $200 max risk</p>
+                                <p style="font-size: 0.9rem;">$50,000 account → $1,000 max risk</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">1:2</span>
+                            Risk Reward Ratio
+                        </h3>
+                        <div class="card-content">
+                            <p>Minimum 1:2 risk-reward ensures profitability even with 
+                            50% win rate. Professional traders often achieve 1:3 or higher.</p>
+                            <div style="margin-top: 20px; padding: 15px; background: var(--black); border: 1px solid var(--gray-dark);">
+                                <p style="font-size: 0.9rem;">10 trades, 50% win rate:</p>
+                                <p style="font-size: 0.9rem; color: var(--danger);">5 losses × $100 = -$500</p>
+                                <p style="font-size: 0.9rem; color: var(--success);">5 wins × $200 = +$1,000</p>
+                                <p style="font-size: 0.9rem; color: var(--accent);">Net profit = +$500</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">SL</span>
+                            Stop Loss Discipline
+                        </h3>
+                        <div class="card-content">
+                            <p>Always use stop losses. Set before entry, never move against 
+                            position. Your stop loss is your insurance policy.</p>
+                            <ul>
+                                <li>Place at logical levels</li>
+                                <li>Beyond pattern structure</li>
+                                <li>Account for volatility</li>
+                                <li>Use trailing stops for profits</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="strategy-container">
+                    <h3 style="font-size: 1.8rem; font-weight: 200; margin-bottom: 30px;">
+                        Trading Psychology Principles
+                    </h3>
+                    <div class="strategy-steps">
+                        <div class="strategy-step">
+                            <div class="step-number">→</div>
+                            <div class="step-content">
+                                <h4>Emotional Control</h4>
+                                <p>Never trade when emotional. Fear and greed are account killers. 
+                                Follow your system mechanically.</p>
+                            </div>
+                        </div>
+                        <div class="strategy-step">
+                            <div class="step-number">→</div>
+                            <div class="step-content">
+                                <h4>Patience & Discipline</h4>
+                                <p>Wait for A+ setups only. Better to miss opportunities than 
+                                force low-probability trades.</p>
+                            </div>
+                        </div>
+                        <div class="strategy-step">
+                            <div class="step-number">→</div>
+                            <div class="step-content">
+                                <h4>Continuous Learning</h4>
+                                <p>Keep a detailed trading journal. Review weekly. 
+                                Learn from both wins and losses.</p>
+                            </div>
+                        </div>
+                        <div class="strategy-step">
+                            <div class="step-number">→</div>
+                            <div class="step-content">
+                                <h4>Process Over Profits</h4>
+                                <p>Focus on executing your edge perfectly. 
+                                Profits are a byproduct of good process.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Simulator Module -->
+            <div class="module" id="simulator">
+                <div class="section-header">
+                    <h2 class="section-title">Trading Simulator</h2>
+                    <p class="section-subtitle">
+                        Practice your skills in real-time market conditions without risking capital.
+                    </p>
+                </div>
+
+                <div class="simulator-container">
+                    <div class="simulator-controls">
+                        <button class="sim-btn buy" onclick="executeTrade('buy')">BUY</button>
+                        <button class="sim-btn sell" onclick="executeTrade('sell')">SELL</button>
+                        <button class="btn" onclick="resetSimulator()">RESET</button>
+                        <select class="btn" style="padding: 15px 20px;">
+                            <option>EUR/USD</option>
+                            <option>GBP/USD</option>
+                            <option>USD/JPY</option>
+                        </select>
+                    </div>
+
+                    <div class="simulator-display">
+                        <div class="sim-metric">
+                            <div class="metric-label">Balance</div>
+                            <div class="metric-value" id="simBalance">$10,000</div>
+                        </div>
+                        <div class="sim-metric">
+                            <div class="metric-label">P&L</div>
+                            <div class="metric-value positive" id="simPnL">+$0</div>
+                        </div>
+                        <div class="sim-metric">
+                            <div class="metric-label">Win Rate</div>
+                            <div class="metric-value" id="simWinRate">0%</div>
+                        </div>
+                        <div class="sim-metric">
+                            <div class="metric-label">Total Trades</div>
+                            <div class="metric-value" id="simTrades">0</div>
+                        </div>
+                    </div>
+
+                    <div class="candlestick-container" style="margin-top: 40px;">
+                        <div class="candlestick-header">
+                            <h3 class="candlestick-title">Market Chart</h3>
+                            <div class="candlestick-controls">
+                                <span style="color: var(--gray-text); margin-right: 20px;">Current Pattern: 
+                                    <span style="color: var(--accent);" id="currentPattern">Analyzing...</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="chart-area" id="simChart">
+                            <!-- Simulation chart -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mastery Test Module -->
+            <div class="module" id="mastery">
+                <div class="section-header">
+                    <h2 class="section-title">Mastery Test</h2>
+                    <p class="section-subtitle">
+                        Test your knowledge with 30 comprehensive questions covering patterns, strategies, 
+                        risk management, and trading psychology. Pass with 80% to earn certification.
+                    </p>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-header">
+                        <h3>Question <span id="questionNumber">1</span> of 30</h3>
+                        <div class="quiz-progress">
+                            <div class="progress-dot active"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                            <div class="progress-dot"></div>
+                        </div>
+                    </div>
+
+                    <div id="quizContent">
+                        <div class="quiz-question">
+                            What does a Hammer candlestick at the bottom of a downtrend indicate?
+                        </div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectAnswer(this, true)">
+                                Potential bullish reversal with strong buying pressure
+                            </div>
+                            <div class="quiz-option" onclick="selectAnswer(this, false)">
+                                Continuation of the current downtrend
+                            </div>
+                            <div class="quiz-option" onclick="selectAnswer(this, false)">
+                                Market consolidation and indecision
+                            </div>
+                            <div class="quiz-option" onclick="selectAnswer(this, false)">
+                                Increased selling pressure ahead
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="calculate-btn" style="margin-top: 40px; display: none;" id="nextQuestion" onclick="loadNextQuestion()">
+                        Next Question →
+                    </button>
+                </div>
+
+                <div class="cards-grid" style="margin-top: 60px;">
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">📚</span>
+                            Study Resources
+                        </h3>
+                        <div class="card-content">
+                            <ul>
+                                <li>Pattern flashcards</li>
+                                <li>Historical chart analysis</li>
+                                <li>Video tutorials</li>
+                                <li>Practice worksheets</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">🎯</span>
+                            Certification Path
+                        </h3>
+                        <div class="card-content">
+                            <ul>
+                                <li>Complete all modules</li>
+                                <li>Pass 30-question mastery test with 80% accuracy</li>
+                                <li>50+ practice trades</li>
+                                <li>Risk management test</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">
+                            <span class="card-icon">🏆</span>
+                            Your Progress
+                        </h3>
+                        <div class="card-content">
+                            <div style="margin: 15px 0;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span>Overall Progress</span>
+                                    <span id="overallProgress">0%</span>
+                                </div>
+                                <div style="height: 4px; background: var(--gray-dark); position: relative;">
+                                    <div style="height: 100%; width: 0%; background: var(--accent); transition: width 0.5s ease;" id="progressBar"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <h2 class="footer-title">Begin Your Trading Journey</h2>
+                <p class="footer-text">
+                    Master the timeless art of candlestick trading. Join thousands of successful traders
+                    who have transformed their financial future through disciplined price action analysis.
+                </p>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Practice Account</a>
+                    <a href="#" class="footer-link">Advanced Course</a>
+                    <a href="#" class="footer-link">Trading Community</a>
+                    <a href="#" class="footer-link">Resources</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Mobile detection and optimization
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+        // Initialize
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+                initializeApp();
+                if (isMobile) {
+                    optimizeForMobile();
+                }
+            }, 1500);
+        });
+
+        // Mobile optimizations
+        function optimizeForMobile() {
+            // Reduce animations on mobile for better performance
+            document.body.style.setProperty('--animation-duration', '0.3s');
+            
+            // Add touch feedback class
+            document.body.classList.add('touch-device');
+            
+            // Optimize chart generation for mobile
+            const chartAreas = document.querySelectorAll('.chart-area');
+            chartAreas.forEach(chart => {
+                // Reduce number of candles on mobile
+                const currentCandleCount = chart.querySelectorAll('.candle').length;
+                if (currentCandleCount === 0 && window.innerWidth < 768) {
+                    // Will generate fewer candles for mobile
+                }
+            });
+
+            // Add pull-to-refresh prevention
+            let touchStartY = 0;
+            document.addEventListener('touchstart', function(e) {
+                touchStartY = e.touches[0].clientY;
+            }, { passive: true });
+
+            document.addEventListener('touchmove', function(e) {
+                const touchY = e.touches[0].clientY;
+                const touchDiff = touchY - touchStartY;
+                
+                // Prevent pull-to-refresh if not at top of page
+                if (window.scrollY > 0 && touchDiff > 0) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+        }
+
+        // Debounce function for resize events
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Handle window resize
+        const handleResize = debounce(() => {
+            // Regenerate charts on orientation change
+            if (document.getElementById('chartArea')) {
+                generateInitialChart();
+            }
+        }, 250);
+
+        window.addEventListener('resize', handleResize);
+        window.addEventListener('orientationchange', handleResize);
+
+        // App State
+        let appState = {
+            patternsLearned: 0,
+            winRate: 0,
+            profitLoss: 0,
+            studyTime: 0,
+            simBalance: 10000,
+            simTrades: 0,
+            simWins: 0,
+            currentQuestion: 0,
+            quizScore: 0
+        };
+
+        // Initialize App
+        function initializeApp() {
+            updateStats();
+            generateInitialChart();
+            startStudyTimer();
+        }
+
+        // Module Navigation
+        function showModule(moduleId) {
+            document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+            document.getElementById(moduleId).classList.add('active');
+            
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Track pattern learning
+            if (moduleId === 'patterns' && appState.patternsLearned === 0) {
+                appState.patternsLearned = 4;
+                updateStats();
+            }
+        }
+
+        // Update Statistics
+        function updateStats() {
+            document.getElementById('patternsLearned').textContent = appState.patternsLearned;
+            document.getElementById('winRate').textContent = appState.winRate + '%';
+            document.getElementById('profitLoss').textContent = 
+                (appState.profitLoss >= 0 ? '+' : '') + '$' + appState.profitLoss.toFixed(0);
+            document.getElementById('studyTime').textContent = 
+                Math.floor(appState.studyTime / 60) + 'h ' + (appState.studyTime % 60) + 'm';
+        }
+
+        // Study Timer
+        function startStudyTimer() {
+            setInterval(() => {
+                appState.studyTime++;
+                updateStats();
+            }, 60000); // Update every minute
+        }
+
+        // Chart Generation
+        function generateInitialChart() {
+            const chartArea = document.getElementById('chartArea');
+            const simChart = document.getElementById('simChart');
+            
+            // Adjust candle count based on screen size
+            const candleCount = window.innerWidth < 768 ? 8 : 12;
+            
+            [chartArea, simChart].forEach(chart => {
+                if (chart) {
+                    chart.innerHTML = '';
+                    for (let i = 0; i < candleCount; i++) {
+                        chart.appendChild(createCandle());
+                    }
+                }
+            });
+        }
+
+        function createCandle() {
+            const candle = document.createElement('div');
+            candle.className = 'candle';
+            candle.style.height = '300px';
+            candle.style.position = 'relative';
+            
+            const isBullish = Math.random() > 0.5;
+            const bodyHeight = 20 + Math.random() * 60;
+            const bodyBottom = 50 + Math.random() * 100;
+            const topWickHeight = Math.random() * 40;
+            const bottomWickHeight = Math.random() * 40;
+            
+            const bodyColor = isBullish ? '#00ff88' : '#ff3b3b';
+            const boxShadow = isBullish 
+                ? '0 0 20px rgba(0, 255, 136, 0.5)' 
+                : '0 0 20px rgba(255, 59, 59, 0.5)';
+            
+            // Upper wick starts at top of body and extends upward
+            const upperWickBottom = bodyBottom + bodyHeight;
+            
+            candle.innerHTML = `
+                <div class="candle-wick" style="position: absolute; bottom: ${upperWickBottom}px; height: ${topWickHeight}px; background: #888888; width: 2px; left: 50%; transform: translateX(-50%);"></div>
+                <div class="candle-body" 
+                     style="position: absolute; height: ${bodyHeight}px; bottom: ${bodyBottom}px; width: 100%; left: 0; background: ${bodyColor}; border: 2px solid ${bodyColor}; box-shadow: ${boxShadow}; border-radius: 2px;"></div>
+                <div class="candle-wick" style="position: absolute; bottom: ${bodyBottom - bottomWickHeight}px; height: ${bottomWickHeight}px; background: #888888; width: 2px; left: 50%; transform: translateX(-50%);"></div>
+            `;
+            
+            return candle;
+        }
+
+        // Pattern Generation
+        function generatePattern(type) {
+            const chartArea = document.getElementById('chartArea');
+            chartArea.innerHTML = '';
+            
+            // Adjust for mobile
+            const contextCandles = window.innerWidth < 768 ? 6 : 8;
+            
+            // Generate context candles
+            for (let i = 0; i < contextCandles; i++) {
+                chartArea.appendChild(createCandle());
+            }
+            
+            // Generate specific pattern
+            const patternCandle = document.createElement('div');
+            patternCandle.className = 'candle';
+            patternCandle.style.height = '300px';
+            patternCandle.style.position = 'relative';
+            
+            switch(type) {
+                case 'hammer':
+                    // Hammer: small body at top, long lower wick
+                    patternCandle.innerHTML = `
+                        <div class="candle-wick" style="position: absolute; bottom: 180px; height: 10px; background: #888888; width: 2px; left: 50%; transform: translateX(-50%);"></div>
+                        <div class="candle-body" style="position: absolute; height: 30px; bottom: 150px; width: 100%; left: 0; background: #00ff88; border: 2px solid #00ff88; box-shadow: 0 0 20px rgba(0, 255, 136, 0.6); border-radius: 2px;"></div>
+                        <div class="candle-wick" style="position: absolute; bottom: 50px; height: 100px; background: #888888; width: 2px; left: 50%; transform: translateX(-50%);"></div>
+                    `;
+                    document.getElementById('currentPattern').textContent = 'Hammer Pattern';
+                    break;
+                case 'shooting':
+                    // Shooting Star: small body at bottom, long upper wick
+                    patternCandle.innerHTML = `
+                        <div class="candle-wick" style="position: absolute; bottom: 180px; height: 100px; background: #888888; width: 2px; left: 50%; transform: translateX(-50%);"></div>
+                        <div class="candle-body" style="position: absolute; height: 30px; bottom: 150px; width: 100%; left: 0; background: #ff3b3b; border: 2px solid #ff3b3b; box-shadow: 0 0 20px rgba(255, 59, 59, 0.6); border-radius: 2px;"></div>
+                        <div class="candle-wick" style="position: absolute; bottom: 140px; height: 10px; background: #888888; width: 2px; left: 50%; transform: translateX(-50%);"></div>
+                    `;
+                    document.getElementById('currentPattern').textContent = 'Shooting Star';
+                    break;
+                case 'engulfing':
+                    // Small bearish candle
+                    const smallCandle = document.createElement('div');
+                    smallCandle.className = 'candle';
+                    smallCandle.style.height = '300px';
+                    smallCandle.style.position = 'relative';
+                    smallCandle.innerHTML = `
+                        <div class="candle-body" style="position: absolute; height: 30px; bottom: 150px; width: 100%; left: 0; background: #ff3b3b; border: 2px solid #ff3b3b; box-shadow: 0 0 15px rgba(255, 59, 59, 0.4); border-radius: 2px;"></div>
+                    `;
+                    chartArea.appendChild(smallCandle);
+                    
+                    // Large bullish candle that engulfs the previous one
+                    patternCandle.innerHTML = `
+                        <div class="candle-body" style="position: absolute; height: 80px; bottom: 130px; width: 100%; left: 0; background: #00ff88; border: 2px solid #00ff88; box-shadow: 0 0 20px rgba(0, 255, 136, 0.6); border-radius: 2px;"></div>
+                    `;
+                    document.getElementById('currentPattern').textContent = 'Bullish Engulfing';
+                    break;
+                case 'doji':
+                    // Doji: long wicks both ways, tiny body
+                    patternCandle.innerHTML = `
+                        <div class="candle-wick" style="position: absolute; bottom: 203px; height: 50px; background: #888888; width: 2px; left: 50%; transform: translateX(-50%);"></div>
+                        <div style="width: 30px; height: 3px; background: #cccccc; position: absolute; bottom: 200px; left: 0; border: 1px solid #888888; box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);"></div>
+                        <div class="candle-wick" style="position: absolute; bottom: 150px; height: 50px; background: #888888; width: 2px; left: 50%; transform: translateX(-50%);"></div>
+                    `;
+                    document.getElementById('currentPattern').textContent = 'Doji';
+                    break;
+            }
+            
+            chartArea.appendChild(patternCandle);
+            
+            // Add reaction candles
+            const reactionCandles = window.innerWidth < 768 ? 2 : 3;
+            for (let i = 0; i < reactionCandles; i++) {
+                chartArea.appendChild(createCandle());
+            }
+        }
+
+        // Position Calculator
+        function calculatePosition() {
+            const balance = parseFloat(document.getElementById('accountBalance').value);
+            const riskPercent = parseFloat(document.getElementById('riskPercent').value);
+            const stopLoss = parseFloat(document.getElementById('stopLoss').value);
+            
+            const riskAmount = balance * (riskPercent / 100);
+            const positionSize = (riskAmount / stopLoss / 10).toFixed(2);
+            
+            document.getElementById('positionSize').textContent = positionSize + ' Lots';
+            document.getElementById('positionResult').classList.add('active');
+        }
+
+        // Trading Simulator
+        function executeTrade(type) {
+            const isWin = Math.random() > 0.45;
+            const amount = 100 + Math.random() * 300;
+            
+            appState.simTrades++;
+            
+            if (isWin) {
+                appState.simWins++;
+                appState.simBalance += amount;
+                appState.profitLoss += amount;
+            } else {
+                appState.simBalance -= amount;
+                appState.profitLoss -= amount;
+            }
+            
+            // Update simulator display
+            document.getElementById('simBalance').textContent = '$' + appState.simBalance.toFixed(0);
+            document.getElementById('simPnL').textContent = 
+                (appState.profitLoss >= 0 ? '+' : '') + '$' + appState.profitLoss.toFixed(0);
+            document.getElementById('simPnL').className = 
+                'metric-value ' + (appState.profitLoss >= 0 ? 'positive' : 'negative');
+            
+            const winRate = appState.simTrades > 0 
+                ? Math.round((appState.simWins / appState.simTrades) * 100) : 0;
+            document.getElementById('simWinRate').textContent = winRate + '%';
+            document.getElementById('simTrades').textContent = appState.simTrades;
+            
+            appState.winRate = winRate;
+            updateStats();
+            
+            // Regenerate chart
+            generateInitialChart();
+
+            // Add haptic feedback on mobile
+            if (isTouch && navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+        }
+
+        function resetSimulator() {
+            appState.simBalance = 10000;
+            appState.simTrades = 0;
+            appState.simWins = 0;
+            appState.profitLoss = 0;
+            appState.winRate = 0;
+            
+            document.getElementById('simBalance').textContent = '$10,000';
+            document.getElementById('simPnL').textContent = '+$0';
+            document.getElementById('simPnL').className = 'metric-value positive';
+            document.getElementById('simWinRate').textContent = '0%';
+            document.getElementById('simTrades').textContent = '0';
+            
+            updateStats();
+            generateInitialChart();
+        }
+
+        // Quiz System
+        const quizQuestions = [
+            {
+                question: "What does a Hammer candlestick at the bottom of a downtrend indicate?",
+                answers: [
+                    { text: "Potential bullish reversal with strong buying pressure", correct: true },
+                    { text: "Continuation of the current downtrend", correct: false },
+                    { text: "Market consolidation and indecision", correct: false },
+                    { text: "Increased selling pressure ahead", correct: false }
+                ]
+            },
+            {
+                question: "What is the minimum recommended risk-reward ratio for profitable trading?",
+                answers: [
+                    { text: "1:1", correct: false },
+                    { text: "1:2", correct: true },
+                    { text: "1:0.5", correct: false },
+                    { text: "1:5", correct: false }
+                ]
+            },
+            {
+                question: "An Engulfing Bar pattern is most reliable when it occurs at:",
+                answers: [
+                    { text: "Random market locations", correct: false },
+                    { text: "The middle of a trend", correct: false },
+                    { text: "Key support/resistance levels", correct: true },
+                    { text: "Low volume periods", correct: false }
+                ]
+            },
+            {
+                question: "What does a Doji candlestick represent?",
+                answers: [
+                    { text: "Strong bullish momentum", correct: false },
+                    { text: "Market indecision where open equals close", correct: true },
+                    { text: "Strong bearish momentum", correct: false },
+                    { text: "Continuation of current trend", correct: false }
+                ]
+            },
+            {
+                question: "In a bullish candlestick, where is the OPEN price located?",
+                answers: [
+                    { text: "At the top of the body", correct: false },
+                    { text: "At the bottom of the body", correct: true },
+                    { text: "At the top of the upper wick", correct: false },
+                    { text: "At the bottom of the lower wick", correct: false }
+                ]
+            },
+            {
+                question: "What is the maximum percentage you should risk per trade?",
+                answers: [
+                    { text: "5%", correct: false },
+                    { text: "10%", correct: false },
+                    { text: "2%", correct: true },
+                    { text: "1%", correct: false }
+                ]
+            },
+            {
+                question: "A Shooting Star pattern is characterized by:",
+                answers: [
+                    { text: "Long lower wick with small body at top", correct: false },
+                    { text: "Long upper wick with small body at bottom", correct: true },
+                    { text: "No wicks and large body", correct: false },
+                    { text: "Equal wicks on both sides", correct: false }
+                ]
+            },
+            {
+                question: "What does a long body candlestick indicate?",
+                answers: [
+                    { text: "Market indecision", correct: false },
+                    { text: "Strong conviction and momentum", correct: true },
+                    { text: "Low volume", correct: false },
+                    { text: "Trend exhaustion", correct: false }
+                ]
+            },
+            {
+                question: "The Morning Star pattern consists of how many candles?",
+                answers: [
+                    { text: "One candle", correct: false },
+                    { text: "Two candles", correct: false },
+                    { text: "Three candles", correct: true },
+                    { text: "Four candles", correct: false }
+                ]
+            },
+            {
+                question: "When should you place your stop loss?",
+                answers: [
+                    { text: "After the trade moves in your favor", correct: false },
+                    { text: "Before entering the trade", correct: true },
+                    { text: "Only if the trade goes against you", correct: false },
+                    { text: "Stop losses are optional", correct: false }
+                ]
+            },
+            {
+                question: "What is the key difference between a Hammer and a Hanging Man?",
+                answers: [
+                    { text: "Body color", correct: false },
+                    { text: "Wick length", correct: false },
+                    { text: "Location in the trend (bottom vs top)", correct: true },
+                    { text: "They are the same pattern", correct: false }
+                ]
+            },
+            {
+                question: "A Marubozu candlestick has:",
+                answers: [
+                    { text: "Long wicks on both sides", correct: false },
+                    { text: "No wicks or very small wicks", correct: true },
+                    { text: "Only an upper wick", correct: false },
+                    { text: "No body", correct: false }
+                ]
+            },
+            {
+                question: "What does high volume on a reversal pattern indicate?",
+                answers: [
+                    { text: "Weak signal, should be avoided", correct: false },
+                    { text: "Strong confirmation of the reversal", correct: true },
+                    { text: "Pattern is invalid", correct: false },
+                    { text: "Volume doesn't matter", correct: false }
+                ]
+            },
+            {
+                question: "In an uptrend, which patterns should you primarily trade?",
+                answers: [
+                    { text: "Bearish reversal patterns", correct: false },
+                    { text: "Bullish pullback patterns", correct: true },
+                    { text: "Any pattern that forms", correct: false },
+                    { text: "Only counter-trend patterns", correct: false }
+                ]
+            },
+            {
+                question: "What is confluence in trading?",
+                answers: [
+                    { text: "Trading multiple assets at once", correct: false },
+                    { text: "Multiple confirmations aligning for a trade", correct: true },
+                    { text: "A type of candlestick pattern", correct: false },
+                    { text: "The volume of a trade", correct: false }
+                ]
+            },
+            {
+                question: "The Evening Star pattern is a:",
+                answers: [
+                    { text: "Bullish reversal pattern", correct: false },
+                    { text: "Bearish reversal pattern", correct: true },
+                    { text: "Continuation pattern", correct: false },
+                    { text: "Neutral pattern", correct: false }
+                ]
+            },
+            {
+                question: "What does a Dragonfly Doji indicate?",
+                answers: [
+                    { text: "Strong bearish rejection", correct: false },
+                    { text: "Strong bullish rejection at support", correct: true },
+                    { text: "Market indecision with no direction", correct: false },
+                    { text: "Continuation of downtrend", correct: false }
+                ]
+            },
+            {
+                question: "If a pattern has a 3× strength multiplier at a major support level and 2.5× for high volume, what is the total strength?",
+                answers: [
+                    { text: "3×", correct: false },
+                    { text: "2.5×", correct: false },
+                    { text: "5.5×", correct: true },
+                    { text: "1.5×", correct: false }
+                ]
+            },
+            {
+                question: "What is the primary risk of trading counter-trend patterns?",
+                answers: [
+                    { text: "They are always losing trades", correct: false },
+                    { text: "Lower probability as you trade against momentum", correct: true },
+                    { text: "They require more capital", correct: false },
+                    { text: "They cannot be profitable", correct: false }
+                ]
+            },
+            {
+                question: "A Spinning Top candlestick indicates:",
+                answers: [
+                    { text: "Strong bullish momentum", correct: false },
+                    { text: "Battle between bulls and bears ending in stalemate", correct: true },
+                    { text: "Clear trend direction", correct: false },
+                    { text: "High volume only", correct: false }
+                ]
+            },
+            {
+                question: "What should you do when you experience two consecutive losing trades?",
+                answers: [
+                    { text: "Double your position size to recover losses", correct: false },
+                    { text: "Take a break and review your trading journal", correct: true },
+                    { text: "Switch to a different strategy immediately", correct: false },
+                    { text: "Keep trading to get back to even", correct: false }
+                ]
+            },
+            {
+                question: "The Dark Cloud Cover pattern consists of:",
+                answers: [
+                    { text: "A bullish candle followed by a bearish candle opening above and closing below midpoint", correct: true },
+                    { text: "Two bearish candles in a row", correct: false },
+                    { text: "A doji followed by a bullish candle", correct: false },
+                    { text: "Three candles with increasing volume", correct: false }
+                ]
+            },
+            {
+                question: "What does the upper wick of a candlestick represent?",
+                answers: [
+                    { text: "Support found at lower levels", correct: false },
+                    { text: "Rejection of higher prices", correct: true },
+                    { text: "Opening price", correct: false },
+                    { text: "Volume levels", correct: false }
+                ]
+            },
+            {
+                question: "In range-bound markets, where should you look to take trades?",
+                answers: [
+                    { text: "In the middle of the range", correct: false },
+                    { text: "At the range extremes (support and resistance)", correct: true },
+                    { text: "Only during breakouts", correct: false },
+                    { text: "Ranges should always be avoided", correct: false }
+                ]
+            },
+            {
+                question: "What is the purpose of keeping a trading journal?",
+                answers: [
+                    { text: "To track wins only", correct: false },
+                    { text: "To learn from both wins and losses", correct: true },
+                    { text: "It's not necessary for experienced traders", correct: false },
+                    { text: "Only for tax purposes", correct: false }
+                ]
+            },
+            {
+                question: "A Piercing Pattern is characterized by:",
+                answers: [
+                    { text: "A bearish candle followed by bullish candle closing above midpoint", correct: true },
+                    { text: "Two bullish candles in succession", correct: false },
+                    { text: "A gap down followed by consolidation", correct: false },
+                    { text: "High volume only", correct: false }
+                ]
+            },
+            {
+                question: "What does a Gravestone Doji indicate?",
+                answers: [
+                    { text: "Bullish reversal at support", correct: false },
+                    { text: "Bearish rejection at resistance", correct: true },
+                    { text: "Trend continuation", correct: false },
+                    { text: "Low volatility period", correct: false }
+                ]
+            },
+            {
+                question: "How many confirmations should you have before taking a high-probability trade?",
+                answers: [
+                    { text: "One is enough", correct: false },
+                    { text: "At least three", correct: true },
+                    { text: "Confirmations are not necessary", correct: false },
+                    { text: "Five or more always", correct: false }
+                ]
+            },
+            {
+                question: "What is the biggest cause of trading account failure?",
+                answers: [
+                    { text: "Not enough technical knowledge", correct: false },
+                    { text: "Poor risk management and emotional trading", correct: true },
+                    { text: "Using candlestick patterns", correct: false },
+                    { text: "Trading too slowly", correct: false }
+                ]
+            },
+            {
+                question: "When trading an Inside Bar breakout, where should your stop loss be?",
+                answers: [
+                    { text: "At the entry price", correct: false },
+                    { text: "On the opposite side of the mother candle", correct: true },
+                    { text: "50 pips away", correct: false },
+                    { text: "Stop losses aren't needed for inside bars", correct: false }
+                ]
+            }
+        ];
+
+        function selectAnswer(element, isCorrect) {
+            // Clear previous selections
+            document.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            element.classList.add('selected');
+            
+            // Haptic feedback
+            if (isTouch && navigator.vibrate) {
+                navigator.vibrate(30);
+            }
+            
+            setTimeout(() => {
+                if (isCorrect) {
+                    element.classList.add('correct');
+                    appState.quizScore++;
+                    if (isTouch && navigator.vibrate) {
+                        navigator.vibrate([50, 100, 50]);
+                    }
+                } else {
+                    element.classList.add('incorrect');
+                    if (isTouch && navigator.vibrate) {
+                        navigator.vibrate(200);
+                    }
+                }
+                
+                document.getElementById('nextQuestion').style.display = 'block';
+            }, 500);
+        }
+
+        function loadNextQuestion() {
+            appState.currentQuestion++;
+            
+            if (appState.currentQuestion < quizQuestions.length) {
+                const q = quizQuestions[appState.currentQuestion];
+                document.getElementById('questionNumber').textContent = appState.currentQuestion + 1;
+                
+                // Update progress dots
+                document.querySelectorAll('.progress-dot')[appState.currentQuestion - 1].classList.add('completed');
+                document.querySelectorAll('.progress-dot')[appState.currentQuestion].classList.add('active');
+                
+                // Load question
+                document.getElementById('quizContent').innerHTML = `
+                    <div class="quiz-question">${q.question}</div>
+                    <div class="quiz-options">
+                        ${q.answers.map(a => `
+                            <div class="quiz-option" onclick="selectAnswer(this, ${a.correct})">
+                                ${a.text}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                
+                document.getElementById('nextQuestion').style.display = 'none';
+            } else {
+                // Quiz complete
+                const score = Math.round((appState.quizScore / quizQuestions.length) * 100);
+                document.getElementById('quizContent').innerHTML = `
+                    <div style="text-align: center; padding: 60px 0;">
+                        <h2 style="font-size: 3rem; margin-bottom: 20px;">Test Complete</h2>
+                        <p style="font-size: 2rem; color: var(--accent); margin-bottom: 20px;">
+                            Score: ${score}%
+                        </p>
+                        <p style="color: var(--gray-text);">
+                            ${score >= 80 ? 'Congratulations! You passed the mastery test.' : 'Keep studying to improve your score.'}
+                        </p>
+                        <button class="calculate-btn" style="margin-top: 30px;" onclick="resetQuiz()">
+                            Retake Test
+                        </button>
+                    </div>
+                `;
+                
+                // Update progress
+                document.getElementById('overallProgress').textContent = score + '%';
+                document.getElementById('progressBar').style.width = score + '%';
+            }
+        }
+
+        function resetQuiz() {
+            appState.currentQuestion = 0;
+            appState.quizScore = 0;
+            
+            // Reset progress dots
+            document.querySelectorAll('.progress-dot').forEach((dot, i) => {
+                dot.classList.remove('active', 'completed');
+                if (i === 0) dot.classList.add('active');
+            });
+            
+            // Load first question
+            const q = quizQuestions[0];
+            document.getElementById('questionNumber').textContent = '1';
+            document.getElementById('quizContent').innerHTML = `
+                <div class="quiz-question">${q.question}</div>
+                <div class="quiz-options">
+                    ${q.answers.map(a => `
+                        <div class="quiz-option" onclick="selectAnswer(this, ${a.correct})">
+                            ${a.text}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            document.getElementById('nextQuestion').style.display = 'none';
+        }
+
+        // Initialize patterns on load
+        setTimeout(() => {
+            const patterns = ['Hammer', 'Shooting Star', 'Bullish Engulfing', 'Doji'];
+            setInterval(() => {
+                const pattern = patterns[Math.floor(Math.random() * patterns.length)];
+                if (document.getElementById('currentPattern')) {
+                    document.getElementById('currentPattern').textContent = pattern;
+                }
+            }, 3000);
+        }, 2000);
+    </script>
+</body>
+</html>

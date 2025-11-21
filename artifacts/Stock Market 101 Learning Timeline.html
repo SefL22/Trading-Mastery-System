@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Market 101 - Learning Timeline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #000000;
+            padding: 20px;
+            min-height: 100vh;
+            font-weight: 200;
+            letter-spacing: 0.1em;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(24, 24, 27, 0.4);
+            border-radius: 1.5rem;
+            padding: 60px 40px;
+            border: 1px solid rgba(39, 39, 42, 0.5);
+            backdrop-filter: blur(20px);
+        }
+        
+        h1 {
+            color: #34d399;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            font-weight: 200;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: rgba(161, 161, 170, 0.8);
+            margin-bottom: 50px;
+            font-size: 0.95em;
+            font-weight: 200;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 2px;
+            background: rgba(39, 39, 42, 0.5);
+            border-radius: 1px;
+            margin-bottom: 50px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #34d399;
+            width: 0%;
+            transition: width 0.8s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            color: #34d399;
+            font-weight: 200;
+            font-size: 0.75em;
+            letter-spacing: 0.1em;
+            padding-right: 8px;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .phase {
+            margin-bottom: 50px;
+            padding: 40px;
+            background: rgba(24, 24, 27, 0.4);
+            border-radius: 1.5rem;
+            border: 1px solid rgba(39, 39, 42, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .phase:hover {
+            border-color: rgba(52, 211, 153, 0.3);
+        }
+        
+        .phase.completed {
+            border-color: rgba(52, 211, 153, 0.5);
+            background: rgba(24, 24, 27, 0.6);
+        }
+        
+        .phase-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 20px;
+        }
+        
+        .phase-number {
+            width: 8px;
+            height: 8px;
+            background: #34d399;
+            border-radius: 50%;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .phase.completed .phase-number {
+            background: #34d399;
+            box-shadow: 0 0 20px rgba(52, 211, 153, 0.6);
+        }
+        
+        .phase-title {
+            font-size: 1.3em;
+            color: #34d399;
+            font-weight: 200;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            flex-grow: 1;
+        }
+        
+        .phase-duration {
+            color: rgba(161, 161, 170, 0.6);
+            font-size: 0.8em;
+            font-weight: 200;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        
+        .phase-description {
+            color: rgba(161, 161, 170, 0.7);
+            margin-bottom: 25px;
+            line-height: 1.8;
+            font-weight: 200;
+            letter-spacing: 0.05em;
+        }
+        
+        .resources {
+            margin-top: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .resource-item {
+            background: rgba(39, 39, 42, 0.3);
+            padding: 18px 20px;
+            border-radius: 1.5rem;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(39, 39, 42, 0.5);
+        }
+        
+        .resource-item:hover {
+            background: rgba(39, 39, 42, 0.5);
+            border-color: rgba(52, 211, 153, 0.3);
+        }
+        
+        .resource-item.completed {
+            border-color: rgba(52, 211, 153, 0.4);
+            opacity: 0.5;
+        }
+        
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            border: 1px solid rgba(52, 211, 153, 0.4);
+            border-radius: 50%;
+            margin-right: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .checkbox:hover {
+            border-color: #34d399;
+        }
+        
+        .checkbox.checked {
+            background: #34d399;
+            border-color: #34d399;
+        }
+        
+        .checkbox.checked::after {
+            content: '✓';
+            color: #000;
+            font-size: 0.7em;
+            font-weight: 600;
+        }
+        
+        .resource-link {
+            flex-grow: 1;
+            color: rgba(228, 228, 231, 0.9);
+            text-decoration: none;
+            font-weight: 200;
+            letter-spacing: 0.05em;
+            font-size: 0.95em;
+        }
+        
+        .resource-link:hover {
+            color: #34d399;
+        }
+        
+        .resource-type {
+            background: rgba(52, 211, 153, 0.1);
+            color: #34d399;
+            padding: 4px 12px;
+            border-radius: 1rem;
+            font-size: 0.7em;
+            margin-left: 15px;
+            border: 1px solid rgba(52, 211, 153, 0.2);
+            font-weight: 200;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .resource-type:hover {
+            background: rgba(52, 211, 153, 0.2);
+            border-color: rgba(52, 211, 153, 0.4);
+        }
+        
+        .additional-resources {
+            margin-top: 50px;
+            padding: 40px;
+            background: rgba(24, 24, 27, 0.4);
+            border-radius: 1.5rem;
+            border: 1px solid rgba(39, 39, 42, 0.5);
+        }
+        
+        .additional-resources h3 {
+            color: #34d399;
+            margin-bottom: 25px;
+            font-weight: 200;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-size: 1.1em;
+        }
+        
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .resource-card {
+            background: rgba(39, 39, 42, 0.3);
+            padding: 20px;
+            border-radius: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(39, 39, 42, 0.5);
+        }
+        
+        .resource-card:hover {
+            border-color: rgba(52, 211, 153, 0.3);
+            background: rgba(39, 39, 42, 0.5);
+        }
+        
+        .resource-card a {
+            color: #34d399;
+            text-decoration: none;
+            font-weight: 200;
+            letter-spacing: 0.08em;
+            font-size: 0.95em;
+        }
+        
+        .reset-btn {
+            display: block;
+            margin: 40px auto;
+            padding: 14px 35px;
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 1.5rem;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: all 0.3s ease;
+            font-weight: 200;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        
+        .reset-btn:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: #ef4444;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .stat-card {
+            background: rgba(24, 24, 27, 0.4);
+            color: white;
+            padding: 25px 35px;
+            border-radius: 1.5rem;
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+            border: 1px solid rgba(39, 39, 42, 0.5);
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: 200;
+            color: #34d399;
+            letter-spacing: 0.05em;
+        }
+        
+        .stat-label {
+            font-size: 0.8em;
+            color: rgba(161, 161, 170, 0.7);
+            font-weight: 200;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 8px;
+        }
+        
+        /* Responsive Design for All Devices */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 30px 20px;
+                border-radius: 1rem;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+                letter-spacing: 0.1em;
+            }
+            
+            .subtitle {
+                font-size: 0.85em;
+                margin-bottom: 30px;
+            }
+            
+            .stats {
+                gap: 10px;
+            }
+            
+            .stat-card {
+                padding: 20px;
+                min-width: 120px;
+            }
+            
+            .stat-number {
+                font-size: 2em;
+            }
+            
+            .stat-label {
+                font-size: 0.75em;
+            }
+            
+            .phase {
+                padding: 25px 20px;
+                margin-bottom: 30px;
+            }
+            
+            .phase-header {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+            
+            .phase-title {
+                font-size: 1.1em;
+                flex-basis: 100%;
+            }
+            
+            .phase-duration {
+                font-size: 0.75em;
+                margin-left: 0;
+            }
+            
+            .phase-description {
+                font-size: 0.9em;
+            }
+            
+            .resource-item {
+                padding: 14px 16px;
+                flex-wrap: wrap;
+            }
+            
+            .resource-link {
+                font-size: 0.9em;
+                flex-basis: calc(100% - 40px);
+            }
+            
+            .resource-type {
+                margin-left: 0;
+                margin-top: 8px;
+                flex-basis: 100%;
+                text-align: center;
+            }
+            
+            .additional-resources {
+                padding: 25px 20px;
+            }
+            
+            .additional-resources h3 {
+                font-size: 1em;
+            }
+            
+            .resource-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .resource-card {
+                padding: 18px;
+            }
+            
+            .reset-btn {
+                padding: 12px 28px;
+                font-size: 0.8em;
+            }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .container {
+                padding: 50px 35px;
+            }
+            
+            h1 {
+                font-size: 2.2em;
+            }
+            
+            .phase {
+                padding: 35px;
+            }
+            
+            .resource-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 5px;
+            }
+            
+            .container {
+                padding: 25px 15px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            .subtitle {
+                font-size: 0.8em;
+            }
+            
+            .stats {
+                flex-direction: column;
+            }
+            
+            .stat-card {
+                width: 100%;
+            }
+            
+            .phase {
+                padding: 20px 15px;
+            }
+            
+            .phase-title {
+                font-size: 1em;
+            }
+            
+            .phase-number {
+                width: 6px;
+                height: 6px;
+            }
+            
+            .checkbox {
+                width: 16px;
+                height: 16px;
+                margin-right: 12px;
+            }
+            
+            .resource-link {
+                font-size: 0.85em;
+            }
+            
+            .resource-type {
+                font-size: 0.65em;
+                padding: 3px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📈 Stock Market 101</h1>
+        <p class="subtitle">Your Complete Learning Journey</p>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill">0%</div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="completedCount">0</div>
+                <div class="stat-label">Completed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalCount">0</div>
+                <div class="stat-label">Total Resources</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="percentComplete">0%</div>
+                <div class="stat-label">Progress</div>
+            </div>
+        </div>
+        
+        <div class="timeline">
+            <!-- Phase 1: Foundation & Mindset -->
+            <div class="phase" data-phase="1">
+                <div class="phase-header">
+                    <div class="phase-number">1</div>
+                    <div class="phase-title">Foundation & Mindset</div>
+                    <div class="phase-duration">Week 1-2</div>
+                </div>
+                <div class="phase-description">
+                    Start with the right mindset. Understanding trading psychology is crucial before you risk any capital. These resources will help you think like a professional trader.
+                </div>
+                <div class="resources">
+                    <div class="resource-item" data-resource="1">
+                        <div class="checkbox"></div>
+                        <a href="https://www.youtube.com/watch?v=k_zC_jM9yzk" target="_blank" class="resource-link">Sam P - Trading Psychology</a>
+                        <span class="resource-type">Video</span>
+                    </div>
+                    <div class="resource-item" data-resource="2">
+                        <div class="checkbox"></div>
+                        <a href="https://www.youtube.com/watch?v=QgaTlTfQnZI" target="_blank" class="resource-link">Mark Douglas - How to Think Like a Professional Trader (1 of 4)</a>
+                        <span class="resource-type">Video</span>
+                    </div>
+                    <div class="resource-item" data-resource="3">
+                        <div class="checkbox"></div>
+                        <a href="https://www.youtube.com/watch?v=GhKJ9P3agRc" target="_blank" class="resource-link">Mark Douglas - MIND OVER MARKET (Full Interview)</a>
+                        <span class="resource-type">Video</span>
+                    </div>
+                    <div class="resource-item" data-resource="4">
+                        <div class="checkbox"></div>
+                        <a href="https://www.youtube.com/watch?v=MGglyvc8d58" target="_blank" class="resource-link">Dr David Paul - The Psychology of Trading & Investing</a>
+                        <span class="resource-type">Video</span>
+                    </div>
+                    <div class="resource-item" data-resource="5">
+                        <div class="checkbox"></div>
+                        <a href="https://www.youtube.com/watch?v=vtmvk5m7wfI" target="_blank" class="resource-link">How to Master Your Trading Psychology (Strategies That Actually Work)</a>
+                        <span class="resource-type">Video</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 2: Market Basics -->
+            <div class="phase" data-phase="2">
+                <div class="phase-header">
+                    <div class="phase-number">2</div>
+                    <div class="phase-title">Market Basics</div>
+                    <div class="phase-duration">Week 2-3</div>
+                </div>
+                <div class="phase-description">
+                    Learn how the stock market works, understand different trading instruments, and get familiar with essential terminology.
+                </div>
+                <div class="resources">
+                    <div class="resource-item" data-resource="6">
+                        <div class="checkbox"></div>
+                        <a href="https://www.youtube.com/watch?v=ixF_wB2uvOs" target="_blank" class="resource-link">Trading 101: What is the Stock Market?</a>
+                        <span class="resource-type">Video</span>
+                    </div>
+                    <div class="resource-item" data-resource="7">
+                        <div class="checkbox"></div>
+                        <a href="https://www.youtube.com/watch?v=ipf0Yg2Z4Gs" target="_blank" class="resource-link">Options Trading Basics EXPLAINED (For Beginners)</a>
+                        <span class="resource-type">Video</span>
+                    </div>
+                    <div class="resource-item" data-resource="8">
+                        <div class="checkbox"></div>
+                        <a href="https://www.youtube.com/watch?v=EfmTWu2yn5Q" target="_blank" class="resource-link">Bill Poulos - Call Options & Put Options Explained In 8 Minutes</a>
+                        <span class="resource-type">Video</span>
+                    </div>
+                    <div class="resource-item" data-resource="9">
+                        <div class="checkbox"></div>
+                        <a href="https://youtu.be/J3fAI3al08Q" target="_blank" class="resource-link">Stock Market For Beginners</a>
+                        <span class="resource-type">Video</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 3: Setting Up Your Trading Platform -->
+            <div class="phase" data-phase="3">
+                <div class="phase-header">
+                    <div class="phase-number">3</div>
+                    <div class="phase-title">Setting Up Your Trading Platform</div>
+                    <div class="phase-duration">Week 3-4</div>
+                </div>
+                <div class="phase-description">
+                    Choose the right brokerage and learn how to use popular trading platforms effectively.
+                </div>
+                <div class="resources">
+                    <div class="resource-item" data-resource="10">
+                        <div class="checkbox"></div>
+                        <a href="https://www.youtube.com/watch?v=OK_fINTS6Uk" target="_blank" class="resource-link">Best Day Trading Brokers for Beginners</a>
+                        <span class="resource-type">Video</span>
+                    </div>
+                    <div class="resource-item" data-resource="11">
+                        <div class="checkbox"></div>
+                        <a href="https://youtube.com/playlist?list=PLf5N6dqfQaNSDnFK64xtZ5O9tACxqrNdg" target="_blank" class="resource-link">Think or Swim Options Playlist</a>
+                        <span class="resource-type">Playlist</span>
+                    </div>
+                    <div class="resource-item" data-resource="12">
+                        <div class="checkbox"></div>
+                        <a href="https://youtube.com/playlist?list=PLHVKU2qFM7q2iBrluQ5kRImSp0o3DjHr0" target="_blank" class="resource-link">E*Trade Platform Tutorial</a>
+                        <span class="resource-type">Playlist</span>
+                    </div>
+                    <div class="resource-item" data-resource="13">
+                        <div class="checkbox"></div>
+                        <a href="https://youtu.be/6mu5-BxwPTs" target="_blank" class="resource-link">Fidelity Platform Tutorial</a>
+                        <span class="resource-type">Video</span>
+                    </div>
+                    <div class="resource-item" data-resource="14">
+                        <div class="checkbox"></div>
+                        <a href="https://youtu.be/SD7sw0bf1ms?si=_Kz_X8voT_LeT0B1" target="_blank" class="resource-link">Robinhood Trading Platform Setup Guide</a>
+                        <span class="resource-type">Video</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 4: Analysis Methods -->
+            <div class="phase" data-phase="4">
+                <div class="phase-header">
+                    <div class="phase-number">4</div>
+                    <div class="phase-title">Analysis Methods</div>
+                    <div class="phase-duration">Week 4-6</div>
+                </div>
+                <div class="phase-description">
+                    Master both fundamental and technical analysis to evaluate stocks and identify trading opportunities.
+                </div>
+                <div class="resources">
+                    <div class="resource-item" data-resource="15">
+                        <div class="checkbox"></div>
+                        <a href="https://www.youtube.com/watch?v=W3qxwSXJNMk" target="_blank" class="resource-link">Fundamental Analysis vs Technical Analysis</a>
+                        <span class="resource-type">Video</span>
+                    </div>
+                    <div class="resource-item" data-resource="16">
+                        <div class="checkbox"></div>
+                        <a href="https://www.youtube.com/watch?v=Ytw_qqgRBOY" target="_blank" class="resource-link">How To Analyze Stocks (Fundamental Analysis)</a>
+                        <span class="resource-type">Video</span>
+                    </div>
+                    <div class="resource-item" data-resource="17">
+                        <div class="checkbox"></div>
+                        <a href="https://www.youtube.com/watch?v=00aPTfg3L9I" target="_blank" class="resource-link">Investing Basics: Fundamental Analysis</a>
+                        <span class="resource-type">Video</span>
+                    </div>
+                    <div class="resource-item" data-resource="18">
+                        <div class="checkbox"></div>
+                        <a href="https://www.youtube.com/watch?v=fGVtypWv04Y" target="_blank" class="resource-link">8 Steps to Research a Company to Invest in</a>
+                        <span class="resource-type">Video</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 5: Technical Indicators & Chart Reading -->
+            <div class="phase" data-phase="5">
+                <div class="phase-header">
+                    <div class="phase-number">5</div>
+                    <div class="phase-title">Technical Indicators & Chart Reading</div>
+                    <div class="phase-duration">Week 6-8</div>
+                </div>
+                <div class="phase-description">
+                    Learn to read charts, understand technical indicators, and identify trading setups and patterns.
+                </div>
+                <div class="resources">
+                    <div class="resource-item" data-resource="19">
+                        <div class="checkbox"></div>
+                        <a href="https://www.youtube.com/watch?v=10RmE6gMdjs" target="_blank" class="resource-link">Trading Indicator Set Up for Beginners (VWAP, RSI, MACD)</a>
+                        <span class="resource-type">Video</span>
+                    </div>
+                    <div class="resource-item" data-resource="20">
+                        <div class="checkbox"></div>
+                        <a href="https://www.youtube.com/watch?v=C3KRwfj9F8Q" target="_blank" class="resource-link">The Ultimate Candlestick Patterns Trading Course</a>
+                        <span class="resource-type">Video</span>
+                    </div>
+                    <div class="resource-item" data-resource="21">
+                        <div class="checkbox"></div>
+                        <a href="https://www.youtube.com/watch?v=P7qikc4439g" target="_blank" class="resource-link">Top 5 Technical Indicators All Beginner Traders Should Use</a>
+                        <span class="resource-type">Video</span>
+                    </div>
+                    <div class="resource-item" data-resource="22">
+                        <div class="checkbox"></div>
+                        <a href="https://www.youtube.com/watch?v=qm90uTnxY1U" target="_blank" class="resource-link">How to Draw Support and Resistance (Secret Technique)</a>
+                        <span class="resource-type">Video</span>
+                    </div>
+                    <div class="resource-item" data-resource="23">
+                        <div class="checkbox"></div>
+                        <a href="https://www.youtube.com/watch?v=P7qikc4439g" target="_blank" class="resource-link">WATCH THIS BEFORE BUYING OPTIONS - The Greeks Explained</a>
+                        <span class="resource-type">Video</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 6: Deep Dive - Books & Advanced Materials -->
+            <div class="phase" data-phase="6">
+                <div class="phase-header">
+                    <div class="phase-number">6</div>
+                    <div class="phase-title">Deep Dive - Books & Advanced Materials</div>
+                    <div class="phase-duration">Ongoing</div>
+                </div>
+                <div class="phase-description">
+                    Deepen your knowledge with comprehensive books and trading gems from experienced professionals.
+                </div>
+                <div class="resources">
+                    <div class="resource-item" data-resource="24">
+                        <div class="checkbox"></div>
+                        <a href="https://drive.google.com/drive/folders/0B7JU4C31G8gObUQxTTZOQW5zeVE" target="_blank" class="resource-link">Trading Books Collection</a>
+                        <span class="resource-type">Folder</span>
+                    </div>
+                    <div class="resource-item" data-resource="25">
+                        <div class="checkbox"></div>
+                        <a href="https://drive.google.com/drive/folders/1_UDpoOxSu4ib2Diuzng_TUQTPEy4G60e" target="_blank" class="resource-link">Trading Gems - Advanced Resources</a>
+                        <span class="resource-type">Folder</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Resources Section -->
+        <div class="additional-resources">
+            <h3>📚 Essential Websites & Tools</h3>
+            <p style="margin-bottom: 20px; color: rgba(161, 161, 170, 0.7); font-weight: 200; letter-spacing: 0.05em;">Bookmark these resources for ongoing research and market analysis:</p>
+            <div class="resource-grid">
+                <div class="resource-card">
+                    <a href="https://www.investopedia.com" target="_blank">📖 Investopedia</a>
+                    <p style="font-size: 0.8em; color: rgba(161, 161, 170, 0.6); margin-top: 8px; font-weight: 200; letter-spacing: 0.05em;">Financial education</p>
+                </div>
+                <div class="resource-card">
+                    <a href="https://finviz.com" target="_blank">📊 FinViz</a>
+                    <p style="font-size: 0.8em; color: rgba(161, 161, 170, 0.6); margin-top: 8px; font-weight: 200; letter-spacing: 0.05em;">Stock screener</p>
+                </div>
+                <div class="resource-card">
+                    <a href="https://seekingalpha.com" target="_blank">💡 Seeking Alpha</a>
+                    <p style="font-size: 0.8em; color: rgba(161, 161, 170, 0.6); margin-top: 8px; font-weight: 200; letter-spacing: 0.05em;">Analysis & insights</p>
+                </div>
+                <div class="resource-card">
+                    <a href="https://www.marketwatch.com" target="_blank">📰 MarketWatch</a>
+                    <p style="font-size: 0.8em; color: rgba(161, 161, 170, 0.6); margin-top: 8px; font-weight: 200; letter-spacing: 0.05em;">Market news</p>
+                </div>
+                <div class="resource-card">
+                    <a href="https://finance.yahoo.com" target="_blank">💹 Yahoo Finance</a>
+                    <p style="font-size: 0.8em; color: rgba(161, 161, 170, 0.6); margin-top: 8px; font-weight: 200; letter-spacing: 0.05em;">Real-time data</p>
+                </div>
+            </div>
+        </div>
+
+        <button class="reset-btn" onclick="resetProgress()">Reset All Progress</button>
+    </div>
+
+    <script>
+        // Load saved progress from localStorage
+        function loadProgress() {
+            const saved = localStorage.getItem('stockMarketProgress');
+            if (saved) {
+                const progress = JSON.parse(saved);
+                progress.forEach(id => {
+                    const item = document.querySelector(`[data-resource="${id}"]`);
+                    if (item) {
+                        item.classList.add('completed');
+                        item.querySelector('.checkbox').classList.add('checked');
+                    }
+                });
+            }
+            updateStats();
+        }
+
+        // Save progress to localStorage
+        function saveProgress() {
+            const completed = Array.from(document.querySelectorAll('.resource-item.completed'))
+                .map(item => item.getAttribute('data-resource'));
+            localStorage.setItem('stockMarketProgress', JSON.stringify(completed));
+        }
+
+        // Toggle resource completion
+        document.querySelectorAll('.resource-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                if (e.target.tagName !== 'A' && !e.target.classList.contains('resource-type')) {
+                    e.preventDefault();
+                    this.classList.toggle('completed');
+                    this.querySelector('.checkbox').classList.toggle('checked');
+                    saveProgress();
+                    updateStats();
+                }
+            });
+        });
+        
+        // Make resource type badges clickable
+        document.querySelectorAll('.resource-type').forEach(badge => {
+            badge.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const link = this.previousElementSibling;
+                if (link && link.tagName === 'A') {
+                    window.open(link.href, '_blank');
+                }
+            });
+        });
+
+        // Update statistics and progress bar
+        function updateStats() {
+            const total = document.querySelectorAll('.resource-item').length;
+            const completed = document.querySelectorAll('.resource-item.completed').length;
+            const percentage = Math.round((completed / total) * 100);
+
+            document.getElementById('completedCount').textContent = completed;
+            document.getElementById('totalCount').textContent = total;
+            document.getElementById('percentComplete').textContent = percentage + '%';
+            
+            const progressFill = document.getElementById('progressFill');
+            progressFill.style.width = percentage + '%';
+            progressFill.textContent = percentage + '%';
+
+            // Mark phases as completed if all resources are done
+            document.querySelectorAll('.phase').forEach(phase => {
+                const phaseResources = phase.querySelectorAll('.resource-item');
+                const phaseCompleted = phase.querySelectorAll('.resource-item.completed');
+                if (phaseResources.length === phaseCompleted.length && phaseResources.length > 0) {
+                    phase.classList.add('completed');
+                } else {
+                    phase.classList.remove('completed');
+                }
+            });
+        }
+
+        // Reset all progress
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all your progress?')) {
+                localStorage.removeItem('stockMarketProgress');
+                document.querySelectorAll('.resource-item').forEach(item => {
+                    item.classList.remove('completed');
+                    item.querySelector('.checkbox').classList.remove('checked');
+                });
+                document.querySelectorAll('.phase').forEach(phase => {
+                    phase.classList.remove('completed');
+                });
+                updateStats();
+            }
+        }
+
+        // Initialize on page load
+        loadProgress();
+    </script>
+</body>
+</html>
